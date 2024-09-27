@@ -159,25 +159,6 @@ All related projects are hosted on GitHub.
 ### Pipelines and Workflows
 The pipeline and workflow engine of choice is GitHub Actions.
 
-### Application Language and Build Tool
-!!! warning "Todo"
-    Update Project specific information
-
-## Coding Style Guide
-We follow a set of coding style guidelines to ensure that our code is consistent, readable, and maintainable. These guidelines cover various aspects of coding, including naming conventions, formatting, and documentation.
-
-### Go Code Style (example)
-!!! warning "Todo"
-    Update Project specific information
-
-### Error Handling
-!!! warning "Todo"
-    Update Project specific information
-
-### Some more stuff
-!!! warning "Todo"
-    Update Project specific information
-
 ## Task Management
 To ensure that our development process is organized and efficient, we use a task management system to track and manage our work. This system helps us prioritize tasks, assign work, and track progress throughout the development lifecycle.
 
