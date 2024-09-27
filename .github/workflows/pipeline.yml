@@ -51,17 +51,16 @@ jobs:
 
   lint-dockerfiles:
     runs-on: ubuntu-latest
-    name: ${{ matrix.dockerfile }}
+    name: ${{ matrix.image-name }}
     strategy:
       matrix:
-        dockerfile: ['components/folderslint/Dockerfile', 'components/ftp-client/Dockerfile']
+        image-name: ['folderslint', 'ftp-client', 'mkdocs']
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: hadolint
-        uses: hadolint/hadolint-action@v3.1.0
-        with:
-          dockerfile: ${{ matrix.dockerfile }}
+      - name: Run ${{ matrix.image-name }}-lint-dockerfile from docker-compose.yml
+        run: docker compose up ${{ matrix.image-name }}-lint-dockerfile --exit-code-from ${{ matrix.image-name }}-lint-dockerfile
+        shell: bash
 
   # ----- Build Docs stage ------------------------------------------------------------------------
 
@@ -182,8 +181,6 @@ jobs:
           push: true
           tags: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}
           labels: ${{ steps.meta.outputs.labels }}
-          # cache-from: type=gha
-          # cache-to: type=gha,mode=max
           provenance: true
           sbom: true
       - name: Docker Scout CVEs for :${{ github.sha }}

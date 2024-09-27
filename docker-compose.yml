@@ -55,13 +55,6 @@ services:
     command: .
     tty: *tty
 
-  # lint-dockerfile:
-  #   container_name: ${COMPOSE_PROJECT_NAME}-lint-dockerfile
-  #   image: &lint-dockerfile-image hadolint/hadolint:latest
-  #   volumes: *volumes
-  #   working_dir: *default-workdir
-  #   entrypoint: hadolint Dockerfile
-
   docs-build:
     container_name: ${COMPOSE_PROJECT_NAME}-docs-build
     image: &docs-image sommerfeldio/mkdocs:latest
@@ -80,4 +73,52 @@ services:
     working_dir: *default-workdir
     ports:
       - 3080:8000
+    tty: *tty
+
+  folderslint-lint-dockerfile:
+    container_name: ${COMPOSE_PROJECT_NAME}-folderslint-lint-dockerfile
+    image: &lint-dockerfile-image hadolint/hadolint:latest
+    volumes: *volumes
+    working_dir: *default-workdir
+    entrypoint: hadolint components/folderslint/Dockerfile
+    tty: *tty
+
+  folderslint:
+    container_name: ${COMPOSE_PROJECT_NAME}-folderslint
+    image: local/folderslint:dev
+    build:
+      context: components/folderslint
+      dockerfile: Dockerfile
+    tty: *tty
+
+  ftp-client-lint-dockerfile:
+    container_name: ${COMPOSE_PROJECT_NAME}-ftp-client-lint-dockerfile
+    image: *lint-dockerfile-image
+    volumes: *volumes
+    working_dir: *default-workdir
+    entrypoint: hadolint components/ftp-client/Dockerfile
+    tty: *tty
+
+  ftp-client:
+    container_name: ${COMPOSE_PROJECT_NAME}-ftp-client
+    image: local/ftp-client:dev
+    build:
+      context: components/ftp-client
+      dockerfile: Dockerfile
+    tty: *tty
+
+  mkdocs-lint-dockerfile:
+    container_name: ${COMPOSE_PROJECT_NAME}-mkdocs-lint-dockerfile
+    image: *lint-dockerfile-image
+    volumes: *volumes
+    working_dir: *default-workdir
+    entrypoint: hadolint components/mkdocs/Dockerfile
+    tty: *tty
+
+  mkdocs:
+    container_name: ${COMPOSE_PROJECT_NAME}-mkdocs
+    image: local/mkdocs:dev
+    build:
+      context: components/mkdocs
+      dockerfile: Dockerfile
     tty: *tty
