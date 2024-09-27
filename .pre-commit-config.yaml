@@ -46,9 +46,21 @@ repos:
         name: lint-folders
         language: script
         entry: /bin/bash -c 'docker compose up lint-folders --exit-code-from lint-folders'
-  # - repo: local
-  #   hooks:
-  #     - id: lint-dockerfile
-  #       name: lint-dockerfile
-  #       language: script
-  #       entry: /bin/bash -c 'docker compose up lint-dockerfile --exit-code-from lint-dockerfile'
+  - repo: local
+    hooks:
+      - id: folderslint-lint-dockerfile
+        name: folderslint-lint-dockerfile
+        language: script
+        entry: /bin/bash -c 'docker compose up folderslint-lint-dockerfile --exit-code-from folderslint-lint-dockerfile'
+  - repo: local
+    hooks:
+      - id: ftp-client-lint-dockerfile
+        name: ftp-client-lint-dockerfile
+        language: script
+        entry: /bin/bash -c 'docker compose up ftp-client-lint-dockerfile --exit-code-from ftp-client-lint-dockerfile'
+  - repo: local
+    hooks:
+      - id: mkdocs-lint-dockerfile
+        name: mkdocs-lint-dockerfile
+        language: script
+        entry: /bin/bash -c 'docker compose up mkdocs-lint-dockerfile --exit-code-from mkdocs-lint-dockerfile'
