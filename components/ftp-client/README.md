@@ -1,6 +1,11 @@
 # sommerfeldio/ftp-client
 
-The [sommerfeldio/ftp-client](https://hub.docker.com/r/sommerfeldio/ftp-client) image ships with NCFTP and uses [ncftpput](https://www.ncftp.com/ncftp/doc/ncftpput.html) for FTP uploads and downloads.
+The [sommerfeldio/ftp-client](https://hub.docker.com/r/sommerfeldio/ftp-client) image ships with NCFTP and uses [ncftpput](https://www.ncftp.com/ncftp/doc/ncftpput.html) for FTP uploads.
+
+- [sommerfeldio/ftp-client](https://hub.docker.com/r/sommerfeldio/ftp-client) on Docker Hub
+- [Dockerfile source code](https://github.com/sommerfeld-io/container-images/tree/main/components/ftp-client) on GitHub
+- [How to Contribute](https://sommerfeld-io.github.io/container-images/about/contribute)
+- Visit [the projects documentation page](https://sommerfeld-io.github.io/container-images) for a list of all available container images.
 
 ## How to use this image
 To use the image run the following command from a bash file.
