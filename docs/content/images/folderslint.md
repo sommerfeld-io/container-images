@@ -1,6 +1,11 @@
 # sommerfeldio/folderslint
 
-The [sommerfeldio/folderslint](https://hub.docker.com/r/sommerfeldio/folderslint) image is a utility Docker image used in Github Actions workflows to validate the directory structure of a project. The image ships with [folderslint](https://www.npmjs.com/package/folderslint).
+The `sommerfeldio/folderslint` image is a utility Docker image used in Github Actions workflows to validate the directory structure of a project. The image ships with [folderslint](https://www.npmjs.com/package/folderslint).
+
+- [sommerfeldio/folderslint](https://hub.docker.com/r/sommerfeldio/folderslint) on Docker Hub
+- [Dockerfile source code](https://github.com/sommerfeld-io/container-images/tree/main/components/folderslint) on GitHub
+- [How to Contribute](https://sommerfeld-io.github.io/container-images/about/contribute)
+- Visit [the projects documentation page](https://sommerfeld-io.github.io/container-images) for a list of all available container images.
 
 ## Usage
 To use the image run the following command.
