@@ -22,7 +22,7 @@ theme:
     - content.code.copy
     - content.tabs.link
     - navigation.tabs
-    - navigation.footer
+    # - navigation.footer
     - navigation.expand
     - navigation.tracking
 
