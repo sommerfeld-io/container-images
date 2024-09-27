@@ -112,13 +112,14 @@ jobs:
         shell: bash
       - name: Copy images README.md files to docs and add do-not-edit remark
         run: |
-          image_readmes=(
+          IMAGES=(
             "folderslint"
             "ftp-client"
             "mkdocs"
           )
-          for image in "${image_readmes[@]}"; do
-            cp "components/${image}/README.md" "docs/content/images/${image}.md"
+          for img in "${IMAGES[@]}"; do
+            echo "COPY components/${img}/README.md TO docs/content/images/${img}.md"
+            cp "components/${img}/README.md" "docs/content/images/${img}.md"
 
             {
               echo
