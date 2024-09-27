@@ -1,6 +1,6 @@
 # sommerfeldio/mkdocs
 
-This Dockerfile is used to build the documentation using the `mkdocs` toolchain. A dedicated Dockerfile is needed because the base image does not provide all necessary plugins and tools. This image extends the [squidfunk/mkdocs-material](https://hub.docker.com/r/squidfunk/mkdocs-material) base image with the [mkdocs-kroki-plugin](https://pypi.org/project/mkdocs-kroki-plugin) to allow rendering diagrams and charts using [Kroki.io](https://kroki.io).
+This image is used to build the documentation using the `mkdocs` toolchain. A dedicated Dockerfile is needed because the base image does not provide all necessary plugins and tools. This image extends the [squidfunk/mkdocs-material](https://hub.docker.com/r/squidfunk/mkdocs-material) base image with the [mkdocs-kroki-plugin](https://pypi.org/project/mkdocs-kroki-plugin) to allow rendering diagrams and charts using [Kroki.io](https://kroki.io).
 
 - [sommerfeldio/mkdocs](https://hub.docker.com/r/sommerfeldio/mkdocs) on Docker Hub
 - [Dockerfile source code](https://github.com/sommerfeld-io/container-images/tree/main/components/mkdocs) on GitHub
