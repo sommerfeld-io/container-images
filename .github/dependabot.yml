@@ -12,6 +12,16 @@ updates:
       interval: weekly
 
   - package-ecosystem: docker
-    directory: docs
+    directory: components/folderslint
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: docker
+    directory: components/ftp-client
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: docker
+    directory: components/mkdocs
     schedule:
       interval: weekly
