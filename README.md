@@ -1,4 +1,4 @@
-# Container Images
+# Introduction to Container Images
 [doc-website]: https://sommerfeld-io.github.io/container-images
 [github-repo]: https://github.com/sommerfeld-io/container-images
 [file-issues]: https://github.com/sommerfeld-io/container-images/issues
