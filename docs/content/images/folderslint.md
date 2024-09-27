@@ -26,6 +26,33 @@ lint-folders:
       run: docker run -i --rm --volume "$(pwd):$(pwd)" --workdir "$(pwd)" sommerfeldio/folderslint:latest
 ```
 
+The image expects a `.folderslintrc` file inside `--workdir` (which typically is the project-root). The file can be used to configure the rules for the directory structure validation in JSON.
+
+```json
+{
+	"rules": [
+		".devcontainer",
+		".github/workflows",
+		".vscode",
+
+		"components/folderslint",
+		"components/ftp-client",
+		"components/mkdocs",
+
+    "app",
+    "app/dir",
+    "app/dir/structure",
+    "app/dir/structure/**",
+
+		"docs/**",
+
+		"node_modules/**",
+		"target/**"
+	]
+}
+
+```
+
 ## License
 This container image is inheriting the [License from the GitHub repository](https://sommerfeld-io.github.io/container-images/about/license).
 
