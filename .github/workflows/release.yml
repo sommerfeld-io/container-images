@@ -21,9 +21,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{github.ref}}
-      - name: Build docs-build image
-        run: docker compose build docs-build
-        shell: bash
       - name: Build docs page
         run: docker compose up docs-build
         shell: bash

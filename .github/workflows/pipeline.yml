@@ -118,10 +118,11 @@ jobs:
             "mkdocs"
           )
           for img in "${IMAGES[@]}"; do
+            readme="components/${img}/README.md"
             target_md="docs/content/images/${img}.md"
 
-            echo "COPY components/${img}/README.md TO ${target_md}"
-            cp "components/${img}/README.md" "${target_md}"
+            echo "COPY ${readme} TO ${target_md}"
+            cp "${readme}" "${target_md}"
 
             {
               echo
