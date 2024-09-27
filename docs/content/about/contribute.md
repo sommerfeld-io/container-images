@@ -1,5 +1,5 @@
 # Contribute to this Project
-[file-issues]: https://github.com/sommerfeld-io/template-repository/issues
+[file-issues]: https://github.com/sommerfeld-io/container-images/issues
 
 ## Code
 We're thrilled that you'd like to contribute to this project. You can do this by submitting a pull request.

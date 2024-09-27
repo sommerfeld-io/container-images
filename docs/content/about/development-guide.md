@@ -194,7 +194,7 @@ We use architecture decision records (ADRs) to document the key decisions made d
 
 We treat ADRs as working items, updating them as necessary to reflect the current state of the issue. Thats why we manage and track ADRs as GitHub issues. This approach allows us to easily reference and link to ADRs from other parts of the documentation and use the GitHub issue for collaboration and discussion.
 
-See [all issues labeled as ADR](https://github.com/sommerfeld-io/template-repository/issues?q=is%3Aissue+label%3AADR) for a list of all ADRs.
+See [all issues labeled as ADR](https://github.com/sommerfeld-io/container-images/issues?q=is%3Aissue+label%3AADR) for a list of all ADRs.
 
 ### Risks and Technical Debts
-All issues labeled as `risk` (= some sort of risk or a technical debt) or `security` (= disclosed security issues - e.g. CVEs) [are tracked as GitHub issue](https://github.com/sommerfeld-io/template-repository/issues?q=is%3Aissue+label%3Asecurity%2Crisk+is%3Aopen) and carry the respective label.
+All issues labeled as `risk` (= some sort of risk or a technical debt) or `security` (= disclosed security issues - e.g. CVEs) [are tracked as GitHub issue](https://github.com/sommerfeld-io/container-images/issues?q=is%3Aissue+label%3Asecurity%2Crisk+is%3Aopen) and carry the respective label.

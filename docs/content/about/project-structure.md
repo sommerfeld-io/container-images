@@ -5,13 +5,13 @@ This is the structure of the repository with the most important directories and 
 
 ```
 +--+  docs
-|  +---  build                 # Helper image to build MkDocs with all needed dependencies
 |  +---  contents              # Actual documentation
 |  +---  site                  # Generated HTML based on Markdown (ignored from git)
 +--+  components
-|  +---  app                   # Application source code
+|  +---  <image-1>             # A Docker image
+|  +---  <image-2>             # A Docker image
+|  +---  <image-3>             # A Docker image
 |  +---  ...                   # ...
-+---  Dockerfile               # Multi-Stage Dockerfile for the application
 +---  docker-compose.yml       # Docker Compose file with the toolchain (e.g. for local development)
 ```
 
@@ -158,6 +158,3 @@ skinparam activity {
 
 @enduml
 ```
-
-## Docker Image Build
-The Docker image build process is separated into multiple steps. The image is a Multi-Stage Dockerfile to ensure that the final image is as small as possible with as few dependencies as possible. Part of the build process is to run unit tests and acceptance tests to ensure that the image is working as expected. For more information, see [Dockerfile](https://github.com/sommerfeld-io/template-repository/blob/main/Dockerfile).

@@ -17,8 +17,8 @@ services:
     volumes: &volumes
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-      - project-root-volume:/workspaces/template-repository
-    working_dir: &default-workdir /workspaces/template-repository
+      - project-root-volume:/workspaces/container-images
+    working_dir: &default-workdir /workspaces/container-images
     command: |
       rm -rf target
       rm -rf docs/site
@@ -66,7 +66,7 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}-docs-lint-dockerfile
     image: &lint-dockerfile-image hadolint/hadolint:latest
     volumes: *volumes
-    working_dir: /workspaces/template-repository/docs
+    working_dir: /workspaces/container-images/docs
     entrypoint: hadolint Dockerfile
 
   docs-build:

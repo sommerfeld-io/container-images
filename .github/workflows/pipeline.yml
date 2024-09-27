@@ -19,7 +19,7 @@ on:
 env:
   IMAGE_TAG_RC: rc
   IMAGE_TAG_LATEST: latest
-  IMAGE_NAME: template-repository
+  IMAGE_NAME: container-images
   CONTEXT: .
   DOCKERFILE: Dockerfile
 
@@ -102,11 +102,11 @@ jobs:
             content=$(cat "$file")
 
             old="(usage/index.md)"
-            new="(https://sommerfeld-io.github.io/template-repository/usage)"
+            new="(https://sommerfeld-io.github.io/container-images/usage)"
             content="${content//$old/$new}"
 
             old="(about/development-guide.md)"
-            new="(https://sommerfeld-io.github.io/template-repository/about/development-guide)"
+            new="(https://sommerfeld-io.github.io/container-images/about/development-guide)"
             content="${content//$old/$new}"
 
             echo "$content" > "$file"
