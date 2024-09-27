@@ -47,9 +47,11 @@ extra:
       link: https://github.com/sommerfeld-io/container-images
 
 nav:
-  - Home: index.md
-  - How to Use:
-      - usage/index.md
+  - Home:
+      - index.md
+      - images/folderslint.md
+      - images/ftp-client.md
+      - images/mkdocs.md
   - About this Project:
       - about/development-guide.md
       - about/project-structure.md

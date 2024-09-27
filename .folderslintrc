@@ -9,10 +9,13 @@
 
 		".vscode",
 
+		"components/folderslint",
+		"components/ftp-client",
+		"components/mkdocs",
+
 		"docs",
-		"docs/content/_assets/**",
 		"docs/content/about/**",
-		"docs/content/usage/**",
+		"docs/content/images/**",
 		"docs/site/**",
 
 		"node_modules/**",
