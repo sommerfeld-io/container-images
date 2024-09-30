@@ -14,9 +14,8 @@
 		"components/mkdocs",
 
 		"docs",
-		"docs/content/about/**",
-		"docs/content/images/**",
-		"docs/site/**",
+		"docs/about/**",
+		"docs/images/**",
 
 		"node_modules/**",
 		"public/**",

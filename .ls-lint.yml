@@ -40,7 +40,6 @@ ignore:
   - .idea
   - .vscode
   - node_modules
-  - docs/site
   - target
 
   # linter definitions etc.

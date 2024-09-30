@@ -35,14 +35,10 @@ The image expects a `.folderslintrc` file inside `--workdir` (which typically is
 		".github/workflows",
 		".vscode",
 
-		"components/folderslint",
-		"components/ftp-client",
-		"components/mkdocs",
-
-    "app",
-    "app/dir",
-    "app/dir/structure",
-    "app/dir/structure/**",
+		"app",
+		"app/dir",
+		"app/dir/structure",
+		"app/dir/structure/**",
 
 		"docs/**",
 

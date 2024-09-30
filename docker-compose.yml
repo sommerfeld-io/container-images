@@ -21,7 +21,6 @@ services:
     working_dir: &default-workdir /workspaces/container-images
     command: |
       rm -rf target
-      rm -rf docs/site
     tty: &tty true
 
   lint-yaml:
