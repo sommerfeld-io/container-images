@@ -61,7 +61,7 @@ jobs:
       contents: read
     strategy:
       matrix:
-        image-name: ['folderslint', 'ftp-client', 'mkdocs']
+        image-name: ['folderslint', 'ftp-client', 'mkdocs', 'shdoc']
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

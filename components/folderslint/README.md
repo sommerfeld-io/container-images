@@ -35,14 +35,10 @@ The image expects a `.folderslintrc` file inside `--workdir` (which typically is
 		".github/workflows",
 		".vscode",
 
-		"components/folderslint",
-		"components/ftp-client",
-		"components/mkdocs",
-
-    "app",
-    "app/dir",
-    "app/dir/structure",
-    "app/dir/structure/**",
+		"app",
+		"app/dir",
+		"app/dir/structure",
+		"app/dir/structure/**",
 
 		"docs/**",
 
@@ -50,8 +46,9 @@ The image expects a `.folderslintrc` file inside `--workdir` (which typically is
 		"target/**"
 	]
 }
-
 ```
 
 ## License
-This container image is inheriting the [License from the GitHub repository](https://sommerfeld-io.github.io/container-images/about/license).
+This container image is inheriting the [MIT License from the GitHub repository](https://sommerfeld-io.github.io/container-images/about/license).
+
+The license from this GitHub repository is compatible with the [license from the folderslint project](https://github.com/denisraslov/folderslint/blob/master/LICENSE) (which is MIT as well).
