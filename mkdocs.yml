@@ -24,6 +24,7 @@ theme:
     - navigation.tabs
     # - navigation.footer
     - navigation.expand
+    - navigation.sections
     - navigation.tracking
 
 markdown_extensions:
@@ -49,10 +50,11 @@ extra:
 nav:
   - Home:
       - index.md
-      - images/folderslint.md
-      - images/ftp-client.md
-      - images/mkdocs.md
-      - images/shdoc.md
+      - Container Images:
+          - images/folderslint.md
+          - images/ftp-client.md
+          - images/mkdocs.md
+          - images/shdoc.md
   - About this Project:
       - about/development-guide.md
       - about/project-structure.md
