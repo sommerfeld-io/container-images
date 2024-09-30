@@ -115,6 +115,7 @@ jobs:
             "folderslint"
             "ftp-client"
             "mkdocs"
+            "shdoc"
           )
           for img in "${IMAGES[@]}"; do
             readme="components/${img}/README.md"

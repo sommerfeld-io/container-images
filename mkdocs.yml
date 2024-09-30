@@ -52,6 +52,7 @@ nav:
       - images/folderslint.md
       - images/ftp-client.md
       - images/mkdocs.md
+      - images/shdoc.md
   - About this Project:
       - about/development-guide.md
       - about/project-structure.md
