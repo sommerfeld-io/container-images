@@ -15,7 +15,6 @@ FTP_HOST="ftp-host.example.com"
 FTP_USER="the_username"
 FTP_PASS="the_password" # Storing passwords in variables like this is not a recommended way to handle secrets
 
-echo "Upload via FTP"
 docker run -i --rm \
     --volume "$(pwd):$(pwd)" \
     --workdir "$(pwd)" \
