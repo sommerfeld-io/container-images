@@ -1,6 +1,17 @@
 FROM ubuntu:24.04
 LABEL maintainer="sebastian@sommerfeld.io"
 
+ARG COMMIT_SHA=undefined
+
+LABEL org.opencontainers.image.version="$COMMIT_SHA"
+LABEL org.opencontainers.image.revision="$COMMIT_SHA"
+LABEL org.opencontainers.image.vendor="sommerfeld-io"
+LABEL org.opencontainers.image.title="shdoc"
+LABEL org.opencontainers.image.description="Generate Markdown files based on inline documentation comments from source code files"
+LABEL org.opencontainers.image.url="https://hub.docker.com/r/sommerfeldio/shdoc"
+LABEL org.opencontainers.image.documentation="https://sommerfeld-io.github.io/container-images/images/shdoc"
+LABEL org.opencontainers.image.source="https://github.com/sommerfeld-io/container-images/tree/main/components/shdoc"
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends gawk=1:5.2.1-2build3 \
     && apt-get install -y --no-install-recommends git=1:2.43.0-1ubuntu7.1 \

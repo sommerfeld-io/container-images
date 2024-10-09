@@ -84,7 +84,7 @@ services:
 
   folderslint:
     container_name: ${COMPOSE_PROJECT_NAME}-folderslint
-    image: local/folderslint:dev
+    image: local/folderslint:${DEV_TAG}
     build:
       context: components/folderslint
       dockerfile: Dockerfile
@@ -103,7 +103,7 @@ services:
 
   ftp-client:
     container_name: ${COMPOSE_PROJECT_NAME}-ftp-client
-    image: local/ftp-client:dev
+    image: local/ftp-client:${DEV_TAG}
     build:
       context: components/ftp-client
       dockerfile: Dockerfile
@@ -119,7 +119,7 @@ services:
 
   mkdocs:
     container_name: ${COMPOSE_PROJECT_NAME}-mkdocs
-    image: local/mkdocs:dev
+    image: local/mkdocs:${DEV_TAG}
     build:
       context: components/mkdocs
       dockerfile: Dockerfile
@@ -135,7 +135,7 @@ services:
 
   shdoc:
     container_name: ${COMPOSE_PROJECT_NAME}-shdoc
-    image: local/shdoc:dev
+    image: local/shdoc:${DEV_TAG}
     build:
       context: components/shdoc
       dockerfile: Dockerfile
