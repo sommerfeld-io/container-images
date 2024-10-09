@@ -1,7 +1,5 @@
 FROM ubuntu:24.04
 LABEL maintainer="sebastian@sommerfeld.io"
-LABEL org.opencontainers.image.vendor="sommerfeld-io"
-LABEL org.opencontainers.image.documentation="https://sommerfeld-io.github.io/container-images/images/shdoc"
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends gawk=1:5.2.1-2build3 \
