@@ -1,6 +1,8 @@
 # sommerfeldio/mkdocs
 
-This image is used to build the documentation using the `mkdocs` toolchain. A dedicated Dockerfile is needed because the base image does not provide all necessary plugins and tools. This image extends the [squidfunk/mkdocs-material](https://hub.docker.com/r/squidfunk/mkdocs-material) base image with the [mkdocs-kroki-plugin](https://pypi.org/project/mkdocs-kroki-plugin) to allow rendering diagrams and charts using [Kroki.io](https://kroki.io).
+This image is used to build the documentation using the `mkdocs` toolchain and is based on [Material for MkDocs](https://squidfunk.github.io/mkdocs-material).
+
+This image extends the [squidfunk/mkdocs-material](https://hub.docker.com/r/squidfunk/mkdocs-material) image with the [mkdocs-kroki-plugin](https://pypi.org/project/mkdocs-kroki-plugin) to allow rendering diagrams and charts using [Kroki.io](https://kroki.io). A dedicated Dockerfile is needed because the base image does not provide all necessary plugins and tools.
 
 - [sommerfeldio/mkdocs](https://hub.docker.com/r/sommerfeldio/mkdocs) on Docker Hub
 - [Dockerfile source code](https://github.com/sommerfeld-io/container-images/tree/main/components/mkdocs) on GitHub
@@ -31,6 +33,12 @@ services:
     ports:
       - 3080:8000
 ```
+
+The development server is not recommended for production use. It is intended to be used during the development of the documentation site. For production use, the `build` command should be used to generate the static site. This triggers the production-level compilation and minification of all style sheets and JavaScript files. The resulting static site can be served by a web server like [nginx](https://hub.docker.com/_/nginx) or [Apache httpd](https://hub.docker.com/_/httpd).
+
+For information on how to get started with [Material for MkDocs](https://squidfunk.github.io/mkdocs-material), please refer to the [official "Getting started" guide of the projects documentation](https://squidfunk.github.io/mkdocs-material/getting-started).
+
+For information on how to configure the mkdocs-kroki-plugin, please refer to the [official documentation of the plugin](https://pypi.org/project/mkdocs-kroki-plugin).
 
 ## License
 This container image is inheriting the [MIT License from the GitHub repository](https://sommerfeld-io.github.io/container-images/about/license).
