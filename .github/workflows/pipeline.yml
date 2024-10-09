@@ -182,8 +182,6 @@ jobs:
           push: true
           tags: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            COMMIT_SHA=${{ github.sha }}
           provenance: true
           sbom: true
       - name: Docker Scout CVEs for :${{ github.sha }}
