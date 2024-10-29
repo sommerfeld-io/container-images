@@ -10,6 +10,7 @@ This image extends the [squidfunk/mkdocs-material](https://hub.docker.com/r/squi
 - Visit [the projects documentation page](https://sommerfeld-io.github.io/container-images) for a list of all available container images.
 
 ## Usage
+
 This image supports two modes. The `build` command is used to build the documentation site based on your Markdown docs. The container terminates after the build is complete. Additionally the image offers a development server to preview the documentation site. Both features originate in the [squidfunk/mkdocs-material](https://hub.docker.com/r/squidfunk/mkdocs-material) base image.
 
 ```yaml
@@ -41,6 +42,7 @@ For information on how to get started with [Material for MkDocs](https://squidfu
 For information on how to configure the mkdocs-kroki-plugin, please refer to the [official documentation of the plugin](https://pypi.org/project/mkdocs-kroki-plugin).
 
 ## License
+
 This container image is inheriting the [MIT License from the GitHub repository](https://sommerfeld-io.github.io/container-images/about/license).
 
 The license from this GitHub repository is compatible with the [license from the squidfunk/mkdocs-material project](https://github.com/squidfunk/mkdocs-material/blob/master/LICENSE) (which is MIT as well).
