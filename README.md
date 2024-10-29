@@ -1,4 +1,5 @@
 # Introduction to Container Images
+
 [doc-website]: https://sommerfeld-io.github.io/container-images
 [github-repo]: https://github.com/sommerfeld-io/container-images
 [file-issues]: https://github.com/sommerfeld-io/container-images/issues
@@ -14,6 +15,7 @@ The images are free to use for everyone. But keep in mind that they were origina
 - [Project Board for Issues and Pull Requests][project-board]
 
 ## Contact
+
 Feel free to contact me via <sebastian@sommerfeld.io> or [raise an issue in this repository][file-issues].
 
 <!-- !    DO NOT EDIT DIRECTLY !!!!!                         -->

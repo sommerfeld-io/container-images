@@ -10,7 +10,6 @@ This image is used to generate Markdown files based on inline documentation comm
 This image is based on [Ubuntu](https://hub.docker.com/_/ubuntu) and ships with shdoc and all its dependencies. For instructions on how to write comments for shdoc, please refer to the [shdoc documentation](https://github.com/reconquest/shdoc).
 
 ## Usage
-
 Originally shdoc is designed to work with Bash scripts. However, since Bash scripts use the Hash-sign as a comment character, it is possible to use shdoc with other languages as well. shdoc generates an introduction and docs for every function in the Bash script. But generating header docs seems tot work for all languages, that share the Hash-sign as a comment character. We used it successfully with `Dockerfile`, `Vagrantfile`, `Makefile` and `yaml` files as well.
 
 ```yaml
@@ -37,7 +36,6 @@ services:
 This example removes and re-creates the `docs/generated` folder to ensure no Markdown files for deleted files are left. This is not mandatory but recommended to ensure the docs are always up-to-date. The `chown` command is used to ensure the files are owned by the user running the container.
 
 ## License
-
 This container image is inheriting the [MIT License from the GitHub repository](https://sommerfeld-io.github.io/container-images/about/license).
 
 The license from this GitHub repository is compatible with the [license from the shdoc project](https://github.com/reconquest/shdoc/blob/master/LICENSE) (which is MIT as well).
