@@ -189,7 +189,7 @@ jobs:
           provenance: true
           sbom: true
       - name: Docker Scout CVEs for :${{ github.sha }}
-        uses: docker/scout-action@v1.15.1
+        uses: docker/scout-action@v1.16.1
         with:
           command: cves
           image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}
