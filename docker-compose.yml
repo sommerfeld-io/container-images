@@ -19,8 +19,11 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - project-root-volume:/workspaces/container-images
     working_dir: &default-workdir /workspaces/container-images
-    command: |
-      rm -rf target
+    command:
+      - /bin/ash
+      - -c
+      - |
+        rm -rf target
     tty: &tty true
 
   lint-yaml:
