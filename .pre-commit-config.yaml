@@ -47,6 +47,10 @@ repos:
         name: lint-folders
         language: script
         entry: /bin/bash -c 'docker compose up lint-folders --exit-code-from lint-folders'
+      - id: lint-markdown-links
+        name: lint-markdown-links
+        language: script
+        entry: /bin/bash -c 'docker compose up lint-markdown-links --exit-code-from lint-markdown-links'
       - id: folderslint-lint-dockerfile
         name: folderslint-lint-dockerfile
         language: script
@@ -59,3 +63,7 @@ repos:
         name: mkdocs-lint-dockerfile
         language: script
         entry: /bin/bash -c 'docker compose up mkdocs-lint-dockerfile --exit-code-from mkdocs-lint-dockerfile'
+      - id: shdoc-lint-dockerfile
+        name: shdoc-lint-dockerfile
+        language: script
+        entry: /bin/bash -c 'docker compose up shdoc-lint-dockerfile --exit-code-from shdoc-lint-dockerfile'

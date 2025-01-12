@@ -11,6 +11,7 @@ ls:
   .tf: kebab-case
   .yml: kebab-case
   .yaml: kebab-case
+  .toml: kebab-case
   .feature: kebab-case
 
   .java: PascalCase
@@ -44,6 +45,7 @@ ignore:
 
   # linter definitions etc.
   - .hadolint.yml
+  - .lychee.toml
   - .ls-lint.yml
   - .markdownlint.yml
   - .yamllint.yml
