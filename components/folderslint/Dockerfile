@@ -1,4 +1,4 @@
-FROM node:23.7.0-alpine
+FROM node:23.8.0-alpine
 LABEL maintainer="sebastian@sommerfeld.io"
 
 RUN npm install --location=global folderslint@1.2.0
