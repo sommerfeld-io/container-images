@@ -17,7 +17,6 @@
     "files.trimTrailingWhitespace": true,
     "files.insertFinalNewline": true,
     "cSpell.words": [
-        "mkdocs",
-        "shdoc"
+        "mkdocs"
     ]
 }

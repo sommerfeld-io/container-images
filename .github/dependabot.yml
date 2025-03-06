@@ -25,8 +25,3 @@ updates:
     directory: components/mkdocs
     schedule:
       interval: weekly
-
-  - package-ecosystem: docker
-    directory: components/shdoc
-    schedule:
-      interval: weekly

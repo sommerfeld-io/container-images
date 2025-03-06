@@ -1,8 +1,4 @@
 #!/bin/bash
-## TODO SHDOC
-## Handle tasks from the release process (semantic release).
-##
-## @arg $1 string The version that should be written to the files.
 
 set -o errexit
 set -o pipefail

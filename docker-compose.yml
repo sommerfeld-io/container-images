@@ -135,19 +135,3 @@ services:
       context: components/mkdocs
       dockerfile: Dockerfile
     tty: *tty
-
-  shdoc-lint-dockerfile:
-    container_name: ${COMPOSE_PROJECT_NAME}-shdoc-lint-dockerfile
-    image: *lint-dockerfile-image
-    volumes: *volumes
-    working_dir: *default-workdir
-    entrypoint: hadolint components/shdoc/Dockerfile
-    tty: *tty
-
-  shdoc:
-    container_name: ${COMPOSE_PROJECT_NAME}-shdoc
-    image: local/shdoc:${DEV_TAG}
-    build:
-      context: components/shdoc
-      dockerfile: Dockerfile
-    tty: *tty

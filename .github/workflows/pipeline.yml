@@ -54,7 +54,7 @@ jobs:
     name: ${{ matrix.image-name }}
     strategy:
       matrix:
-        image-name: ['folderslint', 'ftp-client', 'mkdocs', 'shdoc']
+        image-name: ['folderslint', 'ftp-client', 'mkdocs']
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -115,7 +115,6 @@ jobs:
             "folderslint"
             "ftp-client"
             "mkdocs"
-            "shdoc"
           )
           for img in "${IMAGES[@]}"; do
             readme="components/${img}/README.md"
@@ -151,7 +150,7 @@ jobs:
       security-events: write
     strategy:
       matrix:
-        image-name: ['folderslint', 'ftp-client', 'mkdocs', 'shdoc']
+        image-name: ['folderslint', 'ftp-client', 'mkdocs']
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -207,7 +206,7 @@ jobs:
       contents: read
     strategy:
       matrix:
-        image-name: ['folderslint', 'ftp-client', 'mkdocs', 'shdoc']
+        image-name: ['folderslint', 'ftp-client', 'mkdocs']
     steps:
       - name: Login to Container Registry
         uses: docker/login-action@v3
@@ -293,7 +292,7 @@ jobs:
       contents: read
     strategy:
       matrix:
-        image-name: ['folderslint', 'ftp-client', 'mkdocs', 'shdoc']
+        image-name: ['folderslint', 'ftp-client', 'mkdocs']
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

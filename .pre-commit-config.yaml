@@ -63,7 +63,3 @@ repos:
         name: mkdocs-lint-dockerfile
         language: script
         entry: /bin/bash -c 'docker compose up mkdocs-lint-dockerfile --exit-code-from mkdocs-lint-dockerfile'
-      - id: shdoc-lint-dockerfile
-        name: shdoc-lint-dockerfile
-        language: script
-        entry: /bin/bash -c 'docker compose up shdoc-lint-dockerfile --exit-code-from shdoc-lint-dockerfile'

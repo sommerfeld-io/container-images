@@ -13,7 +13,6 @@
 		"components/folderslint",
 		"components/ftp-client",
 		"components/mkdocs",
-		"components/shdoc",
 
 		"docs",
 		"docs/about/**",
