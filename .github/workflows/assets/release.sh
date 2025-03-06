@@ -16,14 +16,14 @@ VERSION="$1"
 ##
 ## @arg $1 string The version that should be written to the files.
 function incrementVersionsInYaml() {
-    yaml_files=(
-        #"docs/antora.yml"
-        #"components/test-compliance/container-images/inspec.yml"
-    )
+  yaml_files=(
+    #"docs/antora.yml"
+    #"components/test-compliance/container-images/inspec.yml"
+  )
 
-    for file in "${yaml_files[@]}"; do
-        sed -i "s/version: .*/version: $VERSION/" "$file"
-    done
+  for file in "${yaml_files[@]}"; do
+    sed -i "s/version: .*/version: $VERSION/" "$file"
+  done
 }
 
 incrementVersionsInYaml

@@ -265,12 +265,22 @@ jobs:
       - name: Info - package.json
         run: cat package.json
         shell: bash
+      - name: Get the latest git tag (freshly created by semantic-release)
+        id: get-version
+        run: |
+          # Get the latest tag and strip the 'v' prefix if present
+          VERSION="$(git describe --tags --abbrev=0 | sed 's/^v//')"
+          echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
+        shell: bash
+      - name: Get the latest git tag (freshly created by semantic-release)
+        run: echo "freshly created tag ${{ steps.get-version.outputs.VERSION }}"
+        shell: bash
       - name: Commit and push
         uses: EndBug/add-and-commit@v9.1.4
         with:
           author_name: sebastian
           author_email: sebastian@sommerfeld.io
-          message: 'docs: [Actions Bot] bump version'
+          message: "refactor(release): bump version to ${{ steps.get-version.outputs.VERSION }} [Actions Bot]"
 
   # ----- Cleanup -------------------------------
 
