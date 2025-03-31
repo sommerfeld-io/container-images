@@ -66,15 +66,14 @@ extra:
 nav:
   - Home:
       - index.md
-      - Container Images:
-          - images/folderslint.md
-          - images/ftp-client.md
-          - images/mkdocs.md
-  - About this Project:
-      - about/development-guide.md
-      - about/project-structure.md
-      - about/contribute.md
-      - about/security.md
-      - about/code-of-conduct.md
-      - about/license.md
-      - about/terms.md
+      - license.md
+      - Releases on GitHub ⧉: https://github.com/sommerfeld-io/container-images/releases
+      - Architecture Decision Records on GitHub ⧉: https://github.com/sommerfeld-io/container-images/issues?q=is%3Aissue+label%3AADR
+      - Security Policy ⧉: https://github.com/sommerfeld-io/.github/blob/main/docs/security.md
+      - How to Contribute ⧉: https://github.com/sommerfeld-io/.github/blob/main/docs/contribute.md
+      - Code of Conduct ⧉: https://github.com/sommerfeld-io/.github/blob/main/docs/code-of-conduct.md
+      - Terms of Use ⧉: https://github.com/sommerfeld-io/.github/blob/main/docs/terms.md
+  - Container Images:
+      - images/folderslint.md
+      - images/ftp-client.md
+      - images/mkdocs.md
