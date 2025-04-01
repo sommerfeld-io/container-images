@@ -26,8 +26,22 @@ permissions:
 
 jobs:
 
+  logins:
+    runs-on: ubuntu-latest
+    name: Login to Docker Hub
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+  # ----- Validate stage --------------------------------------------------------------------------
+
   shellcheck:
     runs-on: ubuntu-latest
+    needs: logins
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -38,6 +52,7 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
+    needs: logins
     name: ${{ matrix.linter }}
     strategy:
       matrix:
@@ -50,6 +65,7 @@ jobs:
         shell: bash
 
   lint-dockerfiles:
+    needs: logins
     runs-on: ubuntu-latest
     name: ${{ matrix.image-name }}
     strategy:
@@ -66,6 +82,7 @@ jobs:
 
   generate-docs:
     runs-on: ubuntu-latest
+    # needs: logins
     if: ${{ github.actor != 'dependabot[bot]' }}
     permissions:
       contents: write
@@ -147,6 +164,7 @@ jobs:
     runs-on: ubuntu-latest
     name: ${{ matrix.image-name }}:${{ github.sha }}
     needs: [
+      'logins',
       'lint',
       'lint-dockerfiles',
       'shellcheck',
@@ -167,12 +185,6 @@ jobs:
           dockerfile: components/${{ matrix.image-name }}/Dockerfile
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Login to Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ secrets.DOCKERHUB_USER }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v5.7.0
@@ -208,19 +220,16 @@ jobs:
     runs-on: ubuntu-latest
     name: ${{ matrix.image-name }}:${{ github.sha }}
     if: ${{ (github.actor != 'dependabot[bot]') && (github.ref == 'refs/heads/main') }}
-    needs: ['build-images']
+    needs: [
+      'logins',
+      'build-images',
+    ]
     permissions:
       contents: read
     strategy:
       matrix:
         image-name: ['folderslint', 'ftp-client', 'mkdocs']
     steps:
-      - name: Login to Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ secrets.DOCKERHUB_USER }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Re-tag ${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }} as release candicate (:${{ env.IMAGE_TAG_RC }}) and deploy to ${{ env.REGISTRY }}
         run: |
           SRC_IMAGE="${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}"
@@ -235,6 +244,7 @@ jobs:
   release-code:
     runs-on: ubuntu-latest
     needs: [
+      # 'logins',
       'publish-rc',
       'generate-docs',
     ]
@@ -293,7 +303,10 @@ jobs:
   cleanup-dockerhub:
     name: ${{ matrix.image-name }}:${{ github.sha }}
     runs-on: ubuntu-latest
-    needs: ['publish-rc']
+    needs: [
+      # 'logins',
+      'publish-rc'
+    ]
     if: always()
     permissions:
       contents: read
