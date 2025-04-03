@@ -11,6 +11,7 @@
 		".vscode",
 
 		"components/devcontainer",
+		"components/devcontainer/configs/etc",
 		"components/folderslint",
 		"components/ftp-client",
 		"components/mkdocs",
