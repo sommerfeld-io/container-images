@@ -51,6 +51,6 @@ The image expects a `.folderslintrc` file inside `--workdir` (which typically is
 
 ## License
 
-This container image is inheriting the [MIT License from the GitHub repository](https://sommerfeld-io.github.io/container-images/about/license).
+This container image is inheriting the [MIT License from the GitHub repository](ttps://sommerfeld-io.github.io/container-images/license).
 
 The license from this GitHub repository is compatible with the [license from the folderslint project](https://github.com/denisraslov/folderslint/blob/master/LICENSE) (which is MIT as well).
