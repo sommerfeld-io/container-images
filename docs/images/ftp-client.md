@@ -4,10 +4,11 @@ The `sommerfeldio/ftp-client` image ships with NCFTP and uses [ncftpput](https:/
 
 - [sommerfeldio/ftp-client](https://hub.docker.com/r/sommerfeldio/ftp-client) on Docker Hub
 - [Dockerfile source code](https://github.com/sommerfeld-io/container-images/tree/main/components/ftp-client) on GitHub
-- [How to Contribute](https://sommerfeld-io.github.io/container-images/about/contribute)
+- [How to Contribute](https://github.com/sommerfeld-io/.github/blob/main/docs/contribute.md)
 - Visit [the projects documentation page](https://sommerfeld-io.github.io/container-images) for a list of all available container images.
 
 ## How to use this image
+
 To use the image run the following command from a bash file.
 
 ```bash
@@ -22,6 +23,7 @@ docker run -i --rm \
 ```
 
 ## License
+
 This container image is inheriting the [MIT License from the GitHub repository](https://sommerfeld-io.github.io/container-images/about/license).
 
 The NCFTP software included within the image as a dependency is licensed under [the Clarified Artistic License](https://www.ncftp.com/ncftp/doc/LICENSE.txt).

@@ -54,7 +54,7 @@ jobs:
     name: ${{ matrix.image-name }}
     strategy:
       matrix:
-        image-name: ['folderslint', 'ftp-client', 'mkdocs']
+        image-name: ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs']
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -116,6 +116,7 @@ jobs:
       - name: Copy images README.md files to docs and add do-not-edit remark
         run: |
           IMAGES=(
+            "devcontainer"
             "folderslint"
             "ftp-client"
             "mkdocs"
@@ -158,7 +159,7 @@ jobs:
       security-events: write
     strategy:
       matrix:
-        image-name: ['folderslint', 'ftp-client', 'mkdocs']
+        image-name: ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs']
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -214,7 +215,7 @@ jobs:
       contents: read
     strategy:
       matrix:
-        image-name: ['folderslint', 'ftp-client', 'mkdocs']
+        image-name: ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs']
     steps:
       - name: Login to Container Registry
         uses: docker/login-action@v3
@@ -300,7 +301,7 @@ jobs:
       contents: read
     strategy:
       matrix:
-        image-name: ['folderslint', 'ftp-client', 'mkdocs']
+        image-name: ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs']
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

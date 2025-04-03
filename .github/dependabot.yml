@@ -12,6 +12,11 @@ updates:
       interval: weekly
 
   - package-ecosystem: docker
+    directory: components/devcontainer
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: docker
     directory: components/folderslint
     schedule:
       interval: weekly

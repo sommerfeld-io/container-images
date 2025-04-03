@@ -51,6 +51,10 @@ repos:
         name: lint-markdown-links
         language: script
         entry: /bin/bash -c 'docker compose up lint-markdown-links --exit-code-from lint-markdown-links'
+      - id: devcontainer-lint-dockerfile
+        name: devcontainer-lint-dockerfile
+        language: script
+        entry: /bin/bash -c 'docker compose up devcontainer-lint-dockerfile --exit-code-from devcontainer-lint-dockerfile'
       - id: folderslint-lint-dockerfile
         name: folderslint-lint-dockerfile
         language: script

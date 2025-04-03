@@ -4,10 +4,11 @@ The `sommerfeldio/folderslint` image is a utility Docker image used in Github Ac
 
 - [sommerfeldio/folderslint](https://hub.docker.com/r/sommerfeldio/folderslint) on Docker Hub
 - [Dockerfile source code](https://github.com/sommerfeld-io/container-images/tree/main/components/folderslint) on GitHub
-- [How to Contribute](https://sommerfeld-io.github.io/container-images/about/contribute)
+- [How to Contribute](https://github.com/sommerfeld-io/.github/blob/main/docs/contribute.md)
 - Visit [the projects documentation page](https://sommerfeld-io.github.io/container-images) for a list of all available container images.
 
 ## Usage
+
 To use the image run the following command.
 
 ```bash
@@ -30,25 +31,26 @@ The image expects a `.folderslintrc` file inside `--workdir` (which typically is
 
 ```json
 {
-	"rules": [
-		".devcontainer",
-		".github/workflows",
-		".vscode",
+ "rules": [
+  ".devcontainer",
+  ".github/workflows",
+  ".vscode",
 
-		"app",
-		"app/dir",
-		"app/dir/structure",
-		"app/dir/structure/**",
+  "app",
+  "app/dir",
+  "app/dir/structure",
+  "app/dir/structure/**",
 
-		"docs/**",
+  "docs/**",
 
-		"node_modules/**",
-		"target/**"
-	]
+  "node_modules/**",
+  "target/**"
+ ]
 }
 ```
 
 ## License
+
 This container image is inheriting the [MIT License from the GitHub repository](https://sommerfeld-io.github.io/container-images/about/license).
 
 The license from this GitHub repository is compatible with the [license from the folderslint project](https://github.com/denisraslov/folderslint/blob/master/LICENSE) (which is MIT as well).

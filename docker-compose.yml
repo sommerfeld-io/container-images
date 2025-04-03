@@ -85,6 +85,25 @@ services:
       - 3080:8000
     tty: *tty
 
+  devcontainer-lint-dockerfile:
+    container_name: ${COMPOSE_PROJECT_NAME}-devcontainer-lint-dockerfile
+    image: &lint-dockerfile-image hadolint/hadolint:latest
+    volumes: *volumes
+    working_dir: *default-workdir
+    entrypoint: hadolint components/devcontainer/Dockerfile
+    tty: *tty
+
+  devcontainer:
+    container_name: ${COMPOSE_PROJECT_NAME}-devcontainer
+    image: local/folderslint:${DEV_TAG}
+    build:
+      context: components/devcontainer
+      dockerfile: Dockerfile
+    volumes: *volumes
+    working_dir: *default-workdir
+    command: .
+    tty: *tty
+
   folderslint-lint-dockerfile:
     container_name: ${COMPOSE_PROJECT_NAME}-folderslint-lint-dockerfile
     image: &lint-dockerfile-image hadolint/hadolint:latest
