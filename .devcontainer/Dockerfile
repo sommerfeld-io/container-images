@@ -1,15 +1,3 @@
-# @file Dockerfile
-# @brief Dockerfile for the development container.
-#
-# @description
-# This Dockerfile is used to build the development container for this project. It contains the
-# necessary instructions to create an environment with all the dependencies required for
-# development.
-#
-# ## Prerequisites
-# Having Visual Studio Code (VSCode) and the Dev Container plugin installed are essential
-# prerequisites for this development environment. Docker is also mandatory.
-
 FROM mcr.microsoft.com/devcontainers/base:ubuntu-24.04
 LABEL maintainer="sebastian@sommerfeld.io"
 
