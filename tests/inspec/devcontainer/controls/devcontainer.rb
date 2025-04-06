@@ -7,10 +7,6 @@ include_controls 'linux-baseline' do
   skip_control 'os-14'
 end
 
-include_controls 'docker-baseline' do
-  skip_control 'os-14'
-end
-
 control 'devcontainer-01' do
   impact 1.0
   title 'Verify the container is run as user vscode'
