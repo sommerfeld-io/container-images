@@ -2,7 +2,7 @@
 
 readonly DOCKER_ORG="sommerfeldio"
 readonly DOCKER_IMAGE="devcontainer"
-readonly DOCKER_TAG="0.8.0"
+readonly DOCKER_TAG="rc"
 
 # docker pull "$DOCKER_IMAGE/$DOCKER_IMAGE":"$DOCKER_TAG"
 
