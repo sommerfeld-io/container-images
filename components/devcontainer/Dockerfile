@@ -6,8 +6,12 @@ ARG USER=vscode
 RUN apt-get update \
     && apt-get install -y --no-install-recommends python3-pip=24.0+dfsg-1ubuntu1 \
     && apt-get install -y --no-install-recommends pre-commit=3.6.2-1 \
+    && apt-get install -y --no-install-recommends vim=2:9.1.0016-1ubuntu7.7 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
 
 COPY configs/etc/login.defs /etc/login.defs
 RUN chmod 0444 /etc/login.defs \

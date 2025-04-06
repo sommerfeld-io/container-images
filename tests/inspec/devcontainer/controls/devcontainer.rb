@@ -33,4 +33,14 @@ control 'devcontainer-02' do
     it { should exist }
     it { should be_executable }
   end
+
+  describe file('/usr/bin/vim') do
+    it { should exist }
+    it { should be_executable }
+  end
+
+  describe file('/home/vscode/.atuin/bin/atuin') do
+    it { should exist }
+    it { should be_executable }
+  end
 end
