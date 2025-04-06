@@ -42,6 +42,7 @@ ignore:
   - .vscode
   - node_modules
   - target
+  - tests/inspec/devcontainer/vendor
 
   # linter definitions etc.
   - .editorconfig

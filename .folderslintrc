@@ -20,6 +20,8 @@
 		"docs/about/**",
 		"docs/images/**",
 
+        "tests/inspec/*/**",
+
 		"node_modules/**",
 		"public/**",
 		"target/**"

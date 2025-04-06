@@ -10,8 +10,12 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 COPY configs/etc/login.defs /etc/login.defs
-RUN chmod og-r /etc/shadow \
-    && chmod 0444 /etc/login.defs
+RUN chmod 0444 /etc/login.defs \
+    && chmod o-r /etc/shadow \
+    && chmod g+r /etc/shadow \
+    && chmod go-r /etc/cron.daily \
+    && chmod go-r /etc/cron.weekly \
+    && chmod go-r /etc/cron.d
 
 USER $USER
 

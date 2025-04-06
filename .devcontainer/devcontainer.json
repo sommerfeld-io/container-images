@@ -26,6 +26,10 @@
         }
     },
 
+    "mounts": [
+      "source=${env:HOME}/.docker,target=/home/vscode/.docker,type=bind"
+    ],
+
     "features": {
         "ghcr.io/devcontainers/features/docker-in-docker:2.12.0": {}
     },
