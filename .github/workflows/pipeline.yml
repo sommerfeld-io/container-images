@@ -1,5 +1,5 @@
 ---
-name: Build + Deployment Pipeline
+name: "Pipeline: Commit + Test"
 
 on:
   push:
@@ -204,13 +204,48 @@ jobs:
           exit-code: false
           write-comment: ${{ github.event_name == 'pull_request' }}
 
+  inspec-images:
+    runs-on: ubuntu-latest
+    name: ${{ matrix.image-name }}:${{ github.sha }}
+    needs: [
+      'build-images',
+    ]
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        image-name: ['devcontainer', 'ftp-client']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Login to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Vendor and check inspec profile
+        run: |
+          (
+            cd tests/inspec || exit
+            ./inspec.sh vendor "${{ matrix.image-name }}"
+            ./inspec.sh check "${{ matrix.image-name }}"
+          )
+      - name: Exec inspec profile
+        run: |
+          (
+            cd tests/inspec || exit
+            ./inspec.sh exec "${{ matrix.image-name }}" "${{ matrix.image-name }}:${{ github.sha }}"
+          )
+        shell: bash
+
   # ----- Deploy ----------------------------------------------------------------------
 
   publish-rc:
     runs-on: ubuntu-latest
     name: ${{ matrix.image-name }}:${{ github.sha }}
     if: ${{ (github.actor != 'dependabot[bot]') && (github.ref == 'refs/heads/main') }}
-    needs: ['build-images']
+    needs: ['inspec-images']
     permissions:
       contents: read
     strategy:

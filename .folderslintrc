@@ -14,6 +14,7 @@
 		"components/devcontainer/configs/etc",
 		"components/folderslint",
 		"components/ftp-client",
+		"components/ftp-client/configs/etc",
 		"components/mkdocs",
 
 		"docs",

@@ -1,5 +1,5 @@
 ---
-name: Test Development Environment
+name: Development Environment
 
 on:
   push:
