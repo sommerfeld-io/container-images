@@ -95,7 +95,7 @@ services:
 
   devcontainer:
     container_name: ${COMPOSE_PROJECT_NAME}-devcontainer
-    image: local/folderslint:${DEV_TAG}
+    image: local/devcontainer:${DEV_TAG}
     build:
       context: components/devcontainer
       dockerfile: Dockerfile
