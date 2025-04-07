@@ -10,9 +10,6 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | bash
-
 COPY configs/etc/login.defs /etc/login.defs
 RUN chmod 0444 /etc/login.defs \
     && chmod o-r /etc/shadow \
@@ -25,4 +22,5 @@ USER $USER
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN echo "alias ls='ls -a --color=auto'" >> /home/$USER/.bashrc \
-    && echo "alias ll='ls -alF --color=auto'" >> /home/$USER/.bashrc
+    && echo "alias ll='ls -alF --color=auto'" >> /home/$USER/.bashrc \
+    && curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | bash
