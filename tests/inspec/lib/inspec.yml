@@ -6,6 +6,6 @@ copyright: sommerfeld.io
 copyright_email: sebastian@sommerfeld.io
 license: MIT
 summary: Library compliance profile
-version: 0.9.1
+version: 0.9.2
 supports:
   platform: os
