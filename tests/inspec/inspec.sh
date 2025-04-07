@@ -20,6 +20,12 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
+TTY=""
+if [ -t 0 ]; then
+  TTY="-it"
+fi
+readonly TTY
+
 case "$1" in
 "vendor")
   echo "[INFO] ---- Vendor ----------------------------"
@@ -31,7 +37,7 @@ case "$1" in
   fi
 
   echo "[INFO] Running command with profile: $2"
-  docker run --rm -it \
+  docker run --rm "$TTY" \
     --volume /var/run/docker.sock:/var/run/docker.sock \
     --volume "$(pwd):$(pwd)" \
     --workdir "$(pwd)" \
@@ -48,7 +54,7 @@ case "$1" in
   fi
 
   echo "[INFO] Running command with profile: $2"
-  docker run --rm -it \
+  docker run --rm "$TTY" \
     --volume /var/run/docker.sock:/var/run/docker.sock \
     --volume "$(pwd):$(pwd)" \
     --workdir "$(pwd)" \
@@ -78,7 +84,7 @@ case "$1" in
 
   echo "[INFO] Running command with profile: $2"
   echo "[INFO] Running command for image: $3"
-  docker run --rm -it \
+  docker run --rm "$TTY" \
     --volume /var/run/docker.sock:/var/run/docker.sock \
     --volume "$(pwd):$(pwd)" \
     --workdir "$(pwd)" \
