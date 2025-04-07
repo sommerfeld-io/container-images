@@ -235,7 +235,7 @@ jobs:
         run: |
           (
             cd tests/inspec || exit
-            ./inspec.sh exec "${{ matrix.image-name }}" "${{ matrix.image-name }}:${{ github.sha }}"
+            ./inspec.sh exec "${{ matrix.image-name }}" "${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}"
           )
         shell: bash
 
