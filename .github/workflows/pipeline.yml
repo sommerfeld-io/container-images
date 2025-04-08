@@ -262,10 +262,10 @@ jobs:
         run: |
           SRC_IMAGE="${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}"
           TARGET_IMAGE="${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_RC }}"
-          docker pull "$SRC_IMAGE"
-          docker tag "$SRC_IMAGE" "$TARGET_IMAGE"
-          docker push "$TARGET_IMAGE"
-          # docker buildx imagetools create --tag "$SRC_IMAGE" "$TARGET_IMAGE"
+          # docker pull "$SRC_IMAGE"
+          # docker tag "$SRC_IMAGE" "$TARGET_IMAGE"
+          # docker push "$TARGET_IMAGE"
+          docker buildx imagetools create --tag "$TARGET_IMAGE" "$SRC_IMAGE"
         shell: bash
 
   # ----- Release stage ---------------------------------------------------------------------------
