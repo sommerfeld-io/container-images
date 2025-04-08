@@ -22,7 +22,7 @@ theme:
     # primary: blue
     # Palette toggle for light mode
     - scheme: default
-      primary: &header-color blue
+      primary: &header-color black
       accent: *header-color
       toggle:
         icon: material/brightness-7
