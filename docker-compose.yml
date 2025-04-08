@@ -99,7 +99,6 @@ services:
     build:
       context: components/devcontainer
       dockerfile: Dockerfile
-    command: .
     tty: *tty
 
   folderslint-lint-dockerfile:
@@ -151,4 +150,6 @@ services:
     build:
       context: components/mkdocs
       dockerfile: Dockerfile
+    volumes: *volumes
+    working_dir: *default-workdir
     tty: *tty

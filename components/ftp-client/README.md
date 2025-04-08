@@ -24,7 +24,7 @@ docker run -i --rm \
 
 ## License
 
-This container image is inheriting the [MIT License from the GitHub repository](ttps://sommerfeld-io.github.io/container-images/license).
+This container image is inheriting the [MIT License from the GitHub repository](https://sommerfeld-io.github.io/container-images/license).
 
 The NCFTP software included within the image as a dependency is licensed under [the Clarified Artistic License](https://www.ncftp.com/ncftp/doc/LICENSE.txt).
 
