@@ -258,6 +258,8 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
       - name: Re-tag ${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }} as release candicate (:${{ env.IMAGE_TAG_RC }}) and deploy to ${{ env.REGISTRY }}
         run: |
           SRC_IMAGE="${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}"
