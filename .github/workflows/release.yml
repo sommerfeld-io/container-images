@@ -74,16 +74,15 @@ jobs:
         run: |
           TAG="${GITHUB_REF#refs/tags/}"
           TAG="${TAG#v}"
+          echo "[INFO] New version tag = $TAG"
 
-          echo "New version tag = $TAG"
+          SRC_IMAGE="${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_RC }}"
 
-          docker pull "${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_RC }}"
+          TARGET_IMAGE="${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:$TAG"
+          docker buildx imagetools create --tag "$TARGET_IMAGE" "$SRC_IMAGE"
 
-          docker tag "${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_RC }}" "${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}"
-          docker tag "${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_RC }}" "${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:$TAG"
-
-          docker push "${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}"
-          docker push "${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:$TAG"
+          TARGET_IMAGE="${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}"
+          docker buildx imagetools create --tag "$TARGET_IMAGE" "$SRC_IMAGE"
         shell: bash
       - name: Update DockerHub description
         uses: peter-evans/dockerhub-description@v4
