@@ -10,6 +10,11 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+ARG TASK_VERSION=3.42.1
+RUN curl -L -o /tmp/task_linux_386.deb https://github.com/go-task/task/releases/download/v${TASK_VERSION}/task_linux_amd64.deb \
+    && dpkg -i /tmp/task_linux_386.deb \
+    && rm /tmp/task_linux_386.deb
+
 COPY configs/etc/login.defs /etc/login.defs
 RUN chmod 0444 /etc/login.defs \
     && chmod o-r /etc/shadow \

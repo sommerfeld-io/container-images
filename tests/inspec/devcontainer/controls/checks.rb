@@ -27,6 +27,11 @@ control 'binaries-01' do
     it { should be_executable }
   end
 
+  describe file('/usr/bin/task') do
+    it { should exist }
+    it { should be_executable }
+  end
+
   describe file('/home/vscode/.atuin/bin/atuin') do
     it { should exist }
     it { should be_executable }
