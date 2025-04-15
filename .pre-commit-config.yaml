@@ -31,39 +31,23 @@ repos:
         args: [-w, -i, "2"]
   - repo: local
     hooks:
-      - id: lint-yaml
-        name: lint-yaml
+      - id: lint-repo
+        name: lint-repo
         language: script
-        entry: /bin/bash -c 'docker compose up lint-yaml --exit-code-from lint-yaml'
-      - id: lint-workflows
-        name: lint-workflows
+        entry: /bin/bash -c 'task lint'
+      - id: devcontainer
+        name: devcontainer
         language: script
-        entry: /bin/bash -c 'docker compose up lint-workflows --exit-code-from lint-workflows'
-      - id: lint-filenames
-        name: lint-filenames
+        entry: /bin/bash -c 'task build:devcontainer'
+      - id: folderslint
+        name: folderslint
         language: script
-        entry: /bin/bash -c 'docker compose up lint-filenames --exit-code-from lint-filenames'
-      - id: lint-folders
-        name: lint-folders
+        entry: /bin/bash -c 'task build:folderslint'
+      - id: ftp-client
+        name: ftp-client
         language: script
-        entry: /bin/bash -c 'docker compose up lint-folders --exit-code-from lint-folders'
-      - id: lint-markdown-links
-        name: lint-markdown-links
+        entry: /bin/bash -c 'task build:ftp-client'
+      - id: mkdocs
+        name: mkdocs
         language: script
-        entry: /bin/bash -c 'docker compose up lint-markdown-links --exit-code-from lint-markdown-links'
-      - id: devcontainer-lint-dockerfile
-        name: devcontainer-lint-dockerfile
-        language: script
-        entry: /bin/bash -c 'docker compose up devcontainer-lint-dockerfile --exit-code-from devcontainer-lint-dockerfile'
-      - id: folderslint-lint-dockerfile
-        name: folderslint-lint-dockerfile
-        language: script
-        entry: /bin/bash -c 'docker compose up folderslint-lint-dockerfile --exit-code-from folderslint-lint-dockerfile'
-      - id: ftp-client-lint-dockerfile
-        name: ftp-client-lint-dockerfile
-        language: script
-        entry: /bin/bash -c 'docker compose up ftp-client-lint-dockerfile --exit-code-from ftp-client-lint-dockerfile'
-      - id: mkdocs-lint-dockerfile
-        name: mkdocs-lint-dockerfile
-        language: script
-        entry: /bin/bash -c 'docker compose up mkdocs-lint-dockerfile --exit-code-from mkdocs-lint-dockerfile'
+        entry: /bin/bash -c 'task build:mkdocs'
