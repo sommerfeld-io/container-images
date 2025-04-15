@@ -35,19 +35,7 @@ repos:
         name: lint-repo
         language: script
         entry: /bin/bash -c 'task lint'
-      - id: devcontainer
-        name: devcontainer
+      - id: build
+        name: build
         language: script
-        entry: /bin/bash -c 'task build:devcontainer'
-      - id: folderslint
-        name: folderslint
-        language: script
-        entry: /bin/bash -c 'task build:folderslint'
-      - id: ftp-client
-        name: ftp-client
-        language: script
-        entry: /bin/bash -c 'task build:ftp-client'
-      - id: mkdocs
-        name: mkdocs
-        language: script
-        entry: /bin/bash -c 'task build:mkdocs'
+        entry: /bin/bash -c 'task build'
