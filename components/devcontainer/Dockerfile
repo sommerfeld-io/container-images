@@ -25,7 +25,7 @@ RUN chmod 0444 /etc/login.defs \
 
 USER $USER
 
+COPY configs/.bash_aliases /home/$USER/.bash_aliases
+
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN echo "alias ls='ls -a --color=auto'" >> /home/$USER/.bashrc \
-    && echo "alias ll='ls -alF --color=auto'" >> /home/$USER/.bashrc \
-    && curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | bash
+RUN curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | bash
