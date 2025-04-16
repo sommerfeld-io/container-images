@@ -38,4 +38,4 @@ repos:
       - id: build
         name: build
         language: script
-        entry: /bin/bash -c 'task build'
+        entry: /bin/bash -c 'task build:all'

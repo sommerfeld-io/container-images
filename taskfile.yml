@@ -28,7 +28,7 @@ tasks:
 
   # ===============================================================================================
 
-  build:
+  build:all:
     desc: 'Lint and build all container images'
     cmds:
       - for: ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs']
