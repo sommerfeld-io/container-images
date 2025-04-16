@@ -23,9 +23,9 @@ RUN chmod 0444 /etc/login.defs \
     && chmod go-r /etc/cron.weekly \
     && chmod go-r /etc/cron.d
 
-USER $USER
+USER ${USER}
 
-COPY configs/.bash_aliases /home/$USER/.bash_aliases
+COPY configs/bash_aliases.txt /home/${USER}/.bash_aliases
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | bash
