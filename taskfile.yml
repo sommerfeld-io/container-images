@@ -1,6 +1,10 @@
 ---
 version: '3.42.1'
 
+vars:
+  INSPEC_IMAGE: chef/inspec:5.22.76
+  INSPEC_DIR: tests/inspec
+
 tasks:
 
   cleanup:
@@ -19,6 +23,25 @@ tasks:
             LINTER: ['yaml', 'workflows', 'filenames', 'folders', 'markdown-links']
         cmd: docker compose up lint-{{.ITEM.LINTER}} --exit-code-from lint-{{.ITEM.LINTER}}
 
+  check:inspec:
+    desc: 'Vendor and check InSpec profile validity'
+    cmds:
+      - for: &test-inspec ['devcontainer', 'ftp-client']
+        cmd: |
+          rm -f "{{.INSPEC_DIR}}/{{.ITEM}}/inspec.lock"
+      - for: *test-inspec
+        cmd: |
+          docker run --rm \
+            --volume "$(pwd):$(pwd)" \
+            --workdir "$(pwd)" \
+            "{{.INSPEC_IMAGE}}" vendor "{{.INSPEC_DIR}}/{{.ITEM}}" --overwrite --chef-license=accept
+      - for: *test-inspec
+        cmd: |
+          docker run --rm \
+            --volume "$(pwd):$(pwd)" \
+            --workdir "$(pwd)" \
+            "{{.INSPEC_IMAGE}}" check "{{.INSPEC_DIR}}/{{.ITEM}}" --chef-license=accept
+
   # ===============================================================================================
 
   docs:run:
@@ -31,7 +54,7 @@ tasks:
   build:all:
     desc: 'Lint and build all container images'
     cmds:
-      - for: ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs']
+      - for: &images ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs']
         task: build:{{.ITEM}}
 
   build:*:
@@ -41,3 +64,23 @@ tasks:
     cmds:
       - docker compose up {{.IMAGE}}-lint-dockerfile --exit-code-from {{.IMAGE}}-lint-dockerfile
       - docker compose build {{.IMAGE}}
+
+  # ===============================================================================================
+
+  test:all:
+    desc: 'Test all container images'
+    cmds:
+      - for: *test-inspec
+        task: test:{{.ITEM}}
+
+  test:*:
+    desc: 'Test container image | Replace * with image name'
+    vars:
+      IMAGE: '{{index .MATCH 0}}'
+    cmds:
+      - docker run --name "sut-{{.IMAGE}}" -d -v "$(pwd):$(pwd):ro" -w "$(pwd)" "local/{{.IMAGE}}:dev" sleep 180s
+      - sleep 5
+      - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(pwd):$(pwd)" -w "$(pwd)" "{{.INSPEC_IMAGE}}" exec "{{.INSPEC_DIR}}/{{.IMAGE}}" --target "docker://sut-{{.IMAGE}}" --no-distinct-exit --chef-license=accept
+      - sleep 5
+      - docker stop "sut-{{.IMAGE}}"
+      - docker rm "sut-{{.IMAGE}}"
