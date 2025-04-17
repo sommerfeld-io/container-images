@@ -3,7 +3,7 @@
 [doc-website]: https://sommerfeld-io.github.io/container-images
 [github-repo]: https://github.com/sommerfeld-io/container-images
 [file-issues]: https://github.com/sommerfeld-io/container-images/issues
-[project-board]: https://github.com/orgs/sommerfeld-io/projects/1/views/17
+[project-board]: https://github.com/orgs/sommerfeld-io/projects/1/views/1
 
 This project contains a collection of Docker images for various purposes. The images are built and published to [Docker Hub](https://hub.docker.com/u/sommerfeldio) and are used in different projects. All images can be used standalone, they do not depend on any other image or service.
 
