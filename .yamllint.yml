@@ -5,7 +5,7 @@ ignore: |
   node_modules
   .vagrant
   target
-  tests/inspec/devcontainer/vendor
+  tests/inspec/*/vendor
 
 rules:
   line-length:

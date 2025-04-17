@@ -8,7 +8,6 @@ volumes:
       device: .
       o: bind
 
-
 services:
 
   cleanup:
@@ -24,6 +23,10 @@ services:
       - -c
       - |
         rm -rf target
+        rm -rf tests/inspec/devcontainer/vendor
+        rm -rf tests/inspec/devcontainer/inspec.lock
+        rm -rf tests/inspec/ftp-client/vendor
+        rm -rf tests/inspec/ftp-client/inspec.lock
     tty: &tty true
 
   lint-yaml:

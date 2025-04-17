@@ -43,6 +43,7 @@ ignore:
   - node_modules
   - target
   - tests/inspec/devcontainer/vendor
+  - tests/inspec/ftp-client/vendor
 
   # linter definitions etc.
   - .editorconfig
