@@ -61,7 +61,7 @@ jobs:
         run: docker compose up lint-${{ matrix.linter }} --exit-code-from lint-${{ matrix.linter }}
         shell: bash
 
-  check-inspec-profiles:
+  check-inspec-profile:
     runs-on: ubuntu-latest
     name: ${{ matrix.profile-name }}
     strategy:
@@ -192,7 +192,7 @@ jobs:
     needs: [
       'lint',
       'lint-dockerfiles',
-      'check-inspec-profiles',
+      'check-inspec-profile',
       'shellcheck',
     ]
     permissions:
