@@ -271,7 +271,18 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Exec inspec profile
-        run: task test:${{ matrix.image-name }}
+        # TODO: do not repeat yourself - logic is already in taskfile.yml but taskfile.yml uses local/<image>:dev
+        run: |
+          readonly SYSTEM_UNDER_TEST="${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}"
+          readonly INSPEC_DIR="tests/inspec"
+          readonly INSPEC_IMAGE="chef/inspec:5.22.76"
+
+          docker run --name "sut-${{ matrix.image-name }}" -d -v "$(pwd):$(pwd):ro" -w "$(pwd)" "$SYSTEM_UNDER_TEST" sleep 180s
+          sleep 5
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(pwd):$(pwd)" -w "$(pwd)" "$INSPEC_IMAGE" exec "$INSPEC_DIR/${{ matrix.image-name }}" --target "docker://sut-${{ matrix.image-name }}" --no-distinct-exit --chef-license=accept
+          sleep 5
+          docker stop "sut-${{ matrix.image-name }}"
+          docker rm "sut-${{ matrix.image-name }}"
         shell: bash
 
   # ----- Deploy ----------------------------------------------------------------------
