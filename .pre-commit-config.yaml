@@ -35,6 +35,10 @@ repos:
         name: lint-repo
         language: script
         entry: /bin/bash -c 'task lint'
+      - id: check-inspec-profiles
+        name: lint-repo
+        language: script
+        entry: /bin/bash -c 'task check:inspec:all'
       - id: build
         name: build
         language: script

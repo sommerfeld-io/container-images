@@ -23,24 +23,20 @@ tasks:
             LINTER: ['yaml', 'workflows', 'filenames', 'folders', 'markdown-links']
         cmd: docker compose up lint-{{.ITEM.LINTER}} --exit-code-from lint-{{.ITEM.LINTER}}
 
-  check:inspec:
+  check:inspec:all:
     desc: 'Vendor and check InSpec profile validity'
     cmds:
       - for: &test-inspec ['devcontainer', 'ftp-client']
-        cmd: |
-          rm -f "{{.INSPEC_DIR}}/{{.ITEM}}/inspec.lock"
-      - for: *test-inspec
-        cmd: |
-          docker run --rm \
-            --volume "$(pwd):$(pwd)" \
-            --workdir "$(pwd)" \
-            "{{.INSPEC_IMAGE}}" vendor "{{.INSPEC_DIR}}/{{.ITEM}}" --overwrite --chef-license=accept
-      - for: *test-inspec
-        cmd: |
-          docker run --rm \
-            --volume "$(pwd):$(pwd)" \
-            --workdir "$(pwd)" \
-            "{{.INSPEC_IMAGE}}" check "{{.INSPEC_DIR}}/{{.ITEM}}" --chef-license=accept
+        task: check:inspec:{{.ITEM}}
+
+  check:inspec:*:
+    desc: 'Vendor and check InSpec profile validity'
+    vars:
+      PROFILE: '{{index .MATCH 0}}'
+    cmds:
+      - rm -f "{{.INSPEC_DIR}}/{{.PROFILE}}/inspec.lock"
+      - docker run --rm -v "$(pwd):$(pwd)" -w "$(pwd)" "{{.INSPEC_IMAGE}}" vendor "{{.INSPEC_DIR}}/{{.PROFILE}}" --overwrite --chef-license=accept
+      - docker run --rm -v "$(pwd):$(pwd)" -w "$(pwd)" "{{.INSPEC_IMAGE}}" check "{{.INSPEC_DIR}}/{{.PROFILE}}" --chef-license=accept
 
   # ===============================================================================================
 
