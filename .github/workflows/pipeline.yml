@@ -63,10 +63,10 @@ jobs:
 
   check-inspec-profile:
     runs-on: ubuntu-latest
-    name: ${{ matrix.profile-name }}
+    name: ${{ matrix.profile }}
     strategy:
       matrix:
-        profile-name: ['devcontainer', 'ftp-client']
+        profile: ['devcontainer', 'ftp-client']
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -80,8 +80,8 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Check inspec profile
-        run: task check:inspec:${{ matrix.profile-name }}
+      - name: Validate Inspec profile
+        run: task inspec:check:${{ matrix.profile }}
         shell: bash
 
   lint-dockerfiles:
@@ -275,11 +275,10 @@ jobs:
         run: |
           readonly SYSTEM_UNDER_TEST="${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}"
           readonly INSPEC_DIR="tests/inspec"
-          readonly INSPEC_IMAGE="chef/inspec:5.22.76"
 
           docker run --name "sut-${{ matrix.image-name }}" -d -v "$(pwd):$(pwd):ro" -w "$(pwd)" "$SYSTEM_UNDER_TEST" sleep 180s
           sleep 5
-          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(pwd):$(pwd)" -w "$(pwd)" "$INSPEC_IMAGE" exec "$INSPEC_DIR/${{ matrix.image-name }}" --target "docker://sut-${{ matrix.image-name }}" --no-distinct-exit --chef-license=accept
+          docker compose run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(pwd):$(pwd)" -w "$(pwd)" inspec exec "$INSPEC_DIR/${{ matrix.image-name }}" --target "docker://sut-${{ matrix.image-name }}" --no-distinct-exit --chef-license=accept
           sleep 5
           docker stop "sut-${{ matrix.image-name }}"
           docker rm "sut-${{ matrix.image-name }}"

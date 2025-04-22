@@ -2,7 +2,6 @@
 version: '3.42.1'
 
 vars:
-  INSPEC_IMAGE: chef/inspec:5.22.76
   INSPEC_DIR: tests/inspec
 
 tasks:
@@ -23,20 +22,20 @@ tasks:
             LINTER: ['yaml', 'workflows', 'filenames', 'folders', 'markdown-links']
         cmd: docker compose up lint-{{.ITEM.LINTER}} --exit-code-from lint-{{.ITEM.LINTER}}
 
-  check:inspec:all:
+  inspec:check:all:
     desc: 'Vendor and check InSpec profile validity'
     cmds:
       - for: &test-inspec ['devcontainer', 'ftp-client']
-        task: check:inspec:{{.ITEM}}
+        task: inspec:check:{{.ITEM}}
 
-  check:inspec:*:
+  inspec:check:*:
     desc: 'Vendor and check InSpec profile validity'
     vars:
       PROFILE: '{{index .MATCH 0}}'
     cmds:
       - rm -f "{{.INSPEC_DIR}}/{{.PROFILE}}/inspec.lock"
-      - docker run --rm -v "$(pwd):$(pwd)" -w "$(pwd)" "{{.INSPEC_IMAGE}}" vendor "{{.INSPEC_DIR}}/{{.PROFILE}}" --overwrite --chef-license=accept
-      - docker run --rm -v "$(pwd):$(pwd)" -w "$(pwd)" "{{.INSPEC_IMAGE}}" check "{{.INSPEC_DIR}}/{{.PROFILE}}" --chef-license=accept
+      - docker compose run --rm inspec vendor "{{.INSPEC_DIR}}/{{.PROFILE}}" --overwrite --chef-license=accept
+      - docker compose run --rm inspec check "{{.INSPEC_DIR}}/{{.PROFILE}}" --chef-license=accept
 
   # ===============================================================================================
 
@@ -74,9 +73,9 @@ tasks:
     vars:
       IMAGE: '{{index .MATCH 0}}'
     cmds:
-      - docker run --name "sut-{{.IMAGE}}" -d -v "$(pwd):$(pwd):ro" -w "$(pwd)" "local/{{.IMAGE}}:dev" sleep 180s
+      - docker run --name "system-under-test-{{.IMAGE}}" -d -v "$(pwd):$(pwd):ro" -w "$(pwd)" "local/{{.IMAGE}}:dev" sleep 180s
       - sleep 5
-      - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(pwd):$(pwd)" -w "$(pwd)" "{{.INSPEC_IMAGE}}" exec "{{.INSPEC_DIR}}/{{.IMAGE}}" --target "docker://sut-{{.IMAGE}}" --no-distinct-exit --chef-license=accept
+      - docker compose run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(pwd):$(pwd)" -w "$(pwd)" inspec exec "{{.INSPEC_DIR}}/{{.IMAGE}}" --target "docker://system-under-test-{{.IMAGE}}" --no-distinct-exit --chef-license=accept
       - sleep 5
-      - docker stop "sut-{{.IMAGE}}"
-      - docker rm "sut-{{.IMAGE}}"
+      - docker stop "system-under-test-{{.IMAGE}}"
+      - docker rm "system-under-test-{{.IMAGE}}"

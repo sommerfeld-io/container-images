@@ -68,6 +68,15 @@ services:
     command: --config .lychee.toml .
     tty: *tty
 
+  inspec:
+    # template service to run from taskfile.yml
+    # not intended to be run directly
+    container_name: ${COMPOSE_PROJECT_NAME}-inspec-check
+    image: &inspec-image chef/inspec:5.22.76
+    volumes: *volumes
+    working_dir: *default-workdir
+    tty: *tty
+
   docs-build:
     container_name: ${COMPOSE_PROJECT_NAME}-docs-build
     image: &docs-image sommerfeldio/mkdocs:latest
