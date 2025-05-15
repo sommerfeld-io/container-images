@@ -4,6 +4,8 @@ This image is used to build the documentation using the `mkdocs` toolchain and i
 
 This image extends the [squidfunk/mkdocs-material](https://hub.docker.com/r/squidfunk/mkdocs-material) image with the [mkdocs-kroki-plugin](https://pypi.org/project/mkdocs-kroki-plugin) to allow rendering diagrams and charts using [Kroki.io](https://kroki.io). A dedicated Dockerfile is needed because the base image does not provide all necessary plugins and tools.
 
+The image focuses on generating the documentation site (e.g. from a pipeline). It is not intended to be used as a live webserver for production.
+
 - [sommerfeldio/mkdocs](https://hub.docker.com/r/sommerfeldio/mkdocs) on Docker Hub
 - [Dockerfile source code](https://github.com/sommerfeld-io/container-images/tree/main/components/mkdocs) on GitHub
 - [How to Contribute](https://github.com/sommerfeld-io/.github/blob/main/docs/contribute.md)
@@ -16,6 +18,8 @@ Learn about our tagging policy and the difference between rolling tags and immut
 ## Usage
 
 This image supports two modes. The `build` command is used to build the documentation site based on your Markdown docs. The container terminates after the build is complete. Additionally the image offers a development server to preview the documentation site. Both features originate in the [squidfunk/mkdocs-material](https://hub.docker.com/r/squidfunk/mkdocs-material) base image.
+
+The easiest way to use the image is to run it with Docker Compose:
 
 ```yaml
 services:
