@@ -7,6 +7,10 @@ The `sommerfeldio/folderslint` image is a utility Docker image used in Github Ac
 - [How to Contribute](https://github.com/sommerfeld-io/.github/blob/main/docs/contribute.md)
 - Visit [the projects documentation page](https://sommerfeld-io.github.io/container-images) for a list of all available container images.
 
+## Software Tags and Versioning
+
+Learn about our tagging policy and the difference between rolling tags and immutable tags [in our documentation page⁠](https://github.com/sommerfeld-io/.github/blob/main/docs/tags-and-versions.md).
+
 ## Usage
 
 To use the image run the following command.
@@ -37,9 +41,9 @@ The image expects a `.folderslintrc` file inside `--workdir` (which typically is
   ".vscode",
 
   "app",
-  "app/dir",
-  "app/dir/structure",
-  "app/dir/structure/**",
+  "app/folder",
+  "app/folder/sub-folder",
+  "app/folder/sub-folder/**",
 
   "docs/**",
 
@@ -53,4 +57,4 @@ The image expects a `.folderslintrc` file inside `--workdir` (which typically is
 
 This container image is inheriting the [MIT License from the GitHub repository](https://sommerfeld-io.github.io/container-images/license).
 
-The license from this GitHub repository is compatible with the [license from the folderslint project](https://github.com/denisraslov/folderslint/blob/master/LICENSE) (which is MIT as well).
+The license from this GitHub repository is compatible with the [license from the folderslint project](https://github.com/denisraslov/folderslint/blob/master/LICENSE) which is MIT as well.

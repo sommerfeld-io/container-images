@@ -7,6 +7,10 @@ The `sommerfeldio/ftp-client` image ships with NCFTP and uses [ncftpput](https:/
 - [How to Contribute](https://github.com/sommerfeld-io/.github/blob/main/docs/contribute.md)
 - Visit [the projects documentation page](https://sommerfeld-io.github.io/container-images) for a list of all available container images.
 
+## Software Tags and Versioning
+
+Learn about our tagging policy and the difference between rolling tags and immutable tags [in our documentation page⁠](https://github.com/sommerfeld-io/.github/blob/main/docs/tags-and-versions.md).
+
 ## How to use this image
 
 To use the image run the following command from a bash file.
@@ -14,7 +18,9 @@ To use the image run the following command from a bash file.
 ```bash
 FTP_HOST="ftp-host.example.com"
 FTP_USER="the_username"
-FTP_PASS="the_password" # Storing passwords in variables like this is not a recommended way to handle secrets
+FTP_PASS="the_password"
+# CAUTION: Storing credentials in variables like
+# this is not a recommended way to handle secrets
 
 docker run -i --rm \
     --volume "$(pwd):$(pwd)" \
