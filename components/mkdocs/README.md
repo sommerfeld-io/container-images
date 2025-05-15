@@ -4,12 +4,12 @@ This image is used to build the documentation using the `mkdocs` toolchain and i
 
 This image extends the [squidfunk/mkdocs-material](https://hub.docker.com/r/squidfunk/mkdocs-material) image with the [mkdocs-kroki-plugin](https://pypi.org/project/mkdocs-kroki-plugin) to allow rendering diagrams and charts using [Kroki.io](https://kroki.io). A dedicated Dockerfile is needed because the base image does not provide all necessary plugins and tools.
 
-The image focuses on generating the documentation site (e.g. from a pipeline). It is not intended to be used as a live webserver for production.
-
 - [sommerfeldio/mkdocs](https://hub.docker.com/r/sommerfeldio/mkdocs) on Docker Hub
 - [Dockerfile source code](https://github.com/sommerfeld-io/container-images/tree/main/components/mkdocs) on GitHub
 - [How to Contribute](https://github.com/sommerfeld-io/.github/blob/main/docs/contribute.md)
 - Visit [the projects documentation page](https://sommerfeld-io.github.io/container-images) for a list of all available container images.
+
+The image focuses on generating the documentation site (e.g. from a pipeline). It is not intended to be used as a live webserver for production.
 
 ## Software Tags and Versioning
 
