@@ -20,6 +20,8 @@ tasks:
   lint:
     desc: 'Run all project linters outside of Dockerfile linters'
     cmds:
+      - chmod u+rw,g+rw,o+r ./*.md
+      - chmod u+rw,g+rw,o+r docs/images/*.md
       - for:
           matrix:
             LINTER: ['yaml', 'workflows', 'filenames', 'folders', 'markdown-links']
