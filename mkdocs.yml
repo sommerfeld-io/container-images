@@ -8,7 +8,9 @@ site_description: >-
 repo_name: sommerfeld-io/container-images
 repo_url: https://github.com/sommerfeld-io/container-images
 
-copyright: Copyright &copy; 2024 Sommerfeld.io
+copyright: >
+  Copyright &copy; 2024 Sommerfeld.io |
+  <a href="#__consent">Cookie settings</a>
 
 docs_dir: docs
 site_dir: target/docs/site
@@ -18,22 +20,9 @@ theme:
   font:
     text: Work Sans
   palette:
-    # scheme: slate
-    # primary: blue
-    # Palette toggle for light mode
-    - scheme: default
-      primary: &header-color black
-      accent: *header-color
-      toggle:
-        icon: material/brightness-7
-        name: Switch to dark mode
-    # Palette toggle for dark mode
-    - scheme: slate
-      primary: *header-color
-      accent: *header-color
-      toggle:
-        icon: material/brightness-4
-        name: Switch to light mode
+    scheme: slate
+    primary: black
+    accent: deep orange
   features:
     - content.code.copy
     - content.tabs.link
@@ -59,9 +48,22 @@ plugins:
   - search:
 
 extra:
+  consent:
+    title: Cookie consent
+    description: >-
+      Our documentation website is hosted on GitHub Pages and uses services from GitHub,
+      Google Fonts, and Kroki, each with their own terms and privacy policies. We do not
+      control or influence the data these third parties may collect. The site itself does
+      not set cookies, track users, or collect personal data. For detals, see our
+      <a href="https://github.com/sommerfeld-io/.github/blob/main/docs/terms.md">Terms of Use</a>.
+    actions:
+      - accept
+      - reject
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/sommerfeld-io/container-images
+    - icon: fontawesome/brands/docker
+      link: https://hub.docker.com/u/sommerfeldio
 
 nav:
   - Home:
