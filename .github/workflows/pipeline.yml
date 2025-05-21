@@ -260,6 +260,7 @@ jobs:
           image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}
           exit-code: false
           write-comment: ${{ github.event_name == 'pull_request' }}
+          summary: ${{ github.event_name == 'pull_request' }}
 
   inspec-images:
     runs-on: ubuntu-latest
