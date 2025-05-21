@@ -107,7 +107,6 @@ jobs:
 
   generate-docs:
     runs-on: ubuntu-latest
-    if: ${{ github.actor != 'dependabot[bot]' }}
     needs: lint
     permissions:
       contents: write
