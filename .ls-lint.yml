@@ -3,6 +3,7 @@ ls:
   .adoc: kebab-case | SCREAMING_SNAKE_CASE | PascalCase
   .puml: kebab-case
   .md: kebab-case | SCREAMING_SNAKE_CASE
+  .instructions.md: kebab-case
 
   .conf: kebab-case
   .go: snake_case
