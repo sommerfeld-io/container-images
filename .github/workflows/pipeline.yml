@@ -3,8 +3,20 @@ name: "Pipeline: Commit + Test"
 
 on:
   push:
-    branches-ignore:
-      - dependabot/**
+    branches:
+      - main
+    paths-ignore:
+      - '**.adoc'
+      - '**.md'
+      - 'docs/**'
+      - '.devcontainer/**'
+      - '.github/workflows/dev-environment.yml'
+      - '.vscode/**'
+      - '.gitkeep'
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - main
     paths-ignore:
       - '**.adoc'
       - '**.md'
@@ -107,6 +119,7 @@ jobs:
 
   generate-docs:
     runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
     needs: lint
     permissions:
       contents: write
@@ -291,8 +304,10 @@ jobs:
   publish-rc:
     runs-on: ubuntu-latest
     name: ${{ matrix.image-name }}:${{ github.sha }}
-    if: ${{ (github.actor != 'dependabot[bot]') && (github.ref == 'refs/heads/main') }}
-    needs: ['inspec-images']
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs: [
+      'inspec-images',
+    ]
     permissions:
       contents: read
     strategy:
@@ -321,8 +336,10 @@ jobs:
     needs: [
       'publish-rc',
       'generate-docs',
+      'check-inspec-profile',
+      'shellcheck',
     ]
-    if: ${{ (github.actor != 'dependabot[bot]') && (github.ref == 'refs/heads/main') }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     permissions:
       contents: write
     steps:
