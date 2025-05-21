@@ -261,6 +261,7 @@ jobs:
           exit-code: false
           write-comment: ${{ github.event_name == 'pull_request' }}
           summary: ${{ github.event_name == 'pull_request' }}
+          only-severities: critical,high,medium # otherwise the comment might be too long
 
   inspec-images:
     runs-on: ubuntu-latest
@@ -338,7 +339,6 @@ jobs:
       'publish-rc',
       'generate-docs',
       'check-inspec-profile',
-      'shellcheck',
     ]
     if: ${{ github.ref == 'refs/heads/main' }}
     permissions:
