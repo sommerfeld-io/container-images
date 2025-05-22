@@ -243,7 +243,10 @@ jobs:
             org.opencontainers.image.description=${{ matrix.image-name }}
             org.opencontainers.image.vendor=sommerfeld-io
             org.opencontainers.image.documentation=https://sommerfeld-io.github.io/container-images/images/${{ matrix.image-name }}
-      - name: Build the Docker image and push to
+            dev.containers.source=https://github.com/sommerfeld-io/container-images
+            dev.containers.release=${{ github.sha }}
+            org.opencontainers.image.licenses=MIT
+      - name: Build the Docker image and push to registry
         uses: docker/build-push-action@v6
         with:
           context: components/${{ matrix.image-name }}
@@ -270,6 +273,7 @@ jobs:
           image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}
           to: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:latest
           write-comment: true
+          hide-policies: false
           only-severities: critical,high
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
