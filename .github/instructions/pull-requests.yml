@@ -17,9 +17,10 @@ pull_request:
   merge_rules:
     # require_approval: false
     no_merge_conflicts: true
-    pr_title_pattern: "^(fix|feat|build|chore|ci|docs|style|refactor|perf|test)/[a-z0-9._-]+$"
+    title_and_commit_pattern: "^(fix|feat|build|chore|ci|docs|style|refactor|perf|test)/[a-z0-9._-]+$"
 
 # Instructions for automation or Copilot agent:
+# - Enforce the title_and_commit_pattern for both PR titles and all commit messages in the PR.
 # - On PR creation: enforce the checklist, and assign reviewer(s).
 # - On PR update: re-check the checklist, and notify user of missing items.
 # - Only mark the PR as ready for review if all checklist items are satisfied.
