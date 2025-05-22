@@ -256,6 +256,27 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           provenance: true
           sbom: true
+
+  docker-scout:
+    runs-on: ubuntu-latest
+    name: ${{ matrix.image-name }}:${{ github.sha }}
+    needs: [
+      'build-images',
+    ]
+    permissions:
+      contents: read
+      pull-requests: write
+      security-events: write
+    strategy:
+      matrix:
+        image-name: ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs']
+    steps:
+      - name: Login to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       # - name: Docker Scout CVEs for `:${{ github.sha }}` (main branch only)
       #   if: ${{ github.ref == 'refs/heads/main' }}
       #   uses: docker/scout-action@v1.18.0
@@ -265,13 +286,15 @@ jobs:
       #     exit-code: false
       #     write-comment: true
       #     only-severities: critical,high
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Docker Scout Compare with `:latest` vs `:${{ github.sha }}` (pull requests only)
         # if: ${{ github.event_name == 'pull_request' }}
         uses: docker/scout-action@v1.18.0
         with:
-          command: compare
+          command: cves,compare
           image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}
           to: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:latest
+          exit-code: false
           write-comment: true
           only-severities: critical,high,medium
           github-token: ${{ secrets.GITHUB_TOKEN }}
