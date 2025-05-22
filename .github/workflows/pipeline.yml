@@ -270,7 +270,9 @@ jobs:
           image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}
           to: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:latest
           write-comment: true
+          summary: false
           only-severities: critical,high
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
   inspec-images:
     runs-on: ubuntu-latest
