@@ -257,7 +257,6 @@ jobs:
           provenance: true
           sbom: true
       - name: Docker Scout CVEs for `:${{ github.sha }}` (main branch only)
-        if: ${{ github.ref == 'refs/heads/main' }}
         uses: docker/scout-action@v1.18.0
         with:
           command: cves
@@ -273,7 +272,6 @@ jobs:
           image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}
           to: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:latest
           write-comment: true
-          hide-policies: false
           only-severities: critical,high
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
