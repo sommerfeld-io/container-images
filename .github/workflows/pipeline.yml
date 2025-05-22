@@ -256,23 +256,24 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           provenance: true
           sbom: true
-      - name: Docker Scout CVEs for `:${{ github.sha }}` (main branch only)
-        uses: docker/scout-action@v1.18.0
-        with:
-          command: cves
-          image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}
-          exit-code: false
-          write-comment: true
-          only-severities: critical,high
+      # - name: Docker Scout CVEs for `:${{ github.sha }}` (main branch only)
+      #   if: ${{ github.ref == 'refs/heads/main' }}
+      #   uses: docker/scout-action@v1.18.0
+      #   with:
+      #     command: cves
+      #     image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}
+      #     exit-code: false
+      #     write-comment: true
+      #     only-severities: critical,high
       - name: Docker Scout Compare with `:latest` vs `:${{ github.sha }}` (pull requests only)
-        if: ${{ github.event_name == 'pull_request' }}
+        # if: ${{ github.event_name == 'pull_request' }}
         uses: docker/scout-action@v1.18.0
         with:
           command: compare
           image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}
           to: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:latest
           write-comment: true
-          only-severities: critical,high
+          only-severities: critical,high,medium
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
   inspec-images:
