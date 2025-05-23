@@ -6,7 +6,7 @@ This image extends the [squidfunk/mkdocs-material](https://hub.docker.com/r/squi
 
 - [sommerfeldio/mkdocs](https://hub.docker.com/r/sommerfeldio/mkdocs) on Docker Hub
 - [Dockerfile source code](https://github.com/sommerfeld-io/container-images/tree/main/components/mkdocs) on GitHub
-- [How to Contribute](https://github.com/sommerfeld-io/.github/blob/main/docs/contribute.md)
+- [How to Contribute](https://github.com/sommerfeld-io/.github/blob/main/CONTRIBUTING.md)
 - Visit [the projects documentation page](https://sommerfeld-io.github.io/container-images) for a list of all available container images.
 
 The image focuses on generating the documentation site (e.g. from a pipeline). It is not intended to be used as a live webserver for production.
