@@ -1,6 +1,8 @@
 ---
 version: '3.42.1'
 
+dotenv: ['.env']
+
 vars:
   INSPEC_DIR: tests/inspec
 
@@ -9,40 +11,64 @@ tasks:
   cleanup:
     desc: 'Cleanup the environment'
     cmds:
-      - docker compose up cleanup
       - docker compose down --remove-orphans
       - rm -rf .cache
       - rm -rf node_modules
       - rm -rf target
+      - sudo rm -rf tests/inspec/devcontainer/vendor
+      - sudo rm -rf tests/inspec/devcontainer/inspec.lock
+      - sudo rm -rf tests/inspec/ftp-client/vendor
+      - sudo rm -rf tests/inspec/ftp-client/inspec.lock
 
   # ===============================================================================================
 
   lint:
     desc: 'Run all project linters outside of Dockerfile linters'
     cmds:
-      - chmod u+rw,g+rw,o+r ./*.md
-      - chmod u+rw,g+rw,o+r docs/images/*.md
-      - for:
-          matrix:
-            LINTER: ['yaml', 'workflows', 'filenames', 'folders', 'markdown-links']
-        cmd: docker compose up lint-{{.ITEM.LINTER}} --exit-code-from lint-{{.ITEM.LINTER}}
+      - for: ['yaml', 'workflows', 'filenames', 'folders', 'markdown-links']
+        cmd: docker compose up lint-{{ .ITEM }} --exit-code-from lint-{{ .ITEM }}
 
   inspec:check:all:
     desc: 'Vendor and check InSpec profile validity'
     cmds:
       - for: &test-inspec ['devcontainer', 'ftp-client']
-        task: inspec:check:{{.ITEM}}
+        task: inspec:check:{{ .ITEM }}
 
   inspec:check:*:
     desc: 'Vendor and check InSpec profile validity'
     vars:
-      PROFILE: '{{index .MATCH 0}}'
+      PROFILE: '{{ index .MATCH 0 }}'
     cmds:
-      - rm -f "{{.INSPEC_DIR}}/{{.PROFILE}}/inspec.lock"
-      - docker compose run --rm inspec vendor "{{.INSPEC_DIR}}/{{.PROFILE}}" --overwrite --chef-license=accept
-      - docker compose run --rm inspec check "{{.INSPEC_DIR}}/{{.PROFILE}}" --chef-license=accept
+      - rm -f "{{ .INSPEC_DIR }}/{{ .PROFILE }}/inspec.lock"
+      - docker compose run --rm inspec vendor "{{ .INSPEC_DIR }}/{{ .PROFILE }}" --overwrite --chef-license=accept
+      - docker compose run --rm inspec check "{{ .INSPEC_DIR }}/{{ .PROFILE }}" --chef-license=accept
 
   # ===============================================================================================
+
+  docs:generate:internal:copy:
+    desc: 'Do the actual work of copying files'
+    internal: true
+    silent: true
+    cmds:
+      - cp {{ .SRC }} {{ .DEST }}
+      - echo >> {{ .DEST }}
+      - echo "<!-- !    File is auto-generated        -->" >> {{ .DEST }}
+      - echo "<!-- !    EDITS WILL BE ERASED !!!!!    -->" >> {{ .DEST }}
+      - chmod u+rw,g+rw,o+r {{ .DEST }}
+    generates:
+      - "{{ .DEST }}"
+
+  docs:generate:
+    desc: 'Generate Markdown files for documentation'
+    cmds:
+      - echo "Collecting documentation from other Markdown files ..."
+      - task: docs:generate:internal:copy
+        vars: { SRC: docs/index.md, DEST: README.md }
+      - task: docs:generate:internal:copy
+        vars: { SRC: docs/license.md, DEST: LICENSE.md }
+      - for: &images ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs']
+        task: docs:generate:internal:copy
+        vars: { SRC: "components/{{ .ITEM }}/README.md", DEST: "docs/images/{{ .ITEM }}.md" }
 
   docs:run:
     desc: 'Run the documentation server'
@@ -54,16 +80,16 @@ tasks:
   build:all:
     desc: 'Lint and build all container images'
     cmds:
-      - for: &images ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs']
-        task: build:{{.ITEM}}
+      - for: *images
+        task: build:{{ .ITEM }}
 
   build:*:
     desc: 'Lint and build container image | Replace * with image name'
     vars:
-      IMAGE: '{{index .MATCH 0}}'
+      IMAGE: '{{ index .MATCH 0 }}'
     cmds:
-      - docker compose up {{.IMAGE}}-lint-dockerfile --exit-code-from {{.IMAGE}}-lint-dockerfile
-      - docker compose build {{.IMAGE}}
+      - docker compose up {{ .IMAGE }}-lint-dockerfile --exit-code-from {{ .IMAGE }}-lint-dockerfile
+      - docker compose build {{ .IMAGE }}
 
   # ===============================================================================================
 
@@ -71,16 +97,16 @@ tasks:
     desc: 'Test all container images'
     cmds:
       - for: *test-inspec
-        task: test:{{.ITEM}}
+        task: test:{{ .ITEM }}
 
   test:*:
     desc: 'Test container image | Replace * with image name'
     vars:
-      IMAGE: '{{index .MATCH 0}}'
+      IMAGE: '{{ index .MATCH 0 }}'
     cmds:
-      - docker run --name "system-under-test-{{.IMAGE}}" -d -v "$(pwd):$(pwd):ro" -w "$(pwd)" "local/{{.IMAGE}}:dev" sleep 180s
+      - docker run --name "system-under-test-{{ .IMAGE }}" -d -v "$(pwd):$(pwd):ro" -w "$(pwd)" "local/{{ .IMAGE }}:dev" sleep 180s
       - sleep 5
-      - docker compose run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(pwd):$(pwd)" -w "$(pwd)" inspec exec "{{.INSPEC_DIR}}/{{.IMAGE}}" --target "docker://system-under-test-{{.IMAGE}}" --no-distinct-exit --chef-license=accept
+      - docker compose run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(pwd):$(pwd)" -w "$(pwd)" inspec exec "{{ .INSPEC_DIR }}/{{ .IMAGE }}" --target "docker://system-under-test-{{ .IMAGE }}" --no-distinct-exit --chef-license=accept
       - sleep 5
-      - docker stop "system-under-test-{{.IMAGE}}"
-      - docker rm "system-under-test-{{.IMAGE}}"
+      - docker stop "system-under-test-{{ .IMAGE }}"
+      - docker rm "system-under-test-{{ .IMAGE }}"
