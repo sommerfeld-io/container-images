@@ -15,10 +15,10 @@ tasks:
       - rm -rf .cache
       - rm -rf node_modules
       - rm -rf target
-      - sudo rm -rf tests/inspec/devcontainer/vendor
-      - sudo rm -rf tests/inspec/devcontainer/inspec.lock
-      - sudo rm -rf tests/inspec/ftp-client/vendor
-      - sudo rm -rf tests/inspec/ftp-client/inspec.lock
+      - for: &inspec-profiles ['devcontainer', 'ftp-client']
+        cmd: |
+          sudo rm -rf tests/inspec/{{ .ITEM }}/vendor
+          sudo rm -rf tests/inspec/{{ .ITEM }}/inspec.lock
 
   # ===============================================================================================
 
@@ -31,7 +31,7 @@ tasks:
   inspec:check:
     desc: 'Vendor and check InSpec profile validity'
     cmds:
-      - for: &test-inspec ['devcontainer', 'ftp-client']
+      - for: *inspec-profiles
         task: inspec:check:{{ .ITEM }}
 
   inspec:check:*:
@@ -96,7 +96,7 @@ tasks:
   test:
     desc: 'Test all container images'
     cmds:
-      - for: *test-inspec
+      - for: *inspec-profiles
         task: test:{{ .ITEM }}
 
   test:*:
