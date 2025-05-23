@@ -28,7 +28,7 @@ tasks:
       - for: ['yaml', 'workflows', 'filenames', 'folders', 'markdown-links']
         cmd: docker compose up lint-{{ .ITEM }} --exit-code-from lint-{{ .ITEM }}
 
-  inspec:check:all:
+  inspec:check:
     desc: 'Vendor and check InSpec profile validity'
     cmds:
       - for: &test-inspec ['devcontainer', 'ftp-client']
@@ -77,7 +77,7 @@ tasks:
 
   # ===============================================================================================
 
-  build:all:
+  build:
     desc: 'Lint and build all container images'
     cmds:
       - for: *images
@@ -93,7 +93,7 @@ tasks:
 
   # ===============================================================================================
 
-  test:all:
+  test:
     desc: 'Test all container images'
     cmds:
       - for: *test-inspec
