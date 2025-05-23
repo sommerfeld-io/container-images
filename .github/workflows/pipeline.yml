@@ -245,6 +245,7 @@ jobs:
             org.opencontainers.image.documentation=https://sommerfeld-io.github.io/container-images/images/${{ matrix.image-name }}
             dev.containers.source=https://github.com/sommerfeld-io/container-images
             dev.containers.release=${{ github.sha }}
+            version=${{ github.sha }}
             org.opencontainers.image.licenses=MIT
       - name: Build the Docker image and push to registry
         uses: docker/build-push-action@v6
