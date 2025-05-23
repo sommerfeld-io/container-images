@@ -9,6 +9,12 @@ The `sommerfeldio/folderslint` image is a utility Docker image used in Github Ac
 
 ## Software Tags and Versioning
 
+This image provides various versions that are available via tags. Available tags include
+
+- `latest`: A release image which equals the most recent `<version>` of the image
+- `<version>`: A release image which aligns with the semantic versioning of the underlying GitHib repository
+- `rc`: A release candidate based on the `main` branch
+
 Learn about our tagging policy and the difference between rolling tags and immutable tags [in our documentation page⁠](https://github.com/sommerfeld-io/.github/blob/main/docs/tags-and-versions.md).
 
 ## Usage

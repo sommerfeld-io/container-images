@@ -13,6 +13,12 @@ The image focuses on generating the documentation site (e.g. from a pipeline). I
 
 ## Software Tags and Versioning
 
+This image provides various versions that are available via tags. Available tags include
+
+- `latest`: A release image which equals the most recent `<version>` of the image
+- `<version>`: A release image which aligns with the semantic versioning of the underlying GitHib repository
+- `rc`: A release candidate based on the `main` branch
+
 Learn about our tagging policy and the difference between rolling tags and immutable tags [in our documentation page⁠](https://github.com/sommerfeld-io/.github/blob/main/docs/tags-and-versions.md).
 
 ## Usage
@@ -48,6 +54,14 @@ The development server is not recommended for production use. It is intended to 
 For information on how to get started with [Material for MkDocs](https://squidfunk.github.io/mkdocs-material), please refer to the [official "Getting started" guide of the projects documentation](https://squidfunk.github.io/mkdocs-material/getting-started).
 
 For information on how to configure the mkdocs-kroki-plugin, please refer to the [official documentation of the plugin](https://pypi.org/project/mkdocs-kroki-plugin).
+
+## Ports
+
+Ports are separated by a colon and indicate `<external>:<internal>` respectively.
+
+|        Port | Function                                                    |
+|------------:|-------------------------------------------------------------|
+| `3080:8080` | Browse documentation pages (locally / development purposes) |
 
 ## License
 

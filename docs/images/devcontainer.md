@@ -9,18 +9,28 @@ The `sommerfeldio/devcontainer` Docker image serves as a foundational developmen
 
 ## Software Tags and Versioning
 
+This image provides various versions that are available via tags. Available tags include
+
+- `latest`: A release image which equals the most recent `<version>` of the image
+- `<version>`: A release image which aligns with the semantic versioning of the underlying GitHib repository
+- `rc`: A release candidate based on the `main` branch
+
 Learn about our tagging policy and the difference between rolling tags and immutable tags [in our documentation page⁠](https://github.com/sommerfeld-io/.github/blob/main/docs/tags-and-versions.md).
 
 ## Usage
 
 The easiest way to use this image is by adding a Dockerfile to your repository's `.devcontainer` folder and extending `sommerfeldio/devcontainer`.
 
+This `sommerfeldio/devcontainer` image is based on [`mcr.microsoft.com/devcontainers/base:ubuntu-24.04`](https://hub.docker.com/r/microsoft/devcontainers) and is configured to run as the non-root user `vscode` by default. File permissions and mounted volumes will be owned and accessed by the `vscode` user (uid = `1000`, gid = `1000`).
+
+**Dockerfile:**
+
 ```Dockerfile
 FROM sommerfeldio/devcontainer:latest
 LABEL maintainer="sebastian@sommerfeld.io"
 ```
 
-This `sommerfeldio/devcontainer` image is based on [`mcr.microsoft.com/devcontainers/base:ubuntu-24.04`](https://hub.docker.com/r/microsoft/devcontainers) and is configured to run as the non-root user `vscode` by default. File permissions and mounted volumes will be owned and accessed by the `vscode` user (uid = `1000`, gid = `1000`).
+**.devcontainer/devcontainer.json:**
 
 ```json
 {
