@@ -32,25 +32,11 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Docker Scout CVE Scan
-        id: scout-cves
-        uses: docker/scout-action@v1.18.0
-        with:
-          command: cves
-          image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
-          exit-code: false
-          only-severities: critical,high,medium,low,unknown
-          format: markdown
-      - name: Docker Scout License Scan
-        if: ${{ matrix.image-name == env.DOCKER_SCOUT_REPO }}
-        id: scout-licenses
-        uses: docker/scout-action@v1.18.0
-        with:
-          command: policy
-          image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
-          organization: ${{ secrets.DOCKERHUB_USER }}
-          exit-code: false
-          format: markdown
+      - name: Install Docker Scout
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh -o install-scout.sh
+          sh install-scout.sh
+        shell: bash
       - name: Authenticate GitHub CLI
         run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
         shell: bash
@@ -60,17 +46,25 @@ jobs:
           IMAGE: ${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
           JOB_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
+          CVE=$(docker scout cves "$IMAGE" --format markdown || echo "No CVE data found")
+          POLICY=$(docker scout policy "$IMAGE" --org sommerfeldio  || echo "No policy data found")
+
           DATE=$(date +'%Y-%m-%d')
           TITLE="Scan Report - $DATE - $IMAGE"
           LABELS="security"
 
           read -r -d '' BODY <<EOF
-            | Image  | Job                  |
-            |--------|----------------------|
-            | $IMAGE | [Scan Run]($JOB_URL) |
+            | Image  | Job                                         |
+            |--------|---------------------------------------------|
+            | $IMAGE | [Scan Run ${{ github.run_id }}]($JOB_URL) |
 
-            ${{ steps.scout-cves.outputs.markdown || 'No CVE data.' }}
-            ${{ steps.scout-licenses.outputs.markdown || 'No license data.' }}
+            ---
+
+            $CVE
+
+            ---
+
+            $POLICY
           EOF
 
           gh issue create --title "$TITLE" --label "$LABELS" --body "$BODY" --repo "${{ github.repository }}"
