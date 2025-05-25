@@ -46,6 +46,7 @@ jobs:
         with:
           command: policy
           image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
+          organization: ${{ secrets.DOCKERHUB_USER }}
           exit-code: false
           format: markdown
       - name: Create GitHub Issue with Scan Report
