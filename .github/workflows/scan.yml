@@ -10,6 +10,7 @@ env:
   IMAGE_TAG_RC: rc
   IMAGE_TAG_LATEST: latest
   REGISTRY: docker.io
+  DOCKER_SCOUT_REPO: devcontainer
 
 permissions:
   contents: read
@@ -41,6 +42,7 @@ jobs:
           only-severities: critical,high,medium,low,unknown
           format: markdown
       - name: Docker Scout License Scan
+        if: ${{ matrix.image-name == env.DOCKER_SCOUT_REPO }}
         id: scout-licenses
         uses: docker/scout-action@v1.18.0
         with:
