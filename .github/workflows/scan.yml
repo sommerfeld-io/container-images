@@ -61,10 +61,10 @@ jobs:
           JOB_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           DATE=$(date +'%Y-%m-%d')
-          TITLE="Scan Report - $DATE $IMAGE - "
+          TITLE="Scan Report - $DATE - $IMAGE"
           LABELS="security"
 
-          read -r -d '' BODY <<'EOF'
+          read -r -d '' BODY <<EOF
             | Image  | Job                  |
             |--------|----------------------|
             | $IMAGE | [Scan Run]($JOB_URL) |
@@ -73,5 +73,5 @@ jobs:
             ${{ steps.scout-licenses.outputs.markdown || 'No license data.' }}
           EOF
 
-          gh issue create --title "$TITLE" --label "$LABELS" --body "$BODY" --repo $GITHUB_REPOSITORY
+          gh issue create --title "$TITLE" --label "$LABELS" --body "$BODY" --repo "${{ github.repository }}"
         shell: bash

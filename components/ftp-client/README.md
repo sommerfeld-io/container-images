@@ -4,7 +4,7 @@ The `sommerfeldio/ftp-client` image ships with NCFTP and uses [ncftpput](https:/
 
 - [sommerfeldio/ftp-client](https://hub.docker.com/r/sommerfeldio/ftp-client) on Docker Hub
 - [Dockerfile source code](https://github.com/sommerfeld-io/container-images/tree/main/components/ftp-client) on GitHub
-- [How to Contribute](https://github.com/sommerfeld-io/.github/blob/main/docs/contribute.md)
+- [How to Contribute](https://github.com/sommerfeld-io/.github/blob/main/CONTRIBUTING.md)
 - Visit [the projects documentation page](https://sommerfeld-io.github.io/container-images) for a list of all available container images.
 
 ## Software Tags and Versioning
