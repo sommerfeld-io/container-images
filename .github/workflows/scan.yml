@@ -10,6 +10,7 @@ env:
   IMAGE_TAG_RC: rc
   IMAGE_TAG_LATEST: latest
   REGISTRY: docker.io
+  DOCKER_SCOUT_REPO: devcontainer
 
 permissions:
   contents: read
@@ -28,7 +29,7 @@ jobs:
       - name: Login to Container Registry
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.REGISTRY || 'docker.io' }}
+          registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Docker Scout CVE Scan
@@ -41,13 +42,18 @@ jobs:
           only-severities: critical,high,medium,low,unknown
           format: markdown
       - name: Docker Scout License Scan
+        if: ${{ matrix.image-name == env.DOCKER_SCOUT_REPO }}
         id: scout-licenses
         uses: docker/scout-action@v1.18.0
         with:
           command: policy
           image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
+          organization: ${{ secrets.DOCKERHUB_USER }}
           exit-code: false
           format: markdown
+      - name: Authenticate GitHub CLI
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+        shell: bash
       - name: Create GitHub Issue with Scan Report
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -55,21 +61,17 @@ jobs:
           JOB_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           DATE=$(date +'%Y-%m-%d')
-          TITLE="Scan Report - $DATE $IMAGE - "
+          TITLE="Scan Report - $DATE - $IMAGE"
           LABELS="security"
 
-          read -r -d '' BODY <<'EOF'
-            - **Image:** $IMAGE
-            - **Job:** [scan run]($JOB_URL)
-
-            ### CVE Findings
+          read -r -d '' BODY <<EOF
+            | Image  | Job                  |
+            |--------|----------------------|
+            | $IMAGE | [Scan Run]($JOB_URL) |
 
             ${{ steps.scout-cves.outputs.markdown || 'No CVE data.' }}
-
-            ### License Scan
-
             ${{ steps.scout-licenses.outputs.markdown || 'No license data.' }}
           EOF
 
-          gh issue create --title "$TITLE" --label "$LABELS" --body "$BODY"
+          gh issue create --title "$TITLE" --label "$LABELS" --body "$BODY" --repo "${{ github.repository }}"
         shell: bash
