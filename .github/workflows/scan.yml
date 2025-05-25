@@ -51,32 +51,27 @@ jobs:
           organization: ${{ secrets.DOCKERHUB_USER }}
           exit-code: false
           format: markdown
-      - name: Install GitHub CLI
-        uses: cli/gh-action@v2
+      - name: Authenticate GitHub CLI
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+        shell: bash
       - name: Create GitHub Issue with Scan Report
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           IMAGE: ${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
           JOB_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
-          gh auth login --with-token < <(echo "${{ secrets.GITHUB_TOKEN }}")
-
           DATE=$(date +'%Y-%m-%d')
           TITLE="Scan Report - $DATE $IMAGE - "
           LABELS="security"
 
           read -r -d '' BODY <<'EOF'
-            - **Image:** $IMAGE
-            - **Job:** [scan run]($JOB_URL)
-
-            ### CVE Findings
+            | Image  | Job                  |
+            |--------|----------------------|
+            | $IMAGE | [Scan Run]($JOB_URL) |
 
             ${{ steps.scout-cves.outputs.markdown || 'No CVE data.' }}
-
-            ### License Scan
-
             ${{ steps.scout-licenses.outputs.markdown || 'No license data.' }}
           EOF
 
-          gh issue create --title "$TITLE" --label "$LABELS" --body "$BODY"
+          gh issue create --title "$TITLE" --label "$LABELS" --body "$BODY" --repo $GITHUB_REPOSITORY
         shell: bash
