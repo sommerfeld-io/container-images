@@ -1,0 +1,75 @@
+---
+name: "Scan"
+
+on:
+  schedule:
+    - cron: '0 5 * * 0'
+  workflow_dispatch:
+
+env:
+  IMAGE_TAG_RC: rc
+  IMAGE_TAG_LATEST: latest
+  REGISTRY: docker.io
+
+permissions:
+  contents: read
+
+jobs:
+
+  scan:
+    name: Scan Docker Images
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image-name: ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Login to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY || 'docker.io' }}
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Docker Scout CVE Scan
+        id: scout-cves
+        uses: docker/scout-action@v1.18.0
+        with:
+          command: cves
+          image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
+          exit-code: false
+          only-severities: critical,high,medium,low,unknown
+          format: markdown
+      - name: Docker Scout License Scan
+        id: scout-licenses
+        uses: docker/scout-action@v1.18.0
+        with:
+          command: policy
+          image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
+          exit-code: false
+          format: markdown
+      - name: Create GitHub Issue with Scan Report
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          IMAGE: ${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
+          JOB_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          DATE=$(date +'%Y-%m-%d')
+          TITLE="Scan Report - $DATE $IMAGE - "
+          LABELS="security"
+
+          read -r -d '' BODY <<'EOF'
+            - **Image:** $IMAGE
+            - **Job:** [scan run]($JOB_URL)
+
+            ### CVE Findings
+
+            ${{ steps.scout-cves.outputs.markdown || 'No CVE data.' }}
+
+            ### License Scan
+
+            ${{ steps.scout-licenses.outputs.markdown || 'No license data.' }}
+          EOF
+
+          gh issue create --title "$TITLE" --label "$LABELS" --body "$BODY"
+        shell: bash
