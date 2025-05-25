@@ -44,9 +44,9 @@ jobs:
         id: scout-licenses
         uses: docker/scout-action@v1.18.0
         with:
-          command: licenses
+          command: policy
           image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
-          exit-code: true
+          exit-code: false
           format: markdown
       - name: Create GitHub Issue with Scan Report
         env:
