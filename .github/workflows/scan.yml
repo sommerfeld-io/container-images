@@ -18,7 +18,7 @@ permissions:
 jobs:
 
   scan:
-    name: Scan Docker Images
+    name: ${{ matrix.image-name }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -42,9 +42,13 @@ jobs:
           command: cves
           image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
           format: markdown
-          only-severities: critical,high
           output: scout-report.md
-      - name: Create GitHub issue if there are vulnerabilities
+      - name: DEBUG
+        run: |
+          pwd
+          ls -alF
+        shell: bash
+      - name: Create GitHub issue
         uses: peter-evans/create-issue-from-file@v5
         with:
           title: "Scan Report - ${{ steps.date.outputs.job_date }} - ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}"
