@@ -24,48 +24,29 @@ jobs:
       matrix:
         image-name: ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs']
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      # - name: Checkout code
+      #   uses: actions/checkout@v4
+      - name: Get current date
+        id: date
+        run: echo "job_date=$(date +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+        shell: bash
       - name: Login to Container Registry
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Install Docker Scout
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh -o install-scout.sh
-          sh install-scout.sh
-        shell: bash
-      - name: Authenticate GitHub CLI
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
-        shell: bash
-      - name: Create GitHub Issue with Scan Report
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          IMAGE: ${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
-          JOB_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: |
-          CVE=$(docker scout cves "$IMAGE" --format markdown || echo "No CVE data found")
-          POLICY=$(docker scout policy "$IMAGE" --org sommerfeldio  || echo "No policy data found")
-
-          DATE=$(date +'%Y-%m-%d')
-          TITLE="Scan Report - $DATE - $IMAGE"
-          LABELS="security"
-
-          read -r -d '' BODY <<EOF
-            | Image  | Job                                         |
-            |--------|---------------------------------------------|
-            | $IMAGE | [Scan Run ${{ github.run_id }}]($JOB_URL) |
-
-            ---
-
-            $CVE
-
-            ---
-
-            $POLICY
-          EOF
-
-          gh issue create --title "$TITLE" --label "$LABELS" --body "$BODY" --repo "${{ github.repository }}"
-        shell: bash
+      - name: Run Docker Scout Action
+        uses: docker/scout-action@v1.18.0
+        with:
+          command: cves
+          image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
+          format: markdown
+          only-severities: critical,high
+          output: scout-report.md
+      - name: Create GitHub issue if there are vulnerabilities
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "Scan Report - ${{ steps.date.outputs.job_date }} - ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}"
+          content-filepath: scout-report.md
+          labels: security,docker
