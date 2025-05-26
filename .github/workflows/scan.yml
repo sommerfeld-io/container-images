@@ -37,22 +37,20 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      # - name: Docker Scout - Quickview
-      #   id: scout-quickview
-      #   uses: docker/scout-action@v1.18.0
-      #   with:
-      #     command: quickview
-      #     image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
-      #     organization: ${{ secrets.DOCKERHUB_USER }}
-      - name: Docker Scout - CVE Scan
-        id: scout-cves
+      - name: Docker Scout - Quickview
         uses: docker/scout-action@v1.18.0
         with:
-          command: quickview,cves
+          command: quickview
           image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
-          sarif-file: sarif-output.jsons
           summary: true
-          only-severities: critical,high,medium
+          organization: ${{ secrets.DOCKERHUB_USER }}
+      - name: Docker Scout - CVE Scan
+        uses: docker/scout-action@v1.18.0
+        with:
+          command: cves
+          image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
+          sarif-file: sarif-output.json
+          summary: false
           organization: ${{ secrets.DOCKERHUB_USER }}
       - name: Upload SARIF result
         id: upload-sarif
