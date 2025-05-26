@@ -37,20 +37,29 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Run Docker Scout Action
-        id: docker-scout-cves
+      # - name: Docker Scout - Quickview
+      #   id: scout-quickview
+      #   uses: docker/scout-action@v1.18.0
+      #   with:
+      #     command: quickview
+      #     image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
+      #     organization: ${{ secrets.DOCKERHUB_USER }}
+      - name: Docker Scout - CVE Scan
+        id: scout-cves
         uses: docker/scout-action@v1.18.0
         with:
-          command: cves
+          command: quickview,cves
           image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
-          sarif-file: sarif-output.json
-          summary: false
+          sarif-file: sarif-output.jsons
+          summary: true
+          only-severities: critical,high,medium
+          organization: ${{ secrets.DOCKERHUB_USER }}
       - name: Upload SARIF result
         id: upload-sarif
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: sarif-output.json
-          category: 'Docker Scout'
+          category: 'Docker Scout CVEs - ${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}'
       # - name: DEBUG
       #   run: |
       #     touch TEST.md
