@@ -10,7 +10,10 @@ on:
       - '**.md'
       - 'docs/**'
       - '.devcontainer/**'
+      - '.github/workflows/scan.yml'
       - '.github/workflows/dev-environment.yml'
+      - '.github/workflows/housekeeping-issues.yml'
+      - '.github/workflows/housekeeping-labels.yml'
       - '.vscode/**'
       - '.gitkeep'
   pull_request:
@@ -24,6 +27,8 @@ on:
       - '.devcontainer/**'
       - '.github/workflows/scan.yml'
       - '.github/workflows/dev-environment.yml'
+      - '.github/workflows/housekeeping-issues.yml'
+      - '.github/workflows/housekeeping-labels.yml'
       - '.vscode/**'
       - '.gitkeep'
   schedule:

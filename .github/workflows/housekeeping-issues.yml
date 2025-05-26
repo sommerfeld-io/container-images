@@ -40,7 +40,8 @@ jobs:
             const issue_number = context.issue.number;
             const owner = context.repo.owner;
             const repo = context.repo.repo;
-            const assignee = context.actor;
+            # const assignee = context.actor;
+            const assignee = "sebastian-sommerfeld-io"
 
             await github.rest.issues.addAssignees({
               issue_number,
