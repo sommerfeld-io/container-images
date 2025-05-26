@@ -14,10 +14,11 @@ env:
 
 permissions:
   contents: read
+  security-events: write
 
 jobs:
 
-  scan:
+  scan-images:
     name: ${{ matrix.image-name }}
     runs-on: ubuntu-latest
     strategy:
@@ -37,22 +38,28 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Run Docker Scout Action
+        id: docker-scout-cves
         uses: docker/scout-action@v1.18.0
         with:
           command: cves
           image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
-          format: markdown
-          output: scout-report.md
+          sarif-file: sarif-output.json
           summary: false
-      - name: DEBUG
-        run: |
-          touch TEST.md
-          pwd
-          ls -alF
-        shell: bash
-      - name: Create GitHub issue
-        uses: peter-evans/create-issue-from-file@v5
+      - name: Upload SARIF result
+        id: upload-sarif
+        uses: github/codeql-action/upload-sarif@v3
         with:
-          title: "Scan Report - ${{ steps.date.outputs.job_date }} - ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}"
-          content-filepath: scout-report.md
-          labels: security,docker
+          sarif_file: sarif-output.json
+          category: 'Docker Scout'
+      # - name: DEBUG
+      #   run: |
+      #     touch TEST.md
+      #     pwd
+      #     ls -alF
+      #   shell: bash
+      # - name: Create GitHub issue
+      #   uses: peter-evans/create-issue-from-file@v5
+      #   with:
+      #     title: "Scan Report - ${{ steps.date.outputs.job_date }} - ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}"
+      #     content-filepath: scout-report.md
+      #     labels: security,docker
