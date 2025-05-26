@@ -37,14 +37,13 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Docker Scout - Quickview
-        uses: docker/scout-action@v1.18.0
-        with:
-          command: quickview
-          image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
-          summary: true
-          ignore-base: true
-          organization: ${{ secrets.DOCKERHUB_USER }}
+      # - name: Docker Scout - Quickview
+      #   uses: docker/scout-action@v1.18.0
+      #   with:
+      #     command: quickview
+      #     image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
+      #     summary: true
+      #     organization: ${{ secrets.DOCKERHUB_USER }}
       - name: Docker Scout - CVE Scan
         uses: docker/scout-action@v1.18.0
         with:
