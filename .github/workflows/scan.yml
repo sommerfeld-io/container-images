@@ -43,8 +43,10 @@ jobs:
           image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
           format: markdown
           output: scout-report.md
+          summary: false
       - name: DEBUG
         run: |
+          touch TEST.md
           pwd
           ls -alF
         shell: bash
