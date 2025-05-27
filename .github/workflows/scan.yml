@@ -37,13 +37,6 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      # - name: Docker Scout - Quickview
-      #   uses: docker/scout-action@v1.18.0
-      #   with:
-      #     command: quickview
-      #     image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
-      #     summary: true
-      #     organization: ${{ secrets.DOCKERHUB_USER }}
       - name: Docker Scout - CVE Scan
         uses: docker/scout-action@v1.18.0
         with:
@@ -58,15 +51,4 @@ jobs:
         with:
           sarif_file: sarif-output.json
           category: 'Docker Scout CVEs - ${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}'
-      # - name: DEBUG
-      #   run: |
-      #     touch TEST.md
-      #     pwd
-      #     ls -alF
-      #   shell: bash
-      # - name: Create GitHub issue
-      #   uses: peter-evans/create-issue-from-file@v5
-      #   with:
-      #     title: "Scan Report - ${{ steps.date.outputs.job_date }} - ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}"
-      #     content-filepath: scout-report.md
-      #     labels: security,docker
+          checkout_path: components/${{ matrix.image-name }}
