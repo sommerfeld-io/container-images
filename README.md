@@ -17,6 +17,3 @@ The images are free to use for everyone. But keep in mind that they were origina
 ## Contact
 
 Feel free to contact me via <sebastian@sommerfeld.io> or [raise an issue in this repository][file-issues].
-
-<!-- !    File is auto-generated        -->
-<!-- !    EDITS WILL BE ERASED !!!!!    -->

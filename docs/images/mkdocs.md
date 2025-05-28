@@ -54,6 +54,3 @@ For information on how to configure the mkdocs-kroki-plugin, please refer to the
 This container image is inheriting the [MIT License from the GitHub repository](https://sommerfeld-io.github.io/container-images/license).
 
 The license from this GitHub repository is compatible with the [license from the squidfunk/mkdocs-material project](https://github.com/squidfunk/mkdocs-material/blob/master/LICENSE) (which is MIT as well).
-
-<!-- !    File is auto-generated        -->
-<!-- !    EDITS WILL BE ERASED !!!!!    -->

@@ -57,6 +57,3 @@ This approach provides several benefits:
 This container image is inheriting the [MIT License from the GitHub repository](https://sommerfeld-io.github.io/container-images/license).
 
 The license from this GitHub repository is compatible with the [license from the devcontainers project](https://github.com/devcontainers/images/blob/main/LICENSE) which is MIT as well.
-
-<!-- !    File is auto-generated        -->
-<!-- !    EDITS WILL BE ERASED !!!!!    -->

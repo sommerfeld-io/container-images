@@ -40,6 +40,3 @@ This means:
 
 - MIT License: You are free to use, modify, and distribute this image, provided that you include the original MIT license text and give appropriate attribution to the author(s).
 - Clarified Artistic License: The included software under this license remains unmodified. If you modify the included dependency under the Clarified Artistic License, ensure that any changes are clearly distinguished from the original work.
-
-<!-- !    File is auto-generated        -->
-<!-- !    EDITS WILL BE ERASED !!!!!    -->
