@@ -87,6 +87,7 @@ tasks:
     desc: 'Generate Markdown files for documentation'
     cmds:
       - echo "Collecting documentation from other Markdown files ..."
+      - mkdir -p docs/images
       - task: internal:copy
         vars: { SRC: docs/index.md, DEST: README.md }
       - task: internal:copy
@@ -98,6 +99,7 @@ tasks:
   docs:run:
     desc: 'Run the documentation server'
     cmds:
+      - task: docs:generate
       - docker compose up docs-dev-server
 
   # ===============================================================================================
