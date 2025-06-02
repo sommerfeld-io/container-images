@@ -211,7 +211,7 @@ jobs:
           sbom: true
       # - name: Docker Scout CVEs for `:${{ github.sha }}` (main branch only)
       #   if: ${{ github.ref == 'refs/heads/main' }}
-      #   uses: docker/scout-action@v1.18.0
+      #   uses: docker/scout-action@v1.18.1
       #   with:
       #     command: cves
       #     image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}
@@ -221,7 +221,7 @@ jobs:
       #     github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Docker Scout Compare with `:${{ env.IMAGE_TAG_LATEST }}` vs `:${{ github.sha }}` (pull requests only)
         # if: ${{ github.event_name == 'pull_request' }}
-        uses: docker/scout-action@v1.18.0
+        uses: docker/scout-action@v1.18.1
         with:
           command: compare # cves,compare
           image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}
