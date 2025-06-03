@@ -20,7 +20,7 @@
 
 		"docs",
 		"docs/about/**",
-		"docs/images/**",
+		"docs/container-images/**",
 
         "tests/inspec/*/**",
 

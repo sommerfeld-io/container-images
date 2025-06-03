@@ -88,14 +88,14 @@ tasks:
     desc: 'Generate Markdown files for documentation'
     cmds:
       - echo "Collecting documentation from other Markdown files ..."
-      - mkdir -p docs/images
+      - mkdir -p docs/container-images
       - task: internal:copy
         vars: { SRC: docs/index.md, DEST: README.md }
       - task: internal:copy
         vars: { SRC: docs/license.md, DEST: LICENSE.md }
       - for: &images ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs']
         task: internal:copy
-        vars: { SRC: "components/{{ .ITEM }}/README.md", DEST: "docs/images/{{ .ITEM }}.md" }
+        vars: { SRC: "components/{{ .ITEM }}/README.md", DEST: "docs/container-images/{{ .ITEM }}.md" }
 
   docs:run:
     desc: 'Run the documentation server'

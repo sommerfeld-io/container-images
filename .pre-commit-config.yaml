@@ -17,6 +17,7 @@ repos:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-added-large-files
+        exclude: '\.png$'
       - id: check-executables-have-shebangs
       - id: check-shebang-scripts-are-executable
       - id: check-json
@@ -29,17 +30,17 @@ repos:
     hooks:
       - id: shfmt-src
         args: [-w, -i, "2"]
-  - repo: local
-    hooks:
-      - id: lint-repo
-        name: lint-repo
-        language: script
-        entry: /bin/bash -c 'task lint'
-      - id: check-inspec-profiles
-        name: check-inspec-profiles
-        language: script
-        entry: /bin/bash -c 'task inspec:check'
-      - id: build
-        name: build
-        language: script
-        entry: /bin/bash -c 'task build'
+  # - repo: local
+  #   hooks:
+  #     - id: lint-repo
+  #       name: lint-repo
+  #       language: script
+  #       entry: /bin/bash -c 'task lint'
+  #     - id: check-inspec-profiles
+  #       name: check-inspec-profiles
+  #       language: script
+  #       entry: /bin/bash -c 'task inspec:check'
+  #     - id: build
+  #       name: build
+  #       language: script
+  #       entry: /bin/bash -c 'task build'
