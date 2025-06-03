@@ -76,7 +76,7 @@ nav:
       - Code of Conduct ⧉: https://github.com/sommerfeld-io/.github/blob/main/CODE_OF_CONDUCT.md
       - Terms of Use ⧉: https://github.com/sommerfeld-io/.github/blob/main/docs/terms.md
   - Container Images:
-      - images/devcontainer.md
-      - images/folderslint.md
-      - images/ftp-client.md
-      - images/mkdocs.md
+      - container-images/devcontainer.md
+      - container-images/folderslint.md
+      - container-images/ftp-client.md
+      - container-images/mkdocs.md
