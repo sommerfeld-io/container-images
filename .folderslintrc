@@ -19,6 +19,7 @@
 		"components/mkdocs",
 
 		"docs",
+        "docs/.assets/**",
 		"docs/about/**",
 		"docs/container-images/**",
 
