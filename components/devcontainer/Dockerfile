@@ -29,3 +29,6 @@ COPY configs/bash_aliases.txt /home/${USER}/.bash_aliases
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | bash
+
+# Allow remote execution of taskfiles
+RUN echo "export TASK_X_REMOTE_TASKFILES=1" >> /home/${USER}/.bashrc
