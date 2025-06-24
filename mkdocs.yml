@@ -21,15 +21,15 @@ theme:
     text: Work Sans
   palette:
     scheme: slate
-    primary: black
+    primary: blue grey # black
     accent: deep orange
   features:
     - content.code.copy
     - content.tabs.link
-    - navigation.tabs
-    # - navigation.footer
+    # - navigation.tabs
+    - navigation.footer
     - navigation.expand
-    - navigation.sections
+    # - navigation.sections
     - navigation.tracking
 
 markdown_extensions:
@@ -66,17 +66,16 @@ extra:
       link: https://hub.docker.com/u/sommerfeldio
 
 nav:
-  - Home:
-      - index.md
-      - license.md
-      - Releases on GitHub ⧉: https://github.com/sommerfeld-io/container-images/releases
-      - Architecture Decision Records on GitHub ⧉: https://github.com/sommerfeld-io/container-images/issues?q=is%3Aissue+label%3AADR
-      - Security Policy ⧉: https://github.com/sommerfeld-io/.github/blob/main/SECURITY.md
-      - How to Contribute ⧉: https://github.com/sommerfeld-io/.github/blob/main/CONTRIBUTING.md
-      - Code of Conduct ⧉: https://github.com/sommerfeld-io/.github/blob/main/CODE_OF_CONDUCT.md
-      - Terms of Use ⧉: https://github.com/sommerfeld-io/.github/blob/main/docs/terms.md
+  - index.md
   - Container Images:
       - container-images/devcontainer.md
       - container-images/folderslint.md
       - container-images/ftp-client.md
       - container-images/mkdocs.md
+  - license.md
+  - Releases on GitHub ⧉: https://github.com/sommerfeld-io/container-images/releases
+  - Architecture Decision Records on GitHub ⧉: https://github.com/sommerfeld-io/container-images/issues?q=is%3Aissue+label%3AADR
+  - Security Policy ⧉: https://github.com/sommerfeld-io/.github/blob/main/SECURITY.md
+  - How to Contribute ⧉: https://github.com/sommerfeld-io/.github/blob/main/CONTRIBUTING.md
+  - Code of Conduct ⧉: https://github.com/sommerfeld-io/.github/blob/main/CODE_OF_CONDUCT.md
+  - Terms of Use ⧉: https://github.com/sommerfeld-io/.github/blob/main/docs/terms.md
