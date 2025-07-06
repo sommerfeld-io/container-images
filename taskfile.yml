@@ -7,41 +7,22 @@ vars:
   INSPEC_DIR: tests/inspec
   REPO: https://raw.githubusercontent.com/sommerfeld-io/.github
 
+includes:
+  common: https://raw.githubusercontent.com/sommerfeld-io/.github/refs/heads/main/assets/task/common.yml
+
 tasks:
-
-  internal:download:
-    desc: 'Download file from central repo'
-    internal: true
-    silent: true
-    cmds:
-      - curl -fsSL -o "{{ .DEST }}" "{{ .URL }}"
-      - chmod u+rw,g+rw,o+r "{{ .DEST }}"
-    generates:
-      - "{{ .DEST }}"
-
-  internal:copy:
-    desc: 'Do the actual work of copying files'
-    internal: true
-    silent: true
-    cmds:
-      - cp "{{ .SRC }}" "{{ .DEST }}"
-      - chmod u+rw,g+rw,o+r "{{ .DEST }}"
-    generates:
-      - "{{ .DEST }}"
-
-  # ===============================================================================================
 
   sync:assets-from-github:
     desc: 'Sync assets from the central sommerfeldio/.github repository'
     cmds:
       - echo "Syncing assets from the central sommerfeldio/.github repository..."
-      - task: internal:download
+      - task: common:download
         vars: { DEST: ".github/instructions/code-guideline-pipelines.md", URL: "{{ .REPO }}/refs/heads/main/docs/code-guideline-pipelines.md" }
-      - task: internal:download
+      - task: common:download
         vars: { DEST: ".github/instructions/pull-requests.yml", URL: "{{ .REPO }}/refs/heads/main/assets/github/instructions/pull-requests.yml" }
-      - task: internal:download
+      - task: common:download
         vars: { DEST: ".github/workflows/housekeeping-issues.yml", URL: "{{ .REPO }}/refs/heads/main/assets/github/workflows/housekeeping-issues.yml" }
-      - task: internal:download
+      - task: common:download
         vars: { DEST: ".github/workflows/housekeeping-labels.yml", URL: "{{ .REPO }}/refs/heads/main/assets/github/workflows/housekeeping-labels.yml" }
 
   # ===============================================================================================
@@ -89,12 +70,12 @@ tasks:
     cmds:
       - echo "Collecting documentation from other Markdown files ..."
       - mkdir -p docs/container-images
-      - task: internal:copy
+      - task: common:copy
         vars: { SRC: docs/index.md, DEST: README.md }
-      - task: internal:copy
+      - task: common:copy
         vars: { SRC: docs/license.md, DEST: LICENSE.md }
       - for: &images ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs']
-        task: internal:copy
+        task: common:copy
         vars: { SRC: "components/{{ .ITEM }}/README.md", DEST: "docs/container-images/{{ .ITEM }}.md" }
 
   docs:run:

@@ -40,6 +40,7 @@ ignore:
   # commons
   - .git
   - .idea
+  - .task
   - .vscode
   - node_modules
   - target

@@ -18,7 +18,6 @@ volumes:
 services:
 
   lint-yaml:
-    container_name: ${COMPOSE_PROJECT_NAME}-lint-yaml
     image: cytopia/yamllint:latest
     volumes: *volumes
     working_dir: *default-workdir
@@ -26,7 +25,6 @@ services:
     tty: *tty
 
   lint-workflows:
-    container_name: ${COMPOSE_PROJECT_NAME}-lint-workflows
     image: rhysd/actionlint:latest
     volumes: *volumes
     working_dir: *default-workdir
@@ -34,14 +32,12 @@ services:
     tty: *tty
 
   lint-filenames:
-    container_name: ${COMPOSE_PROJECT_NAME}-lint-filenames
     image: lslintorg/ls-lint:1.11.2
     volumes: *volumes
     working_dir: *default-workdir
     tty: *tty
 
   lint-folders:
-    container_name: ${COMPOSE_PROJECT_NAME}-lint-folders
     image: sommerfeldio/folderslint:latest
     volumes: *volumes
     working_dir: *default-workdir
@@ -49,7 +45,6 @@ services:
     tty: *tty
 
   lint-markdown-links:
-    container_name: ${COMPOSE_PROJECT_NAME}-lint-markdown-links
     image: lycheeverse/lychee:sha-a11d515-alpine
     volumes: *volumes
     working_dir: *default-workdir
@@ -59,14 +54,12 @@ services:
   inspec:
     # template service to run from taskfile.yml
     # not intended to be run directly
-    container_name: ${COMPOSE_PROJECT_NAME}-inspec-check
     image: &inspec-image chef/inspec:5.22.76
     volumes: *volumes
     working_dir: *default-workdir
     tty: *tty
 
   docs-build:
-    container_name: ${COMPOSE_PROJECT_NAME}-docs-build
     image: &docs-image sommerfeldio/mkdocs:latest
     volumes: *volumes
     working_dir: *default-workdir
@@ -74,7 +67,6 @@ services:
     tty: *tty
 
   docs-dev-server:
-    container_name: ${COMPOSE_PROJECT_NAME}-docs-dev-server
     image: *docs-image
     volumes: *volumes
     working_dir: *default-workdir
@@ -83,7 +75,6 @@ services:
     tty: *tty
 
   devcontainer-lint-dockerfile:
-    container_name: ${COMPOSE_PROJECT_NAME}-devcontainer-lint-dockerfile
     image: &lint-dockerfile-image hadolint/hadolint:latest
     volumes: *volumes
     working_dir: *default-workdir
@@ -91,7 +82,6 @@ services:
     tty: *tty
 
   devcontainer:
-    container_name: ${COMPOSE_PROJECT_NAME}-devcontainer
     image: local/devcontainer:${DEV_TAG}
     build:
       context: components/devcontainer
@@ -99,7 +89,6 @@ services:
     tty: *tty
 
   folderslint-lint-dockerfile:
-    container_name: ${COMPOSE_PROJECT_NAME}-folderslint-lint-dockerfile
     image: &lint-dockerfile-image hadolint/hadolint:latest
     volumes: *volumes
     working_dir: *default-workdir
@@ -107,7 +96,6 @@ services:
     tty: *tty
 
   folderslint:
-    container_name: ${COMPOSE_PROJECT_NAME}-folderslint
     image: local/folderslint:${DEV_TAG}
     build:
       context: components/folderslint
@@ -118,7 +106,6 @@ services:
     tty: *tty
 
   ftp-client-lint-dockerfile:
-    container_name: ${COMPOSE_PROJECT_NAME}-ftp-client-lint-dockerfile
     image: *lint-dockerfile-image
     volumes: *volumes
     working_dir: *default-workdir
@@ -126,7 +113,6 @@ services:
     tty: *tty
 
   ftp-client:
-    container_name: ${COMPOSE_PROJECT_NAME}-ftp-client
     image: local/ftp-client:${DEV_TAG}
     build:
       context: components/ftp-client
@@ -134,7 +120,6 @@ services:
     tty: *tty
 
   mkdocs-lint-dockerfile:
-    container_name: ${COMPOSE_PROJECT_NAME}-mkdocs-lint-dockerfile
     image: *lint-dockerfile-image
     volumes: *volumes
     working_dir: *default-workdir
@@ -142,7 +127,6 @@ services:
     tty: *tty
 
   mkdocs:
-    container_name: ${COMPOSE_PROJECT_NAME}-mkdocs
     image: local/mkdocs:${DEV_TAG}
     build:
       context: components/mkdocs
