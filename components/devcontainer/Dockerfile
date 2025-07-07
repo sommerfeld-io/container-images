@@ -11,8 +11,8 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 ARG TASK_VERSION=3.42.1
-RUN curl -L -o /tmp/task.deb https://github.com/go-task/task/releases/download/v${TASK_VERSION}/task_linux_amd64.deb \
-    && dpkg -i /tmp/task.deb \
+ADD https://github.com/go-task/task/releases/download/v${TASK_VERSION}/task_linux_amd64.deb /tmp/task.deb
+RUN dpkg -i /tmp/task.deb \
     && rm /tmp/task.deb
 
 COPY configs/etc/login.defs /etc/login.defs
@@ -28,7 +28,5 @@ USER ${USER}
 COPY configs/bash_aliases.txt /home/${USER}/.bash_aliases
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | bash
-
-# Allow remote execution of taskfiles
-RUN echo "export TASK_X_REMOTE_TASKFILES=1" >> /home/${USER}/.bashrc
+RUN curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | bash \
+    && echo "export TASK_X_REMOTE_TASKFILES=1" >> /home/${USER}/.bashrc

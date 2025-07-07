@@ -93,7 +93,7 @@ tasks:
         task: build:{{ .ITEM }}
 
   build:*:
-    desc: 'Lint and build container image | Replace * with image name'
+    desc: 'Lint and build container image | Replace * with image name (not path)'
     vars:
       IMAGE: '{{ index .MATCH 0 }}'
     cmds:
