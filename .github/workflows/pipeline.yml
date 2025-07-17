@@ -138,41 +138,6 @@ jobs:
             .github/dependabot.yml,
             .task/.gitkeep
 
-  # ----- Build Docs stage ------------------------------------------------------------------------
-
-  generate-docs:
-    runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}
-    needs: [
-      'lint',
-      'files-should-exist',
-    ]
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          ref: ${{github.ref}}
-      - name: Install Task
-        uses: arduino/setup-task@v2.0.0
-        with:
-          version: 3.x
-      - name: Run task to generate docs
-        run: |
-          export TASK_X_REMOTE_TASKFILES=1
-          task docs:generate --yes
-        shell: bash
-      - name: Build docs-build image
-        run: docker compose build docs-build
-        shell: bash
-      - name: Commit and push
-        uses: EndBug/add-and-commit@v9.1.4
-        with:
-          author_name: sebastian
-          author_email: sebastian@sommerfeld.io
-          message: 'docs: [Actions Bot] generate docs'
-
   # ----- Build images stage ----------------------------------------------------------------------
 
   build-images:
@@ -321,6 +286,40 @@ jobs:
           TARGET_IMAGE="${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_RC }}"
           docker buildx imagetools create --tag "$TARGET_IMAGE" "$SRC_IMAGE"
         shell: bash
+
+  # ----- Build Docs stage ------------------------------------------------------------------------
+
+  generate-docs:
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs: [
+      'inspec-images',
+    ]
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{github.ref}}
+      - name: Install Task
+        uses: arduino/setup-task@v2.0.0
+        with:
+          version: 3.x
+      - name: Run task to generate docs
+        run: |
+          export TASK_X_REMOTE_TASKFILES=1
+          task docs:generate --yes
+        shell: bash
+      - name: Build docs-build image
+        run: docker compose build docs-build
+        shell: bash
+      - name: Commit and push
+        uses: EndBug/add-and-commit@v9.1.4
+        with:
+          author_name: sebastian
+          author_email: sebastian@sommerfeld.io
+          message: 'docs: [Actions Bot] generate docs'
 
   # ----- Release stage ---------------------------------------------------------------------------
 
