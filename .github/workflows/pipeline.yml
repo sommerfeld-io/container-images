@@ -123,12 +123,30 @@ jobs:
         run: docker compose up ${{ matrix.image-name }}-lint-dockerfile --exit-code-from ${{ matrix.image-name }}-lint-dockerfile
         shell: bash
 
+  files-should-exist:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Mandatory files should exist
+        uses: chrisreddington/validate-file-exists@v0.0.7
+        with:
+          required-files: >
+            .editorconfig,
+            .gitignore,
+            taskfile.yml,
+            .github/dependabot.yml,
+            .task/.gitkeep
+
   # ----- Build Docs stage ------------------------------------------------------------------------
 
   generate-docs:
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/main' }}
-    needs: lint
+    needs: [
+      'lint',
+      'files-should-exist',
+    ]
     permissions:
       contents: write
     steps:
@@ -165,6 +183,7 @@ jobs:
       'lint-dockerfiles',
       'check-inspec-profile',
       'shellcheck',
+      'files-should-exist',
     ]
     permissions:
       contents: read
