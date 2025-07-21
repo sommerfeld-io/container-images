@@ -102,6 +102,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Validate Inspec profile
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PROFILE: ${{ matrix.profile }}
         run: |
           export TASK_X_REMOTE_TASKFILES=1
