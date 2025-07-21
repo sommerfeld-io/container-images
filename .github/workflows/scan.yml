@@ -18,7 +18,7 @@ permissions:
 
 jobs:
 
-  scan-images:
+  docker-scout:
     name: ${{ matrix.image-name }}
     runs-on: ubuntu-latest
     strategy:
