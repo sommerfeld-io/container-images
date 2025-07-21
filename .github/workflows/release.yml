@@ -71,17 +71,22 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Deploy to DockerHub
+        env:
+          DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
+          IMAGE_NAME: ${{ matrix.image-name }}
+          IMAGE_TAG_RC: ${{ env.IMAGE_TAG_RC }}
+          IMAGE_TAG_LATEST: ${{ env.IMAGE_TAG_LATEST }}
         run: |
           TAG="${GITHUB_REF#refs/tags/}"
           TAG="${TAG#v}"
           echo "[INFO] New version tag = $TAG"
 
-          SRC_IMAGE="${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_RC }}"
+          SRC_IMAGE="$DOCKERHUB_USER/$IMAGE_NAME:$IMAGE_TAG_RC"
 
-          TARGET_IMAGE="${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:$TAG"
+          TARGET_IMAGE="$DOCKERHUB_USER/$IMAGE_NAME:$TAG"
           docker buildx imagetools create --tag "$TARGET_IMAGE" "$SRC_IMAGE"
 
-          TARGET_IMAGE="${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}"
+          TARGET_IMAGE="$DOCKERHUB_USER/$IMAGE_NAME:$IMAGE_TAG_LATEST"
           docker buildx imagetools create --tag "$TARGET_IMAGE" "$SRC_IMAGE"
         shell: bash
       - name: Update DockerHub description
