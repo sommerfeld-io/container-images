@@ -1,15 +1,7 @@
 # AI Prompt
 
-Create a clean, modern illustration symbolizing a collection of Docker containers, without using any text or logos. Use abstract, simplified icons—such as grouped cube-like objects, modular blocks, or stylized containers—that clearly suggest multiple standalone Docker containers. Render exactly four container icons, each styled as an icon-level representation of a container.
+2025-07-23 with Sora AI
 
-All icons should have consistent spacing between them, and the overall layout must appear symmetrical and visually balanced. The composition should suggest modularity and variety, while maintaining a clean, cohesive look.
+A small robot with a boxy, cube-shaped design standing on a simple ground surface (indicate floor only, no background, transparent background). The robot has a cube-shaped head with two glowing eyes and metallic eyebrows that give it a neutral but content expression—focused and calm, as if it's simply going about its usual work and enjoying it. Two short, thin antennas on top of the head resemble messy hair. The body is a cube about twice the size of the head, with a few buttons and some visible wires, but not overly detailed. Two short arms extend from the sides of the body. The robot moves using caterpillar tracks mounted on the sides of its body—triangular in shape and rugged in appearance. The color scheme is primarily shades of blue and blue-grey to fit a dark theme like GitHub’s. All components are geometric and boxy—no curves or round parts.
 
-Use a transparent background. The filling color of each container icon should be #1E2129. Use #5e8bde for borders and edges, and apply #ff6e42 sparingly as a subtle highlight to accent key features.
-
-All icons should look the same (save for some orange highlights). And all icons should be displayed in 1 line.
-
-The visual style should be flat or subtly dimensional, suitable for the start page of a documentation website. Avoid traditional branding elements—do not include the Docker whale or logo. Focus entirely on cubicle-style forms that communicate the concept of containerization through visual structure and arrangement.
-
-## Logo Variants
-
-- `logo.png`: Generated with [Sora AI](https://sora.chatgpt.com) on 2025-06-03 with Preset `none`.
+The robot is dragging a hovering carriage behind it. The carriage is boxy, levitates slightly above the ground, and matches the robot’s design language and color scheme. It carries 3 or 4 containers of varied boxy shapes, all appearing functional and stackable. The carriage is connected to the robot by a visible tow bar or cable. The overall scene should feel clean, futuristic, and minimalist, with no scanning beam, no holographic projection, and no background elements.
