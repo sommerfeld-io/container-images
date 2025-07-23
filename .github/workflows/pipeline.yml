@@ -346,7 +346,6 @@ jobs:
     needs: [
       'publish-rc',
       'generate-docs',
-      'check-inspec-profile',
     ]
     if: ${{ github.ref == 'refs/heads/main' }}
     permissions:
