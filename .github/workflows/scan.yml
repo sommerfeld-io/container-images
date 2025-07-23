@@ -1,5 +1,5 @@
 ---
-name: "Scan"
+name: "Scan Container Images"
 
 on:
   schedule:
