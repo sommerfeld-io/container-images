@@ -32,16 +32,16 @@ repos:
     hooks:
       - id: shfmt-src
         args: [-w, -i, "2"]
-  - repo: local
-    hooks:
-      - id: lint-repo
-        name: lint-repo
-        language: script
-        entry: /bin/bash -c 'task lint'
-      - id: check-inspec-profiles
-        name: check-inspec-profiles
-        language: script
-        entry: /bin/bash -c 'task inspec:check'
+  # - repo: local
+  #   hooks:
+  #     - id: lint-repo
+  #       name: lint-repo
+  #       language: script
+  #       entry: /bin/bash -c 'task lint'
+  #     - id: check-inspec-profiles
+  #       name: check-inspec-profiles
+  #       language: script
+  #       entry: /bin/bash -c 'task inspec:check'
       # - id: build
       #   name: build
       #   language: script

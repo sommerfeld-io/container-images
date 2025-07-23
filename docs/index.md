@@ -7,7 +7,7 @@
 
 This project contains a collection of Docker images for various purposes. The images are built and published to [Docker Hub](https://hub.docker.com/u/sommerfeldio) and are used in different projects. All images can be used standalone, they do not depend on any other image or service.
 
-![Project Logo](https://raw.githubusercontent.com/sommerfeld-io/container-images/refs/heads/main/docs/.assets/images/logo/logo-1.png)
+![Project Logo](https://raw.githubusercontent.com/sommerfeld-io/container-images/refs/heads/main/docs/.assets/images/logo/logo.png)
 
 The images are free to use for everyone. But keep in mind that they were originally created to align with the requirements of [sommerfeld.io](https://github.com/sommerfeld-io) projects. We mostly use them in Github Actions workflows. But running them locally or outside of GitHub Actions is also possible.
 
