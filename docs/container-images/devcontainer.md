@@ -9,7 +9,7 @@ The `sommerfeldio/devcontainer` Docker image serves as a foundational developmen
 
 ## Software Tags and Versioning
 
-Learn about our tagging policy and the difference between rolling tags and immutable tags [in our documentation page⁠](https://github.com/sommerfeld-io/.github/blob/main/docs/tags-and-versions.md).
+Learn about our tagging policy and the difference between rolling tags and immutable tags [on our documentation page⁠](https://github.com/sommerfeld-io/.github/blob/main/docs/tags-and-versions.md).
 
 ## Usage
 
