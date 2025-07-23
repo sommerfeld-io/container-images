@@ -6,8 +6,8 @@ on:
     types: [created]
 
 env:
-  IMAGE_TAG_RC: rc
-  IMAGE_TAG_LATEST: latest
+  IMAGE_TAG_RC: ${{ vars.IMAGE_TAG_RC_LEGACY }}
+  IMAGE_TAG_LATEST: ${{ vars.IMAGE_TAG_LATEST }}
   DOCS_PAGES_ARTIFACT: docs-page
 
 jobs:

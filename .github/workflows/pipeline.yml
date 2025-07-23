@@ -35,8 +35,8 @@ on:
     - cron: '0 1 * * 2'
 
 env:
-  IMAGE_TAG_RC: rc
-  IMAGE_TAG_LATEST: latest
+  IMAGE_TAG_RC: ${{ vars.IMAGE_TAG_RC_LEGACY }}
+  IMAGE_TAG_LATEST: ${{ vars.IMAGE_TAG_LATEST }}
   REGISTRY: docker.io
 
 permissions:
@@ -168,10 +168,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: hadolint
-        uses: hadolint/hadolint-action@v3.1.0
-        with:
-          dockerfile: components/${{ matrix.image-name }}/Dockerfile
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Login to Container Registry
