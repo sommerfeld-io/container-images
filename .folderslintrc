@@ -8,6 +8,8 @@
 		".github/workflows",
 		".github/workflows/assets",
 
+        ".assets",
+
         ".task/**",
 
 		".vscode",
