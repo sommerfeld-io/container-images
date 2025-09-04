@@ -5,29 +5,20 @@ control 'devcontainer-01' do
   title 'Verify the image is suitable for use as a devcontainer'
   desc 'Ensure the image contains essential tools and configurations'
 
-  describe file('/usr/local/bin/git') do
-    it { should exist }
-    it { should be_executable }
-  end
-
-  describe file('/usr/bin/curl') do
-    it { should exist }
-    it { should be_executable }
-  end
-
-  describe file('/usr/bin/vim') do
-    it { should exist }
-    it { should be_executable }
-  end
-
-  describe file('/usr/bin/task') do
-    it { should exist }
-    it { should be_executable }
-  end
-
-  describe file('/home/vscode/.atuin/bin/atuin') do
-    it { should exist }
-    it { should be_executable }
+  should_exist = [
+    '/usr/bin/curl',
+    '/usr/bin/neofetch',
+    '/usr/bin/ping',
+    '/usr/bin/task',
+    '/usr/bin/vim',
+    '/usr/local/bin/git',
+    '/home/vscode/.atuin/bin/atuin',
+  ]
+  should_exist.each do |binary|
+    describe file(binary) do
+      it { should exist }
+      it { should be_executable }
+    end
   end
 end
 
