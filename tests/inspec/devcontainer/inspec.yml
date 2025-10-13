@@ -12,10 +12,8 @@ supports:
 depends:
   - name: linux-baseline
     git: https://github.com/dev-sec/linux-baseline.git
-    # branch: master
     tag: 2.9.0
-  - name: linux-essentials
+  - name: container-essentials
     git: https://github.com/sommerfeld-io/inspec-profiles.git
     branch: main
-    # tag: v0.0.2
-    relative_path: profiles/linux-essentials
+    relative_path: profiles/container-essentials
