@@ -1,6 +1,6 @@
 title "External controls for ansible-baseline"
 
-include_controls 'linux-essentials' do
+include_controls 'container-essentials' do
 end
 
 include_controls 'linux-baseline' do
