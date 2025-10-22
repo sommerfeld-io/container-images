@@ -35,7 +35,7 @@ on:
     - cron: '0 1 * * 2'
 
 env:
-  IMAGE_TAG_RC: ${{ vars.IMAGE_TAG_RC_LEGACY }}
+  IMAGE_TAG_EDGE: ${{ vars.IMAGE_TAG_EDGE }}
   IMAGE_TAG_LATEST: ${{ vars.IMAGE_TAG_LATEST }}
   REGISTRY: docker.io
 
@@ -268,7 +268,7 @@ jobs:
 
   # ----- Deploy ----------------------------------------------------------------------
 
-  publish-rc:
+  publish-edge:
     runs-on: ubuntu-latest
     name: ${{ matrix.image-name }}:${{ github.sha }}
     if: ${{ github.ref == 'refs/heads/main' }}
@@ -289,7 +289,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Re-tag ${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }} as release candicate (:${{ env.IMAGE_TAG_RC }}) and deploy to ${{ env.REGISTRY }}
+      - name: Re-tag ${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }} as :${{ env.IMAGE_TAG_EDGE }} and deploy to ${{ env.REGISTRY }}
         env:
           REGISTRY: ${{ env.REGISTRY }}
           DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
@@ -297,7 +297,7 @@ jobs:
           COMMIT_SHA: ${{ github.sha }}
         run: |
           SRC_IMAGE="$REGISTRY/$DOCKERHUB_USER/$IMAGE_NAME:$COMMIT_SHA"
-          TARGET_IMAGE="$DOCKERHUB_USER/$IMAGE_NAME:$IMAGE_TAG_RC"
+          TARGET_IMAGE="$DOCKERHUB_USER/$IMAGE_NAME:$IMAGE_TAG_EDGE"
           docker buildx imagetools create --tag "$TARGET_IMAGE" "$SRC_IMAGE"
         shell: bash
 
@@ -340,7 +340,7 @@ jobs:
   release-code:
     runs-on: ubuntu-latest
     needs: [
-      'publish-rc',
+      'publish-edge',
       'generate-docs',
     ]
     if: ${{ github.ref == 'refs/heads/main' }}
@@ -400,7 +400,7 @@ jobs:
   cleanup-dockerhub:
     name: ${{ matrix.image-name }}:${{ github.sha }}
     runs-on: ubuntu-latest
-    needs: ['publish-rc']
+    needs: ['publish-edge']
     if: always()
     permissions:
       contents: read
