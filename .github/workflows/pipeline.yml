@@ -343,3 +343,32 @@ jobs:
       GH_TOKEN_REPO_AND_PROJECT: ${{ secrets.GH_TOKEN_REPO_AND_PROJECT }}
     permissions:
       contents: write
+
+  # ----- Cleanup -------------------------------
+
+  cleanup-dockerhub:
+    name: ${{ matrix.image-name }}:${{ github.sha }}
+    runs-on: ubuntu-latest
+    needs: ['publish-edge']
+    if: always()
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        image-name: ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - name: Remove ${{ matrix.image-name }}:${{ github.sha }} images from registry
+        env:
+          DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
+          IMAGE_NAME: ${{ matrix.image-name }}
+          COMMIT_SHA: ${{ github.sha }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          TOKEN=$(curl -s -H "Content-Type: application/json" -X POST \
+            -d "{\"username\": \"$DOCKERHUB_USER\", \"password\": \"$DOCKERHUB_TOKEN\"}" \
+            https://hub.docker.com/v2/users/login/ | jq -r .token)
+          curl -X DELETE -H "Authorization: JWT ${TOKEN}" \
+            "https://hub.docker.com/v2/repositories/${DOCKERHUB_USER}/${IMAGE_NAME}/tags/${COMMIT_SHA}/"
+        shell: bash
