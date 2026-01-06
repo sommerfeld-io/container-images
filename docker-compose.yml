@@ -134,3 +134,19 @@ services:
     volumes: *volumes
     working_dir: *default-workdir
     tty: *tty
+
+  revealjs-lint-dockerfile:
+    image: *lint-dockerfile-image
+    volumes: *volumes
+    working_dir: *default-workdir
+    entrypoint: hadolint components/revealjs/Dockerfile
+    tty: *tty
+
+  revealjs:
+    image: local/revealjs:${DEV_TAG}
+    build:
+      context: components/revealjs
+      dockerfile: Dockerfile
+    volumes: *volumes
+    working_dir: *default-workdir
+    tty: *tty

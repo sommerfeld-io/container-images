@@ -14,15 +14,13 @@
 
 		".vscode",
 
-		"components/devcontainer",
 		"components/devcontainer/configs/etc",
 		"components/folderslint",
-		"components/ftp-client",
 		"components/ftp-client/configs/etc",
 		"components/mkdocs",
+		"components/revealjs/demo/slides",
 
 		"docs",
-		"docs/about/**",
 		"docs/container-images/**",
 
         "tests/inspec/*/**",
