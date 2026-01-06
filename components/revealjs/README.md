@@ -15,7 +15,7 @@ Learn about our tagging policy and the difference between rolling tags and immut
 
 RevealJS supports rendering presentations based on Markdown files which we find the most convenient way to create slides.
 
-To serve a presentation based on your own `index.html` and markdown files and monitor source files for changes, you can use the following `docker run` command:
+To serve a presentation based on your own `index.html` and Markdown files and monitor source files for changes, you can use the following `docker run` command:
 
 ```bash
 docker run --rm -it -p 8000:8000 \
