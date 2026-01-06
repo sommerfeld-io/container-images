@@ -114,7 +114,7 @@ jobs:
     name: ${{ matrix.image-name }}
     strategy:
       matrix:
-        image-name: &all-images ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs', 'revealjs']
+        image-name: ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs', 'revealjs']
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
