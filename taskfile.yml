@@ -59,7 +59,7 @@ tasks:
         vars: { SRC: docs/index.md, DEST: README.md }
       - task: common:copy
         vars: { SRC: docs/license.md, DEST: LICENSE.md }
-      - for: &images ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs']
+      - for: &images ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs', 'revealjs']
         task: common:copy
         vars: { SRC: "components/{{ .ITEM }}/README.md", DEST: "docs/container-images/{{ .ITEM }}.md" }
 
