@@ -9,8 +9,7 @@ exclude_path = [
 ]
 exclude_loopback = true
 exclude = [
-    '.*fritz\.box.*',
-    'https://hub.docker.com/r/sommerfeldio/revealjs'
+    '.*fritz\.box.*'
 ]
 
 format = 'detailed' # compact, detailed, json, markdown, raw
