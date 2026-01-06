@@ -4,11 +4,13 @@ verbose = 'info'
 
 exclude_path = [
     'node_modules',
-    'target'
+    'target',
+    'components/revealjs/demo'
 ]
 exclude_loopback = true
 exclude = [
-    '.*fritz\.box.*'
+    '.*fritz\.box.*',
+    'https://hub.docker.com/r/sommerfeldio/revealjs'
 ]
 
 format = 'detailed' # compact, detailed, json, markdown, raw
