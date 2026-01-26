@@ -12,6 +12,10 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+ARG CTOP_VERSION=0.7.7
+RUN curl -L https://github.com/bcicen/ctop/releases/download/v${CTOP_VERSION}/ctop-${CTOP_VERSION}-linux-amd64 -o /usr/local/bin/ctop \
+    && chmod ugo+rx /usr/local/bin/ctop
+
 ARG TASK_VERSION=3.42.1
 ADD https://github.com/go-task/task/releases/download/v${TASK_VERSION}/task_linux_amd64.deb /tmp/task.deb
 RUN dpkg -i /tmp/task.deb \
