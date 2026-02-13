@@ -1,4 +1,4 @@
-FROM node:25.6.0-alpine
+FROM node:25.6.1-alpine
 LABEL maintainer="sebastian@sommerfeld.io"
 
 RUN apk add --no-cache git
