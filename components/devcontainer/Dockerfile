@@ -9,6 +9,8 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends vim \
     && apt-get install -y --no-install-recommends neofetch \
     && apt-get install -y --no-install-recommends iputils-ping \
+    && apt-get install -y --no-install-recommends nodejs \
+    && apt-get install -y --no-install-recommends npm \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
