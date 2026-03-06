@@ -32,7 +32,7 @@ jobs:
         run: echo "job_date=$(date +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
         shell: bash
       - name: Login to Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}

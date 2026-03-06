@@ -49,7 +49,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
       - name: Login to Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}
@@ -71,7 +71,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
       - name: Login to Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}
@@ -98,7 +98,7 @@ jobs:
         with:
           version: 3.x
       - name: Login to Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}
@@ -124,7 +124,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
       - name: Login to Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}
@@ -159,7 +159,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Login to Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}
@@ -209,7 +209,7 @@ jobs:
       #   with:
       #     version: 3.x
       - name: Login to Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}
@@ -247,7 +247,7 @@ jobs:
         image-name: ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs', 'revealjs']
     steps:
       - name: Login to Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}
@@ -281,7 +281,7 @@ jobs:
         image-name: ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs', 'revealjs']
     steps:
       - name: Login to Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}
