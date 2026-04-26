@@ -4,24 +4,27 @@ LABEL maintainer="sebastian@sommerfeld.io"
 ARG USER=vscode
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends python3-pip \
-    && apt-get install -y --no-install-recommends pre-commit \
-    && apt-get install -y --no-install-recommends vim \
-    && apt-get install -y --no-install-recommends neofetch \
-    && apt-get install -y --no-install-recommends iputils-ping \
-    && apt-get install -y --no-install-recommends nodejs \
-    && apt-get install -y --no-install-recommends npm \
+    && apt-get install -y --no-install-recommends \
+        python3-pip \
+        pre-commit \
+        vim \
+        neofetch \
+        iputils-ping \
+        nodejs \
+        npm \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 ARG CTOP_VERSION=0.7.7
-RUN curl -L https://github.com/bcicen/ctop/releases/download/v${CTOP_VERSION}/ctop-${CTOP_VERSION}-linux-amd64 -o /usr/local/bin/ctop \
-    && chmod ugo+rx /usr/local/bin/ctop
+ARG CTOP_TARGET=/usr/local/bin/ctop
+RUN curl -L https://github.com/bcicen/ctop/releases/download/v${CTOP_VERSION}/ctop-${CTOP_VERSION}-linux-amd64 -o ${CTOP_TARGET} \
+    && chmod ugo+rx ${CTOP_TARGET}
 
 ARG TASK_VERSION=3.42.1
-ADD https://github.com/go-task/task/releases/download/v${TASK_VERSION}/task_linux_amd64.deb /tmp/task.deb
-RUN dpkg -i /tmp/task.deb \
-    && rm /tmp/task.deb
+ARG TASK_TARGET=/tmp/task.deb
+RUN curl -fsSL "https://github.com/go-task/task/releases/download/v${TASK_VERSION}/task_linux_amd64.deb" -o ${TASK_TARGET} \
+    && dpkg -i ${TASK_TARGET} \
+    && rm ${TASK_TARGET}
 
 COPY configs/etc/login.defs /etc/login.defs
 RUN chmod 0444 /etc/login.defs \
@@ -36,5 +39,6 @@ USER ${USER}
 COPY configs/bash_aliases.txt /home/${USER}/.bash_aliases
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | bash \
-    && echo "export TASK_X_REMOTE_TASKFILES=1" >> /home/${USER}/.bashrc
+RUN echo "export TASK_X_REMOTE_TASKFILES=1" >> /home/${USER}/.bashrc \
+    && curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | bash \
+    && curl -fsSL https://gh.io/copilot-install | bash
