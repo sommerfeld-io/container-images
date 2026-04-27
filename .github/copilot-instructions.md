@@ -15,7 +15,7 @@ Always use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/
 
 **Rules:**
 - A scope may be added in parentheses for extra context: `feat(parser): add ability to parse arrays`
-- Breaking changes must include `BREAKING CHANGE:` in the footer: `feat!: drop support for Node 6`
+- Breaking changes must include `BREAKING CHANGE:` in the footer: `feat: drop support for Node 6`
 - Commit message titles must also match the project pattern: `^(fix|feat|build|chore|ci|docs|style|refactor|perf|test)/[a-z0-9._-]+$`
 
 ## Build, test, and lint commands
