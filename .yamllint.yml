@@ -9,7 +9,7 @@ ignore: |
 
 rules:
   line-length:
-    max: 100
+    max: 150
     allow-non-breakable-inline-mappings: true
     level: warning
   new-lines:
