@@ -1,0 +1,3 @@
+[submodule ".github/skills"]
+	path = .github/skills
+	url = git@github.com:sommerfeld-io/skills.git
