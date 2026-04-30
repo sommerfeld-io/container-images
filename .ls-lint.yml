@@ -48,6 +48,8 @@ ignore:
   - tests/inspec/devcontainer/vendor
   - tests/inspec/ftp-client/vendor
 
+  - .github/skills/.markdownlint.yml
+
   # linter definitions etc.
   - .editorconfig
   - .hadolint.yml
