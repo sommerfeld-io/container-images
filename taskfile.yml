@@ -9,6 +9,7 @@ vars:
 
 includes:
   common: https://raw.githubusercontent.com/sommerfeld-io/.github/refs/heads/main/assets/task/common.yml
+  copilot: .github/skills/taskfile.yml
 
 tasks:
 
@@ -63,20 +64,6 @@ tasks:
       - rm -f "{{ .INSPEC_DIR }}/{{ .PROFILE }}/inspec.lock"
       - docker compose run --rm inspec vendor "{{ .INSPEC_DIR }}/{{ .PROFILE }}" --overwrite --chef-license=accept
       - docker compose run --rm inspec check "{{ .INSPEC_DIR }}/{{ .PROFILE }}" --chef-license=accept
-
-  # ===============================================================================================
-
-  copilot:lint-and-fix:
-    desc: 'Use GitHub Copilot to lint and fix issues in the project'
-    cmds:
-      - task: cleanup
-      - copilot --allow-all --prompt "/lint-and-fix"
-
-  copilot:pull-request:
-    desc: 'Use GitHub Copilot to create or update a pull request with a summary of all changes based on commit messages'
-    cmds:
-      - task: update
-      - copilot --allow-all --prompt "/create-or-update-pull-request"
 
   # ===============================================================================================
 
