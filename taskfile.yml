@@ -8,39 +8,19 @@ vars:
   REPO: https://raw.githubusercontent.com/sommerfeld-io/.github
 
 includes:
+  cleanup: .task/cleanup/taskfile.yml
   common: .task/common/taskfile.yml
   copilot: .github/skills/taskfile.yml
 
 tasks:
 
-  update:
-    desc: Update project dependencies and submodules
+  cleanup:inspec:
+    desc: Cleanup the inspec profiles and lock files
     cmds:
-      - git submodule update --remote
-      - "jq '{mcpServers: .servers}' .vscode/mcp.json > .mcp.json"
-
-  cleanup:filesystem:
-    desc: Cleanup the filesystem for this project
-    cmds:
-      - rm -rf .cache
-      - rm -rf node_modules
-      - rm -rf target
       - for: &inspec-profiles ['devcontainer', 'ftp-client']
         cmd: |
           sudo rm -rf tests/inspec/{{ .ITEM }}/vendor
           sudo rm -rf tests/inspec/{{ .ITEM }}/inspec.lock
-      - find . -type f -exec chmod ugo+r {} +
-      - find . -type d -exec chmod 755 {} +
-      - find . -name "*.sh" -type f -exec chmod +x {} +
-      - task: update
-
-  cleanup:
-    desc: Cleanup the development environment for this project
-    cmds:
-      - docker compose down --remove-orphans
-      - docker container prune -f
-      - docker volume prune -f
-      - task: cleanup:filesystem
 
   # ===============================================================================================
 
@@ -54,6 +34,7 @@ tasks:
   inspec:check:
     desc: 'Vendor and check InSpec profile validity'
     cmds:
+      - task: cleanup:inspec
       - for: *inspec-profiles
         task: inspec:check:{{ .ITEM }}
 
@@ -62,6 +43,7 @@ tasks:
     vars:
       PROFILE: '{{ index .MATCH 0 }}'
     cmds:
+      - task: cleanup:inspec
       - rm -f "{{ .INSPEC_DIR }}/{{ .PROFILE }}/inspec.lock"
       - docker compose run --rm inspec vendor "{{ .INSPEC_DIR }}/{{ .PROFILE }}" --overwrite --chef-license=accept
       - docker compose run --rm inspec check "{{ .INSPEC_DIR }}/{{ .PROFILE }}" --chef-license=accept
