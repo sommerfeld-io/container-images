@@ -55,6 +55,7 @@ ignore:
   - .hadolint.yml
   - .lychee.toml
   - .ls-lint.yml
+  - .mcp.json
   - .markdownlint.yml
   - .yamllint.yml
   - .pre-commit-config.yaml
