@@ -24,8 +24,6 @@ Write commit messages using the Conventional Commits format, ensuring the header
 
 This repository uses `task` plus `docker compose` as the canonical developer interface. `package.json` is only for release tooling and does not define the main build or test workflows.
 
-Some CI jobs export `TASK_X_REMOTE_TASKFILES=1` before running `task` because `taskfile.yml` includes a shared remote taskfile from `sommerfeld-io/.github`. If local `task` runs complain about remote includes, export that variable first.
-
 ```bash
 # full repo lint
 task lint
