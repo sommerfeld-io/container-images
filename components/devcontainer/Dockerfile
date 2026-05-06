@@ -49,6 +49,5 @@ USER ${USER}
 COPY configs/bash_aliases.txt /home/${USER}/.bash_aliases
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN echo "export TASK_X_REMOTE_TASKFILES=1" >> /home/${USER}/.bashrc \
-    && curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | bash \
+RUN curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | bash \
     && curl -fsSL https://gh.io/copilot-install | bash
