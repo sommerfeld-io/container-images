@@ -372,8 +372,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/main' }}
     needs: [
-      'inspec-images',
-      'docker-scout',
+      'publish-edge',
     ]
     permissions:
       contents: write
