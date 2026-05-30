@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        image-name: ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs']
+        image-name: ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs', 'revealjs']
     steps:
       # - name: Checkout code
       #   uses: actions/checkout@v4

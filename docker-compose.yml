@@ -147,6 +147,24 @@ services:
     build:
       context: components/revealjs
       dockerfile: Dockerfile
+      target: serve
+    volumes: *volumes
+    working_dir: *default-workdir
+    tty: *tty
+
+  revealjs-pdf-lint-dockerfile:
+    image: *lint-dockerfile-image
+    volumes: *volumes
+    working_dir: *default-workdir
+    entrypoint: hadolint components/revealjs/Dockerfile
+    tty: *tty
+
+  revealjs-pdf:
+    image: local/revealjs-pdf:${DEV_TAG}
+    build:
+      context: components/revealjs
+      dockerfile: Dockerfile
+      target: pdf
     volumes: *volumes
     working_dir: *default-workdir
     tty: *tty
