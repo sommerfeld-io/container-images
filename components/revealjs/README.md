@@ -19,8 +19,8 @@ To serve a presentation based on your own `index.html` and Markdown files and mo
 
 ```bash
 docker run --rm -it -p 8000:8000 \
-    --volume ./index.html:/work/reveal.js/index.html \
-    --volume ./slides:/work/reveal.js/slides \
+    --volume "$(pwd)/index.html:/work/reveal.js/index.html" \
+    --volume "$(pwd)/slides:/work/reveal.js/slides" \
     sommerfeldio/revealjs:latest
 ```
 
@@ -45,21 +45,53 @@ Simply mounting all files from your (current) directory into `/work/reveal.js` w
 
 ### Convert presentation to PDF
 
-This image does not support exporting presentations to PDF yet but we plan to add [the feature](https://github.com/sommerfeld-io/container-images/issues/140) in the future.
+To export a presentation with `docker run`, mount your `index.html`, slide assets, and an output directory. The following example writes the generated PDF to the current working directory while preserving the ownership of the user running Docker:
+
+```bash
+docker run --rm \
+    --user "$(id -u):$(id -g)" \
+    --volume "$(pwd)/index.html:/work/reveal.js/index.html" \
+    --volume "$(pwd)/slides:/work/reveal.js/slides" \
+    --volume "$(pwd):/output" \
+    sommerfeldio/revealjs:latest-pdf /output/index.pdf
+```
+
+Alternatively, you can use Docker Compose:
+
+```yaml
+services:
+  revealjs-pdf:
+    image: sommerfeldio/revealjs:latest-pdf
+    user: "${UID}:${GID}"
+    volumes:
+      - ./index.html:/work/reveal.js/index.html
+      - ./slides:/work/reveal.js/slides
+      - ./:/output
+    command: /output/index.pdf
+```
 
 ## How to Build
 
-To build the image locally, run the following command:
+To build the standard presentation image locally, run:
 
 ```bash
 cd components/revealjs # if from the root of the repository
 docker build -t local/revealjs:dev .
 ```
 
-Alternatively, use the project's `task` workflow:
+To build the PDF image locally, run:
+
+```bash
+cd components/revealjs # if from the root of the repository
+docker build --target pdf -t local/revealjs:dev-pdf .
+```
+
+Alternatively, use the project's `task` workflow for the standard image:
 
 ```bash
 task build:revealjs
+
+task build:revealjs-pdf
 ```
 
 ## License
