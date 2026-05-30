@@ -43,9 +43,24 @@ Simply mounting all files from your (current) directory into `/work/reveal.js` w
 
 > **NOTE:** RevealJS provides more ways to create presentations, e.g. by using only HTML files. But for us, Markdown is the most convenient way. So we focus on this method and did not put much effort into testing other methods.
 
-## Convert presentation to PDF
+### Convert presentation to PDF
 
 This image does not support exporting presentations to PDF yet but we plan to add [the feature](https://github.com/sommerfeld-io/container-images/issues/140) in the future.
+
+## How to Build
+
+To build the image locally, run the following command:
+
+```bash
+cd components/revealjs # if from the root of the repository
+docker build -t local/revealjs:dev .
+```
+
+Alternatively, use the project's `task` workflow:
+
+```bash
+task build:revealjs
+```
 
 ## License
 
