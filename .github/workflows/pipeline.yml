@@ -145,7 +145,7 @@ jobs:
 
   build-images:
     runs-on: ubuntu-latest
-    name: ${{ matrix.image-name }}:${{ github.sha }}
+    name: ${{ matrix.image-name }}:${{ github.sha }}${{ matrix.tag-suffix }}
     needs: [
       'lint',
       'lint-dockerfiles',
@@ -158,7 +158,21 @@ jobs:
       security-events: write
     strategy:
       matrix:
-        image-name: ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs', 'revealjs']
+        include:
+          - image-name: devcontainer
+            tag-suffix: ''
+          - image-name: folderslint
+            tag-suffix: ''
+          - image-name: ftp-client
+            tag-suffix: ''
+          - image-name: mkdocs
+            tag-suffix: ''
+          - image-name: revealjs
+            dockerfile-stage: serve
+            tag-suffix: ''
+          - image-name: revealjs
+            dockerfile-stage: pdf
+            tag-suffix: -pdf
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -179,21 +193,34 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}
           labels: |
             org.opencontainers.image.revision=${{ github.sha }}
-            org.opencontainers.image.title=${{ matrix.image-name }}
-            org.opencontainers.image.description=${{ matrix.image-name }}
+            org.opencontainers.image.title=${{ matrix.image-name }}${{ matrix.tag-suffix }}
+            org.opencontainers.image.description=${{ matrix.image-name }}${{ matrix.tag-suffix }}
             org.opencontainers.image.vendor=sommerfeld-io
             org.opencontainers.image.documentation=https://sommerfeld-io.github.io/container-images/images/${{ matrix.image-name }}
             dev.containers.source=https://github.com/sommerfeld-io/container-images
-            dev.containers.release=${{ github.sha }}
-            version=${{ github.sha }}
+            dev.containers.release=${{ github.sha }}${{ matrix.tag-suffix }}
+            version=${{ github.sha }}${{ matrix.tag-suffix }}
             org.opencontainers.image.licenses=MIT
       - name: Build the Docker image and push to registry
+        if: ${{ !matrix.dockerfile-stage }}
         uses: docker/build-push-action@v7
         with:
           context: components/${{ matrix.image-name }}
           platforms: linux/amd64
           push: true
-          tags: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}
+          tags: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}${{ matrix.tag-suffix }}
+          labels: ${{ steps.meta.outputs.labels }}
+          provenance: true
+          sbom: true
+      - name: Build the Docker image stage and push to registry
+        if: ${{ matrix.dockerfile-stage }}
+        uses: docker/build-push-action@v7
+        with:
+          context: components/${{ matrix.image-name }}
+          platforms: linux/amd64
+          target: ${{ matrix.dockerfile-stage }}
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}${{ matrix.tag-suffix }}
           labels: ${{ steps.meta.outputs.labels }}
           provenance: true
           sbom: true
@@ -245,7 +272,7 @@ jobs:
 
   docker-scout:
     runs-on: ubuntu-latest
-    name: ${{ matrix.image-name }}:${{ github.sha }}
+    name: ${{ matrix.image-name }}:${{ github.sha }}${{ matrix.tag-suffix }}
     needs: [
       'build-images',
     ]
@@ -254,7 +281,21 @@ jobs:
       pull-requests: write
     strategy:
       matrix:
-        image-name: ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs', 'revealjs']
+        include:
+          - image-name: devcontainer
+            tag-suffix: ''
+          - image-name: folderslint
+            tag-suffix: ''
+          - image-name: ftp-client
+            tag-suffix: ''
+          - image-name: mkdocs
+            tag-suffix: ''
+          - image-name: revealjs
+            dockerfile-stage: serve
+            tag-suffix: ''
+          - image-name: revealjs
+            dockerfile-stage: pdf
+            tag-suffix: -pdf
     steps:
       - name: Login to Container Registry
         uses: docker/login-action@v4
@@ -267,8 +308,8 @@ jobs:
         uses: docker/scout-action@v1.21.0
         with:
           command: compare
-          image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}
-          to: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}
+          image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}${{ matrix.tag-suffix }}
+          to: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}${{ matrix.tag-suffix }}
           exit-code: false
           write-comment: true
           only-severities: critical,high,medium
@@ -278,7 +319,7 @@ jobs:
 
   publish-edge:
     runs-on: ubuntu-latest
-    name: ${{ matrix.image-name }}:${{ github.sha }}
+    name: ${{ matrix.image-name }}:${{ github.sha }}${{ matrix.tag-suffix }}
     if: ${{ github.ref == 'refs/heads/main' }}
     needs: [
       'inspec-images',
@@ -288,7 +329,21 @@ jobs:
       contents: read
     strategy:
       matrix:
-        image-name: ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs', 'revealjs']
+        include:
+          - image-name: devcontainer
+            tag-suffix: ''
+          - image-name: folderslint
+            tag-suffix: ''
+          - image-name: ftp-client
+            tag-suffix: ''
+          - image-name: mkdocs
+            tag-suffix: ''
+          - image-name: revealjs
+            dockerfile-stage: serve
+            tag-suffix: ''
+          - image-name: revealjs
+            dockerfile-stage: pdf
+            tag-suffix: -pdf
     steps:
       - name: Login to Container Registry
         uses: docker/login-action@v4
@@ -304,9 +359,10 @@ jobs:
           DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
           IMAGE_NAME: ${{ matrix.image-name }}
           COMMIT_SHA: ${{ github.sha }}
+          TAG_SUFFIX: ${{ matrix.tag-suffix }}
         run: |
-          SRC_IMAGE="$REGISTRY/$DOCKERHUB_USER/$IMAGE_NAME:$COMMIT_SHA"
-          TARGET_IMAGE="$DOCKERHUB_USER/$IMAGE_NAME:$IMAGE_TAG_EDGE"
+          SRC_IMAGE="$REGISTRY/$DOCKERHUB_USER/$IMAGE_NAME:$COMMIT_SHA$TAG_SUFFIX"
+          TARGET_IMAGE="$DOCKERHUB_USER/$IMAGE_NAME:$IMAGE_TAG_EDGE$TAG_SUFFIX"
           docker buildx imagetools create --tag "$TARGET_IMAGE" "$SRC_IMAGE"
         shell: bash
 
