@@ -1,6 +1,6 @@
 {
   "name": "container-images",
-  "version": "0.19.3",
+  "version": "0.20.0",
   "directories": {
     "doc": "docs"
   },
