@@ -28,6 +28,37 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ---
 
+## PlantUMl with Kroki
+
+```language-plantuml
+@startmindmap
+
+skinparam monochrome false
+skinparam ranksep 25
+
+skinparam backgroundColor transparent
+skinparam arrowColor #42AFFA
+skinparam lineColor #42AFFA
+
+* Lorem Ipsum
+
+--[#42AFFA] Lorem Ipsum
+--- dolor sit amet
+--- consectetur adipiscing elit
+--- sed do eiusmod tempor incididunt ut labore
+---- et dolore magna aliqua
+
+++[#42AFFA] Lorem Ipsum
++++ dolor sit amet
++++ consectetur adipiscing elit
++++ sed do eiusmod tempor incididunt ut labore
+++++ et dolore magna aliqua
+
+@endmindmap
+```
+
+---
+
 ## Duis aute irure
 
 Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
