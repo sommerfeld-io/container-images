@@ -156,7 +156,7 @@ services:
     <<: *revealjs-lint-dockerfile
 
   revealjs-pdf:
-    image: local/revealjs-pdf:${DEV_TAG}
+    image: local/revealjs:${DEV_TAG}-pdf
     build:
       context: components/revealjs
       dockerfile: Dockerfile
