@@ -46,8 +46,10 @@ RUN chmod 0444 /etc/login.defs \
 
 USER ${USER}
 
-COPY configs/bash_aliases.txt /home/${USER}/.bash_aliases
+COPY --chown=${USER}:${USER} configs/bash_aliases.txt /home/${USER}/.bash_aliases
+COPY --chown=${USER}:${USER} claude /home/${USER}/.claude
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | bash \
-    && curl -fsSL https://gh.io/copilot-install | bash
+    && curl -fsSL https://gh.io/copilot-install | bash \
+    && curl -fsSL https://claude.ai/install.sh | bash

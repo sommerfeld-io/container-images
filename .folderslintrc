@@ -17,6 +17,7 @@
 		".vscode",
 
 		"components/devcontainer/configs/etc",
+        "components/devcontainer/claude/commands",
 		"components/folderslint",
 		"components/ftp-client/configs/etc",
 		"components/mkdocs",
