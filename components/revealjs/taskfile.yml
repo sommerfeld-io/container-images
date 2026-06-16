@@ -1,0 +1,24 @@
+---
+version: '3.42.1'
+
+tasks:
+
+  serve:
+    desc: 'Serve the demo presentation (locally built image, http://localhost:8000)'
+    dir: '{{.TASKFILE_DIR}}/demo'
+    cmds:
+      - docker run --rm -it -p 8000:8000
+          --volume "$(pwd)/index.html:/work/reveal.js/index.html"
+          --volume "$(pwd)/slides:/work/reveal.js/slides"
+          local/revealjs:dev
+
+  pdf:
+    desc: 'Export the demo presentation to PDF (locally built image, writes demo/index.pdf)'
+    dir: '{{.TASKFILE_DIR}}/demo'
+    cmds:
+      - docker run --rm
+          --user "$(id -u):$(id -g)"
+          --volume "$(pwd)/index.html:/work/reveal.js/index.html"
+          --volume "$(pwd)/slides:/work/reveal.js/slides"
+          --volume "$(pwd):/output"
+          local/revealjs:dev-pdf /output/index.pdf

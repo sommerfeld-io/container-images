@@ -11,6 +11,7 @@ includes:
   cleanup: .task/cleanup/taskfile.yml
   common: .task/common/taskfile.yml
   copilot: .github/skills/taskfile.yml
+  revealjs: components/revealjs/taskfile.yml
 
 tasks:
 
@@ -85,6 +86,20 @@ tasks:
     cmds:
       - docker compose up {{ .IMAGE }}-lint-dockerfile --exit-code-from {{ .IMAGE }}-lint-dockerfile
       - docker compose build {{ .IMAGE }}
+
+  # ===============================================================================================
+
+  run:revealjs:
+    desc: 'Build the revealjs image and serve the demo presentation'
+    cmds:
+      - task: build:revealjs
+      - task: revealjs:serve
+
+  run:revealjs-pdf:
+    desc: 'Build the revealjs-pdf image and export the demo presentation to PDF'
+    cmds:
+      - task: build:revealjs-pdf
+      - task: revealjs:pdf
 
   # ===============================================================================================
 

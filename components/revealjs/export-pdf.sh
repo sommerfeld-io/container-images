@@ -5,7 +5,7 @@ set -eu
 port="${PORT:-8000}"
 output_path="${1:-${OUTPUT_PATH:-/output/generated.pdf}}"
 source_url="${SOURCE_URL:-http://127.0.0.1:${port}/}"
-load_pause="${LOAD_PAUSE:-2000}"
+load_pause="${LOAD_PAUSE:-8000}"
 
 export HOME="${HOME:-/tmp/home}"
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-/tmp/xdg-config}"
