@@ -47,7 +47,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           submodules: true
       - name: Login to Container Registry
@@ -71,7 +71,7 @@ jobs:
         linter: ['yaml', 'workflows', 'filenames', 'folders', 'markdown-links']
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           submodules: true
       - name: Login to Container Registry
@@ -96,7 +96,7 @@ jobs:
         profile: ['devcontainer', 'ftp-client']
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           submodules: true
       - name: Install Task
@@ -126,7 +126,7 @@ jobs:
         image-name: ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs', 'revealjs']
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           submodules: true
       - name: Login to Container Registry
@@ -175,7 +175,7 @@ jobs:
             tag-suffix: -pdf
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           submodules: true
       - name: Set up Docker Buildx
@@ -238,7 +238,7 @@ jobs:
         image-name: ['devcontainer', 'ftp-client']
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           submodules: true
       # - name: Install Task
@@ -377,7 +377,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           submodules: true
           ref: ${{github.ref}}
@@ -439,7 +439,7 @@ jobs:
             tag-suffix: -pdf
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Remove ${{ matrix.image-name }}:${{ github.sha }}${{ matrix.tag-suffix }} images from registry
         env:
           DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
