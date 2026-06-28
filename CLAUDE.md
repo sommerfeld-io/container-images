@@ -1,0 +1,1 @@
+/workspaces/container-images/.github/copilot-instructions.md

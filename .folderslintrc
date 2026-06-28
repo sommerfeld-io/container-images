@@ -1,8 +1,8 @@
 {
 	"rules": [
+        ".claude",
+
 		".devcontainer",
-		".devcontainer/ops",
-		".devcontainer/ops/assets",
 
 		".github",
 		".github/prompts",

@@ -14,6 +14,7 @@ Always use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/
 | `build`, `chore`, `ci`, `docs`, `style`, `refactor`, `perf`, `test` | No release | All other changes |
 
 **Rules:**
+
 - A scope may be added in parentheses for extra context: `feat(parser): add ability to parse arrays`. A scope may **NOT** contain a slash (`/`).
 - Breaking changes must include `BREAKING CHANGE:` in the footer: `feat: drop support for Node 6`
 - Commit message titles must also match the project pattern: `^(fix|feat|build|chore|ci|docs|style|refactor|perf|test)/[a-z0-9._-]+$`
@@ -65,10 +66,10 @@ docker compose up docs-build
 - `taskfile.yml` is the top-level workflow entry point. It fans out over shared image/profile lists for linting, building, testing, cleanup, and docs generation.
 - Tests live under `tests/inspec/<image>/`. Only `devcontainer` and `ftp-client` currently have InSpec profiles, so they are the only images exercised by `task test` and the post-build CI test stage.
 - The documentation flow is generated rather than hand-maintained in every location:
-  - `docs/index.md` is copied to `README.md`
-  - `docs/license.md` is copied to `LICENSE.md`
-  - each `components/<image>/README.md` is copied into `docs/container-images/<image>.md`
-  - the docs site is built into `target/docs/site`
+    - `docs/index.md` is copied to `README.md`
+    - `docs/license.md` is copied to `LICENSE.md`
+    - each `components/<image>/README.md` is copied into `docs/container-images/<image>.md`
+    - the docs site is built into `target/docs/site`
 - CI mirrors the same structure: lint repo files, lint Dockerfiles, validate InSpec profiles, build SHA-tagged images, run InSpec against the tested images, promote successful images to the edge tag on `main`, regenerate docs, then the release workflow retags edge images to version and `latest`.
 
 ## Key conventions
