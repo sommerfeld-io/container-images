@@ -178,6 +178,8 @@ jobs:
         uses: actions/checkout@v7
         with:
           submodules: true
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
       - name: Login to Container Registry
@@ -206,7 +208,7 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: components/${{ matrix.image-name }}
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}${{ matrix.tag-suffix }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -217,7 +219,7 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: components/${{ matrix.image-name }}
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           target: ${{ matrix.dockerfile-stage }}
           push: true
           tags: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}${{ matrix.tag-suffix }}
