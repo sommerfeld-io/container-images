@@ -15,6 +15,8 @@ The image focuses on generating the documentation site (e.g. from a pipeline). I
 
 Learn about our tagging policy and the difference between rolling tags and immutable tags [on our documentation page⁠](https://github.com/sommerfeld-io/.github/blob/main/docs/tags-and-versions.md).
 
+Starting with version 0.22.0, a Software Bill of Materials (SBOM) in SPDX format is generated for every image and attached to each [GitHub release](https://github.com/sommerfeld-io/container-images/releases) as a downloadable asset.
+
 ## Usage
 
 This image supports two modes. The `build` command is used to build the documentation site based on your Markdown docs. The container terminates after the build is complete. Additionally the image offers a development server to preview the documentation site. Both features originate in the [squidfunk/mkdocs-material](https://hub.docker.com/r/squidfunk/mkdocs-material) base image.

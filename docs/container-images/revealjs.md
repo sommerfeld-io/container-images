@@ -11,6 +11,8 @@ The `sommerfeldio/revealjs` image is a utility Docker image used to render [Reve
 
 Learn about our tagging policy and the difference between rolling tags and immutable tags [on our documentation page⁠](https://github.com/sommerfeld-io/.github/blob/main/docs/tags-and-versions.md).
 
+Starting with version 0.22.0, a Software Bill of Materials (SBOM) in SPDX format is generated for every image and attached to each [GitHub release](https://github.com/sommerfeld-io/container-images/releases) as a downloadable asset.
+
 ## Usage
 
 RevealJS supports rendering presentations based on Markdown files which we find the most convenient way to create slides.
