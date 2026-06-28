@@ -11,6 +11,8 @@ The `sommerfeldio/ftp-client` image ships with NCFTP and uses [ncftpput](https:/
 
 Learn about our tagging policy and the difference between rolling tags and immutable tags [on our documentation page⁠](https://github.com/sommerfeld-io/.github/blob/main/docs/tags-and-versions.md).
 
+Starting with version 0.22.0, a Software Bill of Materials (SBOM) in SPDX format is generated for every image and attached to each [GitHub release](https://github.com/sommerfeld-io/container-images/releases) as a downloadable asset.
+
 ## How to use this image
 
 To use the image run the following command from a bash file.
