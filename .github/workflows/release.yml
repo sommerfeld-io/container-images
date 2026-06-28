@@ -128,6 +128,51 @@ jobs:
           short-description: ${{ github.event.repository.description }}
           readme-filepath: components/${{ matrix.image-name }}/README.md
 
+  upload-sbom:
+    runs-on: ubuntu-latest
+    name: ${{ matrix.image-name }}${{ matrix.tag-suffix }}
+    needs: publish-release
+    permissions:
+      contents: write
+    strategy:
+      matrix:
+        include:
+          - image-name: devcontainer
+            tag-suffix: ''
+          - image-name: folderslint
+            tag-suffix: ''
+          - image-name: ftp-client
+            tag-suffix: ''
+          - image-name: mkdocs
+            tag-suffix: ''
+          - image-name: revealjs
+            dockerfile-stage: serve
+            tag-suffix: ''
+          - image-name: revealjs
+            dockerfile-stage: pdf
+            tag-suffix: -pdf
+    steps:
+      - name: Login to Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Extract version from release tag
+        id: release
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+          echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+        shell: bash
+      - name: Generate SPDX SBOM from Docker image
+        uses: anchore/sbom-action@v0
+        with:
+          image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ steps.release.outputs.version }}${{ matrix.tag-suffix }}
+          format: spdx-json
+          output-file: ${{ secrets.DOCKERHUB_USER }}-${{ matrix.image-name }}${{ matrix.tag-suffix }}_${{ steps.release.outputs.version }}.spdx.json
+          upload-release-assets: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
   docker-scout:
     name: ${{ matrix.image-name }}${{ matrix.tag-suffix }}
     runs-on: ubuntu-latest

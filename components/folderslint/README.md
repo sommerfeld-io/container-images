@@ -11,6 +11,8 @@ The `sommerfeldio/folderslint` image is a utility Docker image used in Github Ac
 
 Learn about our tagging policy and the difference between rolling tags and immutable tags [on our documentation page⁠](https://github.com/sommerfeld-io/.github/blob/main/docs/tags-and-versions.md).
 
+Starting with version 0.22.0, a Software Bill of Materials (SBOM) in SPDX format is generated for every image and attached to each [GitHub release](https://github.com/sommerfeld-io/container-images/releases) as a downloadable asset.
+
 ## Usage
 
 To use the image run the following command.

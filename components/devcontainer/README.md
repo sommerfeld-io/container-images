@@ -11,6 +11,8 @@ The `sommerfeldio/devcontainer` Docker image serves as a foundational developmen
 
 Learn about our tagging policy and the difference between rolling tags and immutable tags [on our documentation page⁠](https://github.com/sommerfeld-io/.github/blob/main/docs/tags-and-versions.md).
 
+Starting with version 0.22.0, a Software Bill of Materials (SBOM) in SPDX format is generated for every image and attached to each [GitHub release](https://github.com/sommerfeld-io/container-images/releases) as a downloadable asset.
+
 ## Usage
 
 The easiest way to use this image is by adding a Dockerfile to your repository's `.devcontainer` folder and extending `sommerfeldio/devcontainer`.
