@@ -38,6 +38,16 @@ tasks:
       - task: symlinks
       - for: ['yaml', 'workflows', 'filenames', 'folders', 'markdown-links']
         cmd: docker compose up lint-{{ .ITEM }} --exit-code-from lint-{{ .ITEM }}
+      - for: &images ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs', 'revealjs']
+        task: lint:dockerfile
+        vars: { IMAGE: '{{ .ITEM }}' }
+
+  lint:dockerfile:
+    internal: true
+    vars:
+      IMAGE: '{{ .IMAGE }}'
+    cmds:
+      - docker compose up {{ .IMAGE }}-lint-dockerfile --exit-code-from {{ .IMAGE }}-lint-dockerfile
 
   inspec:check:
     desc: 'Vendor and check InSpec profile validity'
@@ -67,7 +77,7 @@ tasks:
         vars: { SRC: docs/index.md, DEST: README.md }
       - task: common:copy
         vars: { SRC: docs/license.md, DEST: LICENSE.md }
-      - for: &images ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs', 'revealjs']
+      - for: *images
         task: common:copy
         vars: { SRC: "components/{{ .ITEM }}/README.md", DEST: "docs/container-images/{{ .ITEM }}.md" }
 
@@ -90,7 +100,8 @@ tasks:
     vars:
       IMAGE: '{{ index .MATCH 0 }}'
     cmds:
-      - docker compose up {{ .IMAGE }}-lint-dockerfile --exit-code-from {{ .IMAGE }}-lint-dockerfile
+      - task: lint:dockerfile
+        vars: { IMAGE: '{{ .IMAGE }}' }
       - docker compose build {{ .IMAGE }}
 
   # ===============================================================================================
