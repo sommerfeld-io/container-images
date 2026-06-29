@@ -262,11 +262,11 @@ jobs:
           COMMIT_SHA: ${{ github.sha }}
         run: |
           readonly SYSTEM_UNDER_TEST="$REGISTRY/$DOCKERHUB_USER/$IMAGE_NAME:$COMMIT_SHA"
-          readonly INSPEC_DIR="tests/inspec"
+          readonly INSPEC_DIR="components/$IMAGE_NAME/test/inspec"
 
           docker run --name "sut-$IMAGE_NAME" -d --entrypoint sleep -v "$(pwd):$(pwd):ro" -w "$(pwd)" "$SYSTEM_UNDER_TEST" 180s
           sleep 5
-          docker compose run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(pwd):$(pwd)" -w "$(pwd)" inspec exec "$INSPEC_DIR/$IMAGE_NAME" --target "docker://sut-$IMAGE_NAME" --no-distinct-exit --chef-license=accept
+          docker compose run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(pwd):$(pwd)" -w "$(pwd)" inspec exec "$INSPEC_DIR" --target "docker://sut-$IMAGE_NAME" --no-distinct-exit --chef-license=accept
           sleep 5
           docker stop "sut-$IMAGE_NAME"
           docker rm "sut-$IMAGE_NAME"

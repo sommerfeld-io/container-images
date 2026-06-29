@@ -47,11 +47,13 @@ task build:mkdocs
 task inspec:check
 task inspec:check:devcontainer
 task inspec:check:ftp-client
+task inspec:check:revealjs
 
-# run image tests (only devcontainer and ftp-client have InSpec test suites)
+# run image tests (devcontainer, ftp-client, and revealjs have InSpec test suites)
 task test
 task test:devcontainer
 task test:ftp-client
+task test:revealjs
 
 # generate and preview docs
 task docs:generate
@@ -64,7 +66,7 @@ docker compose up docs-build
 - This repo is a collection of standalone container images, not a single application. Each image lives in `components/<image>/` with its own `Dockerfile` and README.
 - `docker-compose.yml` is the local orchestration layer. It defines repo-level lint services, the docs builder/dev server, and one build target per image using tags like `local/<image>:${DEV_TAG}`.
 - `taskfile.yml` is the top-level workflow entry point. It fans out over shared image/profile lists for linting, building, testing, cleanup, and docs generation.
-- Tests live under `tests/inspec/<image>/`. Only `devcontainer` and `ftp-client` currently have InSpec profiles, so they are the only images exercised by `task test` and the post-build CI test stage.
+- Tests live under `components/<image>/test/inspec/`. The images with InSpec profiles are `devcontainer`, `ftp-client`, and `revealjs`; they are the only images exercised by `task test` and the post-build CI test stage.
 - The documentation flow is generated rather than hand-maintained in every location:
     - `docs/index.md` is copied to `README.md`
     - `docs/license.md` is copied to `LICENSE.md`
@@ -77,6 +79,6 @@ docker compose up docs-build
 - Treat `docs/index.md`, `docs/license.md`, and `components/*/README.md` as the source docs. `README.md`, `LICENSE.md`, and `docs/container-images/*` are generated outputs.
 - Component README files serve two downstream consumers: they become docs pages during `task docs:generate`, and they are pushed to Docker Hub as the image descriptions in the release workflow.
 - When adding, renaming, or removing an image, keep the shared image lists in sync across `taskfile.yml`, `docker-compose.yml`, workflow matrices in `.github/workflows/`, and `mkdocs.yml` navigation/docs generation.
-- The testable image list is separate from the buildable image list. If a new image should be covered by InSpec, add both the profile under `tests/inspec/<image>/` and the relevant profile/image matrices in Task and GitHub Actions.
+- The testable image list is separate from the buildable image list. If a new image should be covered by InSpec, add both the profile under `components/<image>/test/inspec/` and the relevant profile/image matrices in Task and GitHub Actions.
 - Directory structure and filenames are enforced. New paths may require updates to `.folderslintrc`, and filenames must follow `.ls-lint.yml` conventions, including kebab-case for `.instructions.md` files.
 - Pre-commit is wired to run the repo linter stack via `task lint`, plus shell formatting with `shfmt`.

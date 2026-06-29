@@ -4,7 +4,6 @@ version: '3.42.1'
 dotenv: ['.env']
 
 vars:
-  INSPEC_DIR: tests/inspec
   REPO: https://raw.githubusercontent.com/sommerfeld-io/.github
 
 includes:
@@ -25,8 +24,8 @@ tasks:
     cmds:
       - for: &inspec-profiles ['devcontainer', 'ftp-client', 'revealjs']
         cmd: |
-          sudo rm -rf tests/inspec/{{ .ITEM }}/vendor
-          sudo rm -rf tests/inspec/{{ .ITEM }}/inspec.lock
+          sudo rm -rf components/{{ .ITEM }}/test/inspec/vendor
+          sudo rm -rf components/{{ .ITEM }}/test/inspec/inspec.lock
 
   # ===============================================================================================
 
@@ -62,9 +61,9 @@ tasks:
       PROFILE: '{{ index .MATCH 0 }}'
     cmds:
       - task: cleanup:inspec
-      - rm -f "{{ .INSPEC_DIR }}/{{ .PROFILE }}/inspec.lock"
-      - docker compose run --rm inspec vendor "{{ .INSPEC_DIR }}/{{ .PROFILE }}" --overwrite --chef-license=accept
-      - docker compose run --rm inspec check "{{ .INSPEC_DIR }}/{{ .PROFILE }}" --chef-license=accept
+      - rm -f "components/{{ .PROFILE }}/test/inspec/inspec.lock"
+      - docker compose run --rm inspec vendor "components/{{ .PROFILE }}/test/inspec" --overwrite --chef-license=accept
+      - docker compose run --rm inspec check "components/{{ .PROFILE }}/test/inspec" --chef-license=accept
 
   # ===============================================================================================
 
@@ -133,7 +132,7 @@ tasks:
     cmds:
       - docker run --name "system-under-test-{{ .IMAGE }}" -d --entrypoint sleep -v "$(pwd):$(pwd):ro" -w "$(pwd)" "local/{{ .IMAGE }}:dev" 180s
       - sleep 5
-      - docker compose run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(pwd):$(pwd)" -w "$(pwd)" inspec exec "{{ .INSPEC_DIR }}/{{ .IMAGE }}" --target "docker://system-under-test-{{ .IMAGE }}" --no-distinct-exit --chef-license=accept
+      - docker compose run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(pwd):$(pwd)" -w "$(pwd)" inspec exec "components/{{ .IMAGE }}/test/inspec" --target "docker://system-under-test-{{ .IMAGE }}" --no-distinct-exit --chef-license=accept
       - sleep 5
       - docker stop "system-under-test-{{ .IMAGE }}"
       - docker rm "system-under-test-{{ .IMAGE }}"

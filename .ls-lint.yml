@@ -45,8 +45,9 @@ ignore:
   - .vscode
   - node_modules
   - target
-  - tests/inspec/devcontainer/vendor
-  - tests/inspec/ftp-client/vendor
+  - components/devcontainer/test/inspec/vendor
+  - components/ftp-client/test/inspec/vendor
+  - components/revealjs/test/inspec/vendor
 
   - .github/skills/.markdownlint.yml
 

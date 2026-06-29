@@ -22,11 +22,10 @@
 		"components/ftp-client/configs/etc",
 		"components/mkdocs",
 		"components/revealjs/demo/slides",
+        "components/*/test/inspec/**",
 
 		"docs",
 		"docs/container-images/**",
-
-        "tests/inspec/*/**",
 
 		"node_modules/**",
 		"public/**",

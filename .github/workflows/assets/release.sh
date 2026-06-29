@@ -13,11 +13,10 @@ VERSION="$1"
 ## @arg $1 string The version that should be written to the files.
 function incrementVersionsInYaml() {
   # yaml_files=(
-  #   "tests/inspec/lib/inspec.yml"
-  #   "tests/inspec/devcontainer/inspec.yml"
+  #   "path/to/some.yml"
   # )
   yaml_files=()
-  for file in tests/inspec/*/inspec.yml; do
+  for file in components/*/test/inspec/inspec.yml; do
     yaml_files+=("$file")
   done
 
