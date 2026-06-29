@@ -23,7 +23,7 @@ tasks:
   cleanup:inspec:
     desc: Cleanup the inspec profiles and lock files
     cmds:
-      - for: &inspec-profiles ['devcontainer', 'ftp-client']
+      - for: &inspec-profiles ['devcontainer', 'ftp-client', 'revealjs']
         cmd: |
           sudo rm -rf tests/inspec/{{ .ITEM }}/vendor
           sudo rm -rf tests/inspec/{{ .ITEM }}/inspec.lock
@@ -131,7 +131,7 @@ tasks:
     vars:
       IMAGE: '{{ index .MATCH 0 }}'
     cmds:
-      - docker run --name "system-under-test-{{ .IMAGE }}" -d -v "$(pwd):$(pwd):ro" -w "$(pwd)" "local/{{ .IMAGE }}:dev" sleep 180s
+      - docker run --name "system-under-test-{{ .IMAGE }}" -d --entrypoint sleep -v "$(pwd):$(pwd):ro" -w "$(pwd)" "local/{{ .IMAGE }}:dev" 180s
       - sleep 5
       - docker compose run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(pwd):$(pwd)" -w "$(pwd)" inspec exec "{{ .INSPEC_DIR }}/{{ .IMAGE }}" --target "docker://system-under-test-{{ .IMAGE }}" --no-distinct-exit --chef-license=accept
       - sleep 5

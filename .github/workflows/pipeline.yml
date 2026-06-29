@@ -93,7 +93,7 @@ jobs:
     name: ${{ matrix.profile }}
     strategy:
       matrix:
-        profile: ['devcontainer', 'ftp-client']
+        profile: ['devcontainer', 'ftp-client', 'revealjs']
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -237,7 +237,7 @@ jobs:
       contents: read
     strategy:
       matrix:
-        image-name: ['devcontainer', 'ftp-client']
+        image-name: ['devcontainer', 'ftp-client', 'revealjs']
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -264,7 +264,7 @@ jobs:
           readonly SYSTEM_UNDER_TEST="$REGISTRY/$DOCKERHUB_USER/$IMAGE_NAME:$COMMIT_SHA"
           readonly INSPEC_DIR="tests/inspec"
 
-          docker run --name "sut-$IMAGE_NAME" -d -v "$(pwd):$(pwd):ro" -w "$(pwd)" "$SYSTEM_UNDER_TEST" sleep 180s
+          docker run --name "sut-$IMAGE_NAME" -d --entrypoint sleep -v "$(pwd):$(pwd):ro" -w "$(pwd)" "$SYSTEM_UNDER_TEST" 180s
           sleep 5
           docker compose run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(pwd):$(pwd)" -w "$(pwd)" inspec exec "$INSPEC_DIR/$IMAGE_NAME" --target "docker://sut-$IMAGE_NAME" --no-distinct-exit --chef-license=accept
           sleep 5

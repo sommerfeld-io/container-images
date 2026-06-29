@@ -13,6 +13,12 @@
             "command": "task lint",
             "timeout": 300,
             "statusMessage": "Lint the whole project"
+          },
+          {
+            "type": "command",
+            "command": "task inspec:check",
+            "timeout": 120,
+            "statusMessage": "Validate InSpec profiles"
           }
         ]
       }
