@@ -15,7 +15,7 @@ includes:
 tasks:
 
   info:
-    desc: 'Print environment info (OS, Node, Git, Python)'
+    desc: Print environment info (OS, Node, Git, Python)
     cmds:
       - lsb_release -a
       - node --version
@@ -39,7 +39,7 @@ tasks:
   # ===============================================================================================
 
   lint:
-    desc: 'Run all project linters outside of Dockerfile linters'
+    desc: Run all project linters outside of Dockerfile linters
     cmds:
       - task: cleanup:inspec
       - task: cleanup:filesystem
@@ -58,14 +58,14 @@ tasks:
       - docker compose up {{ .IMAGE }}-lint-dockerfile --exit-code-from {{ .IMAGE }}-lint-dockerfile
 
   inspec:check:
-    desc: 'Vendor and check InSpec profile validity'
+    desc: Vendor and check InSpec profile validity
     cmds:
       - task: cleanup:inspec
       - for: *inspec-profiles
         task: inspec:check:{{ .ITEM }}
 
   inspec:check:*:
-    desc: 'Vendor and check InSpec profile validity'
+    desc: Vendor and check InSpec profile validity
     vars:
       PROFILE: '{{ index .MATCH 0 }}'
     cmds:
@@ -77,7 +77,7 @@ tasks:
   # ===============================================================================================
 
   docs:generate:
-    desc: 'Generate Markdown files for documentation'
+    desc: Generate Markdown files for documentation
     cmds:
       - echo "Collecting documentation from other Markdown files ..."
       - mkdir -p docs/container-images
@@ -90,7 +90,7 @@ tasks:
         vars: { SRC: "components/{{ .ITEM }}/README.md", DEST: "docs/container-images/{{ .ITEM }}.md" }
 
   docs:run:
-    desc: 'Run the documentation server'
+    desc: Run the documentation server
     cmds:
       - task: docs:generate
       - docker compose up docs-dev-server
@@ -98,13 +98,13 @@ tasks:
   # ===============================================================================================
 
   build:
-    desc: 'Lint and build all container images'
+    desc: Lint and build all container images
     cmds:
       - for: *images
         task: build:{{ .ITEM }}
 
   build:*:
-    desc: 'Lint and build container image | Replace * with image name (not path)'
+    desc: Lint and build container image | Replace * with image name (not path)
     vars:
       IMAGE: '{{ index .MATCH 0 }}'
     cmds:
@@ -115,13 +115,13 @@ tasks:
   # ===============================================================================================
 
   run:revealjs:
-    desc: 'Build the revealjs image and serve the demo presentation'
+    desc: Build the revealjs image and serve the demo presentation
     cmds:
       - task: build:revealjs
       - task: revealjs:serve
 
   run:revealjs-pdf:
-    desc: 'Build the revealjs-pdf image and export the demo presentation to PDF'
+    desc: Build the revealjs-pdf image and export the demo presentation to PDF
     cmds:
       - task: build:revealjs-pdf
       - task: revealjs:pdf
@@ -129,13 +129,13 @@ tasks:
   # ===============================================================================================
 
   test:
-    desc: 'Test all container images'
+    desc: Test all container images
     cmds:
       - for: *inspec-profiles
         task: test:{{ .ITEM }}
 
   test:*:
-    desc: 'Test container image | Replace * with image name'
+    desc: Test container image | Replace * with image name
     vars:
       IMAGE: '{{ index .MATCH 0 }}'
     cmds:
