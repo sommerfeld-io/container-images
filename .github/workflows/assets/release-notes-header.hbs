@@ -1,3 +1,14 @@
-| Version     | {{~#if date}} Created on |{{~/if~}} Compare                                                                            |
-| ----------- | {{~#if date}}----------- |{{~/if~}} ---------------------------------------------------------------------------------- |
-| {{version}} | {{~#if date}} {{date}}   |{{~/if~}} [{{previousTag}}...{{currentTag}}](../../compare/{{previousTag}}...{{currentTag}}) |
+| Version     | {{~#if date}} Created on |{{~/if~}} Compare                                                                              |
+| ----------- | {{~#if date}}----------- |{{~/if~}} ------------------------------------------------------------------------------------ |
+| {{version}} | {{~#if date}} {{date}}   |{{~/if~}} [{{previousTag}} ... {{currentTag}}](../../compare/{{previousTag}}...{{currentTag}}) |
+
+This release upgrades the Dev Container base image from Ubuntu 24.04 LTS (`noble`) to Ubuntu 26.04 LTS (`resolute`).
+
+The new base image provides a more up-to-date environment with newer versions of preinstalled tools (among others):
+
+* Ubuntu: `24.04.3 LTS` ➜ `26.04 LTS`
+* Node.js: `18.19.1` ➜ `22.22.1`
+* Git: `2.51.1` ➜ `2.55.0`
+* Python: `3.12.3` ➜ `3.14.4`
+
+The updated base image offers access to newer language runtimes and development tools while benefiting from the latest improvements, performance optimizations, and security updates provided by Ubuntu 26.04 LTS.

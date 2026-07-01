@@ -1,4 +1,6 @@
-FROM mcr.microsoft.com/devcontainers/base:ubuntu-24.04
+# See <https://hub.docker.com/r/microsoft/devcontainers-base#about-ubuntu>
+# `resolute` = ubuntu-26.04
+FROM mcr.microsoft.com/devcontainers/base:resolute
 LABEL maintainer="sebastian@sommerfeld.io"
 
 ARG USER=vscode
@@ -8,7 +10,7 @@ RUN apt-get update \
         python3-pip \
         pre-commit \
         vim \
-        neofetch \
+        fastfetch \
         iputils-ping \
         nodejs \
         npm \
