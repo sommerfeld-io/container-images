@@ -9,6 +9,7 @@ ls:
   .conf: kebab-case
   .go: snake_case
   .json: kebab-case
+  .local.json: kebab-case
   .rb: kebab-case
   .tf: kebab-case
   .yml: kebab-case
@@ -43,6 +44,7 @@ ignore:
   - .idea
   - .task
   - .vscode
+  - .claude/settings.local.json
   - node_modules
   - target
   - components/devcontainer/test/inspec/vendor
