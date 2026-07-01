@@ -7,7 +7,7 @@ control 'devcontainer-01' do
 
   should_exist = [
     '/usr/bin/curl',
-    '/usr/bin/neofetch',
+    '/usr/bin/fastfetch',
     '/usr/bin/ping',
     '/usr/bin/task',
     '/usr/bin/vim',
