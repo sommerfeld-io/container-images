@@ -21,6 +21,7 @@ tasks:
       - node --version
       - git version
       - python3 --version
+      - pip3 --version
 
   symlinks:
     desc: Create symlinks for shared files
