@@ -11,7 +11,9 @@ The `sommerfeldio/revealjs` image is a utility Docker image used to render [Reve
 
 Learn about our tagging policy and the difference between rolling tags and immutable tags [on our documentation page⁠](https://github.com/sommerfeld-io/.github/blob/main/docs/tags-and-versions.md).
 
-Starting with version 0.22.0, a Software Bill of Materials (SBOM) in SPDX format is generated for every image and attached to each [GitHub release](https://github.com/sommerfeld-io/container-images/releases) as a downloadable asset.
+### Software Bill of Materials (SBOM)
+
+Starting with version 0.22.0, a Software Bill of Materials (SBOM) in SPDX format is generated for every image at build time and attached directly to the image in Docker Hub as an OCI attestation, available for the `sha`, `edge`, `latest` and versioned tags of both `sommerfeldio/revealjs` and `sommerfeldio/revealjs-pdf`. Retrieve it with `docker scout sbom sommerfeldio/revealjs:latest` or `docker buildx imagetools inspect sommerfeldio/revealjs:latest --format "{{ json .SBOM }}"`. The same SBOM is also attached as a downloadable asset on each [GitHub release](https://github.com/sommerfeld-io/container-images/releases).
 
 ## Usage
 

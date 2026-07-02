@@ -180,6 +180,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
       - name: Deploy to DockerHub
+        id: deploy
         env:
           DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
           IMAGE_NAME: ${{ matrix.image-name }}
@@ -190,6 +191,7 @@ jobs:
           TAG="${GITHUB_REF#refs/tags/}"
           TAG="${TAG#v}"
           echo "[INFO] New version tag = $TAG"
+          echo "version=$TAG" >> "$GITHUB_OUTPUT"
 
           SRC_IMAGE="$DOCKERHUB_USER/$IMAGE_NAME:$IMAGE_TAG_EDGE$TAG_SUFFIX"
 
@@ -199,6 +201,14 @@ jobs:
           TARGET_IMAGE="$DOCKERHUB_USER/$IMAGE_NAME:$IMAGE_TAG_LATEST$TAG_SUFFIX"
           docker buildx imagetools create --tag "$TARGET_IMAGE" "$SRC_IMAGE"
         shell: bash
+      - name: Verify SBOM attestation survived retag to version tag
+        uses: ./.github/actions/verify-sbom
+        with:
+          image-ref: ${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ steps.deploy.outputs.version }}${{ matrix.tag-suffix }}
+      - name: Verify SBOM attestation survived retag to :${{ env.IMAGE_TAG_LATEST }}
+        uses: ./.github/actions/verify-sbom
+        with:
+          image-ref: ${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}${{ matrix.tag-suffix }}
       - name: Update DockerHub description
         if: ${{ matrix.tag-suffix == '' }}
         uses: peter-evans/dockerhub-description@v5
@@ -233,26 +243,54 @@ jobs:
             dockerfile-stage: pdf
             tag-suffix: -pdf
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+        with:
+          submodules: true
       - name: Login to Container Registry
         uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
       - name: Extract version from release tag
         id: release
         run: |
           TAG="${{ github.event.release.tag_name }}"
           echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
         shell: bash
-      - name: Generate SPDX SBOM from Docker image
-        uses: anchore/sbom-action@v0
+      - name: Verify and extract the exact SBOM attestation from the published image
+        id: sbom
+        uses: ./.github/actions/verify-sbom
         with:
-          image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ steps.release.outputs.version }}${{ matrix.tag-suffix }}
-          format: spdx-json
-          output-file: ${{ secrets.DOCKERHUB_USER }}-${{ matrix.image-name }}${{ matrix.tag-suffix }}_${{ steps.release.outputs.version }}.spdx.json
-          upload-release-assets: true
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          image-ref: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ steps.release.outputs.version }}${{ matrix.tag-suffix }}
+      - name: Rename SBOM files for release asset naming
+        id: rename
+        env:
+          DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
+          IMAGE_NAME: ${{ matrix.image-name }}
+          TAG_SUFFIX: ${{ matrix.tag-suffix }}
+          VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          set -euo pipefail
+          AMD64_DEST="${DOCKERHUB_USER}-${IMAGE_NAME}${TAG_SUFFIX}_${VERSION}.spdx.json"
+          ARM64_DEST="${DOCKERHUB_USER}-${IMAGE_NAME}${TAG_SUFFIX}_${VERSION}.linux-arm64.spdx.json"
+          mv "${{ steps.sbom.outputs.amd64-sbom-file }}" "$AMD64_DEST"
+          mv "${{ steps.sbom.outputs.arm64-sbom-file }}" "$ARM64_DEST"
+          echo "amd64_dest=$AMD64_DEST" >> "$GITHUB_OUTPUT"
+          echo "arm64_dest=$ARM64_DEST" >> "$GITHUB_OUTPUT"
+        shell: bash
+      - name: Upload SBOMs as GitHub Release assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "${{ github.event.release.tag_name }}" \
+            "${{ steps.rename.outputs.amd64_dest }}" \
+            "${{ steps.rename.outputs.arm64_dest }}" \
+            --clobber
+        shell: bash
 
   docker-scout:
     name: ${{ matrix.image-name }}${{ matrix.tag-suffix }}

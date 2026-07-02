@@ -1,0 +1,110 @@
+---
+name: 'Verify BuildKit SBOM attestation'
+description: >
+  Fails if the SBOM attestation for a (multi-platform) image is missing, not valid SPDX, has an
+  implausibly low package count, or is not linked to the image's actual manifest digest. On
+  success, writes the extracted SPDX JSON for each platform to disk and exposes their paths.
+
+inputs:
+  image-ref:
+    description: 'Fully qualified image reference including tag, e.g. docker.io/sommerfeldio/ftp-client:abc123'
+    required: true
+  platforms:
+    description: 'Comma-separated platforms to verify'
+    required: false
+    default: 'linux/amd64,linux/arm64'
+  min-packages:
+    description: 'Minimum plausible SPDX package count per platform'
+    required: false
+    default: '5'
+
+outputs:
+  amd64-sbom-file:
+    description: 'Path to the extracted linux/amd64 SPDX JSON'
+    value: ${{ steps.verify.outputs.amd64-file }}
+  arm64-sbom-file:
+    description: 'Path to the extracted linux/arm64 SPDX JSON'
+    value: ${{ steps.verify.outputs.arm64-file }}
+
+runs:
+  using: composite
+  steps:
+    - id: verify
+      shell: bash
+      env:
+        IMAGE_REF: ${{ inputs.image-ref }}
+        PLATFORMS: ${{ inputs.platforms }}
+        MIN_PACKAGES: ${{ inputs.min-packages }}
+      run: |
+        set -euo pipefail
+
+        echo "[INFO] Verifying SBOM attestation(s) for $IMAGE_REF"
+
+        INSPECT_JSON="$(docker buildx imagetools inspect "$IMAGE_REF" --format '{{json .}}')"
+        RAW_INDEX="$(docker buildx imagetools inspect "$IMAGE_REF" --raw)"
+
+        FAIL=0
+        IFS=',' read -ra PLATFORM_LIST <<< "$PLATFORMS"
+
+        for PLATFORM in "${PLATFORM_LIST[@]}"; do
+          ARCH="${PLATFORM#linux/}"
+          echo "::group::Verifying SBOM for $PLATFORM"
+
+          # (a) Find the *real* image manifest digest for this platform (exclude attestation manifests).
+          IMAGE_DIGEST="$(jq -r --arg arch "$ARCH" '
+            .manifests[]
+            | select(.platform.architecture == $arch and .platform.os == "linux")
+            | select((.annotations["vnd.docker.reference.type"] // "") != "attestation-manifest")
+            | .digest' <<<"$RAW_INDEX" | head -n1)"
+
+          if [ -z "$IMAGE_DIGEST" ] || [ "$IMAGE_DIGEST" = "null" ]; then
+            echo "::error::No image manifest found for $PLATFORM in $IMAGE_REF"
+            FAIL=1; echo "::endgroup::"; continue
+          fi
+          echo "[INFO] $PLATFORM manifest digest = $IMAGE_DIGEST"
+
+          # (b) Find the attestation manifest that references that exact digest.
+          ATTESTATION_DIGEST="$(jq -r --arg d "$IMAGE_DIGEST" '
+            .manifests[]
+            | select(.annotations["vnd.docker.reference.type"] == "attestation-manifest")
+            | select(.annotations["vnd.docker.reference.digest"] == $d)
+            | .digest' <<<"$RAW_INDEX" | head -n1)"
+
+          if [ -z "$ATTESTATION_DIGEST" ] || [ "$ATTESTATION_DIGEST" = "null" ]; then
+            echo "::error::No attestation manifest references digest $IMAGE_DIGEST for $PLATFORM - image was pushed/retagged without attestations"
+            FAIL=1; echo "::endgroup::"; continue
+          fi
+          echo "[INFO] Attestation manifest $ATTESTATION_DIGEST correctly references image digest $IMAGE_DIGEST"
+
+          # (c) Extract the resolved SPDX document for this platform.
+          SBOM_FILE="sbom-${ARCH}.spdx.json"
+          jq -e --arg p "$PLATFORM" '.SBOM[$p].SPDX // empty' <<<"$INSPECT_JSON" > "$SBOM_FILE" || true
+
+          if [ ! -s "$SBOM_FILE" ]; then
+            echo "::error::Could not extract SPDX JSON for $PLATFORM via 'imagetools inspect --format {{json .SBOM}}'"
+            echo "[DEBUG] Raw .SBOM field was:"
+            jq '.SBOM' <<<"$INSPECT_JSON" | head -c 500
+            FAIL=1; echo "::endgroup::"; continue
+          fi
+
+          # (d) Validate it is well-formed SPDX with a plausible package count.
+          if ! jq -e 'has("spdxVersion") and has("packages")' "$SBOM_FILE" >/dev/null 2>&1; then
+            echo "::error::$SBOM_FILE for $PLATFORM is missing spdxVersion/packages - not a valid SPDX document"
+            FAIL=1; echo "::endgroup::"; continue
+          fi
+
+          PKG_COUNT="$(jq '.packages | length' "$SBOM_FILE")"
+          echo "[INFO] $PLATFORM SPDX package count = $PKG_COUNT"
+          if [ "$PKG_COUNT" -lt "$MIN_PACKAGES" ]; then
+            echo "::error::$PLATFORM SBOM has only $PKG_COUNT packages (< $MIN_PACKAGES) - looks like a broken/empty scan"
+            FAIL=1; echo "::endgroup::"; continue
+          fi
+
+          echo "${ARCH}-file=${SBOM_FILE}" >> "$GITHUB_OUTPUT"
+          echo "::endgroup::"
+        done
+
+        if [ "$FAIL" -ne 0 ]; then
+          echo "::error::SBOM attestation verification failed for $IMAGE_REF"
+          exit 1
+        fi
