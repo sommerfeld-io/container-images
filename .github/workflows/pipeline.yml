@@ -227,6 +227,10 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           provenance: true
           sbom: true
+      - name: Verify SBOM attestation was generated for the pushed image
+        uses: ./.github/actions/verify-sbom
+        with:
+          image-ref: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ github.sha }}${{ matrix.tag-suffix }}
 
   inspec-images:
     runs-on: ubuntu-latest
@@ -347,6 +351,10 @@ jobs:
             dockerfile-stage: pdf
             tag-suffix: -pdf
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+        with:
+          submodules: true
       - name: Login to Container Registry
         uses: docker/login-action@v4
         with:
@@ -367,6 +375,10 @@ jobs:
           TARGET_IMAGE="$DOCKERHUB_USER/$IMAGE_NAME:$IMAGE_TAG_EDGE$TAG_SUFFIX"
           docker buildx imagetools create --tag "$TARGET_IMAGE" "$SRC_IMAGE"
         shell: bash
+      - name: Verify SBOM attestation survived the retag to :${{ env.IMAGE_TAG_EDGE }}
+        uses: ./.github/actions/verify-sbom
+        with:
+          image-ref: ${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_EDGE }}${{ matrix.tag-suffix }}
 
   # ----- Build Docs stage ------------------------------------------------------------------------
 
