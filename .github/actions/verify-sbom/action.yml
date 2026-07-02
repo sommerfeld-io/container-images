@@ -40,10 +40,27 @@ runs:
 
         echo "[INFO] Verifying SBOM attestation(s) for $IMAGE_REF"
 
-        # NOTE: the SBOM attestation is a computed field, not part of the struct returned by
-        # '{{json .}}' - it must be requested explicitly via '{{json .SBOM}}'.
-        SBOM_JSON="$(docker buildx imagetools inspect "$IMAGE_REF" --format '{{json .SBOM}}')"
-        RAW_INDEX="$(docker buildx imagetools inspect "$IMAGE_REF" --raw)"
+        # Use the "default" builder (backed by the local Docker Engine) rather than whatever
+        # docker-container builder the workflow may have created with setup-buildx-action. The
+        # docker-container driver runs BuildKit in its own container, which does not inherit the
+        # credentials from a preceding `docker login` - imagetools then resolves attestation
+        # blobs as an anonymous user and quickly hits DockerHub's unauthenticated rate limit.
+        # The "default" builder talks to the local Docker Engine directly, which does share
+        # ~/.docker/config.json, so authenticated requests are used instead.
+        inspect_with_retry() {
+          local attempt
+          for attempt in 1 2 3; do
+            if docker buildx imagetools inspect --builder default "$IMAGE_REF" "$@"; then
+              return 0
+            fi
+            echo "[WARN] imagetools inspect attempt $attempt/3 failed, retrying in $((attempt * 10))s..." >&2
+            sleep "$((attempt * 10))"
+          done
+          return 1
+        }
+
+        SBOM_JSON="$(inspect_with_retry --format '{{json .SBOM}}')"
+        RAW_INDEX="$(inspect_with_retry --raw)"
 
         FAIL=0
         IFS=',' read -ra PLATFORM_LIST <<< "$PLATFORMS"
