@@ -13,7 +13,12 @@ Learn about our tagging policy and the difference between rolling tags and immut
 
 ### Software Bill of Materials (SBOM)
 
-Starting with version 0.22.0, a Software Bill of Materials (SBOM) in SPDX format is generated for every image at build time and attached directly to the image in Docker Hub as an OCI attestation, available for the `sha`, `edge`, `latest` and versioned tags. Retrieve it with `docker scout sbom sommerfeldio/folderslint:latest` or `docker buildx imagetools inspect sommerfeldio/folderslint:latest --format "{{ json .SBOM }}"`. The same SBOM is also attached as a downloadable asset on each [GitHub release](https://github.com/sommerfeld-io/container-images/releases).
+Starting with version 0.25.2, a Software Bill of Materials (SBOM) in SPDX format is generated for every image at build time and attached directly to the image in Docker Hub as an OCI attestation, available for the `edge`, `latest` and versioned tags. Retrieve it with
+
+- `docker scout sbom sommerfeldio/folderslint:latest` or
+- `docker buildx imagetools inspect sommerfeldio/folderslint:latest --format "{{ json .SBOM }}"`.
+
+The same SBOM is also attached as a downloadable asset on each [GitHub release](https://github.com/sommerfeld-io/container-images/releases).
 
 ## Usage
 

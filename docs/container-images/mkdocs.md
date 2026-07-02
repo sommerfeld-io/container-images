@@ -15,7 +15,14 @@ The image focuses on generating the documentation site (e.g. from a pipeline). I
 
 Learn about our tagging policy and the difference between rolling tags and immutable tags [on our documentation page⁠](https://github.com/sommerfeld-io/.github/blob/main/docs/tags-and-versions.md).
 
-Starting with version 0.22.0, a Software Bill of Materials (SBOM) in SPDX format is generated for every image and attached to each [GitHub release](https://github.com/sommerfeld-io/container-images/releases) as a downloadable asset.
+### Software Bill of Materials (SBOM)
+
+Starting with version 0.25.2, a Software Bill of Materials (SBOM) in SPDX format is generated for every image at build time and attached directly to the image in Docker Hub as an OCI attestation, available for the `edge`, `latest` and versioned tags. Retrieve it with
+
+- `docker scout sbom sommerfeldio/mkdocs:latest` or
+- `docker buildx imagetools inspect sommerfeldio/mkdocs:latest --format "{{ json .SBOM }}"`.
+
+The same SBOM is also attached as a downloadable asset on each [GitHub release](https://github.com/sommerfeld-io/container-images/releases).
 
 ## Usage
 
