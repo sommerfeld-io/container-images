@@ -40,7 +40,9 @@ runs:
 
         echo "[INFO] Verifying SBOM attestation(s) for $IMAGE_REF"
 
-        INSPECT_JSON="$(docker buildx imagetools inspect "$IMAGE_REF" --format '{{json .}}')"
+        # NOTE: the SBOM attestation is a computed field, not part of the struct returned by
+        # '{{json .}}' - it must be requested explicitly via '{{json .SBOM}}'.
+        SBOM_JSON="$(docker buildx imagetools inspect "$IMAGE_REF" --format '{{json .SBOM}}')"
         RAW_INDEX="$(docker buildx imagetools inspect "$IMAGE_REF" --raw)"
 
         FAIL=0
@@ -78,12 +80,12 @@ runs:
 
           # (c) Extract the resolved SPDX document for this platform.
           SBOM_FILE="sbom-${ARCH}.spdx.json"
-          jq -e --arg p "$PLATFORM" '.SBOM[$p].SPDX // empty' <<<"$INSPECT_JSON" > "$SBOM_FILE" || true
+          jq -e --arg p "$PLATFORM" '.[$p].SPDX // empty' <<<"$SBOM_JSON" > "$SBOM_FILE" || true
 
           if [ ! -s "$SBOM_FILE" ]; then
             echo "::error::Could not extract SPDX JSON for $PLATFORM via 'imagetools inspect --format {{json .SBOM}}'"
             echo "[DEBUG] Raw .SBOM field was:"
-            jq '.SBOM' <<<"$INSPECT_JSON" | head -c 500
+            echo "$SBOM_JSON" | head -c 500
             FAIL=1; echo "::endgroup::"; continue
           fi
 
