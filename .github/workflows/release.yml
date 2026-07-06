@@ -15,89 +15,11 @@ jobs:
 
   update-release-notes:
     uses: sommerfeld-io/.github/.github/workflows/release.yml@main
-    permissions:
-      contents: write
-
-  generate-release-intro:
-    runs-on: ubuntu-latest
-    needs: update-release-notes
+    secrets:
+      COPILOT_CLI_TOKEN: ${{ secrets.COPILOT_CLI_TOKEN }}
     permissions:
       contents: write
       models: read
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v7
-        with:
-          submodules: true
-          fetch-depth: 0
-          fetch-tags: true
-          ref: ${{ github.ref }}
-      - name: Set up Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: 22
-      - name: Install GitHub Copilot CLI
-        run: npm install -g @github/copilot
-        shell: bash
-      - name: Show versions
-        run: |
-          gh --version
-          copilot --version
-        shell: bash
-      - name: Generate release intro via GitHub Copilot CLI
-        id: generate-intro
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_CLI_TOKEN }}
-          PROMPT: |
-            Inspect all GitHub commits between the second-to-last git tag and the latest git tag. The latest tag already represents the current released version.
-
-            This commit range represents the changes included in the most recent release.
-
-            Your task is to write a short, high-level release description that documents this release after it has been created.
-
-            Requirements:
-            - Do NOT use marketing or promotional language.
-            - Do NOT write as a pre-release announcement.
-            - Keep it high-level: explain what changed and what behavior users can now expect, without walking through individual commits or implementation details.
-            - Focus on factual, user-facing behavior changes introduced in this release.
-            - Describe what changed from the user's perspective and what behavior they can now expect.
-            - Only include information that can reasonably be derived from commits in the given tag range.
-            - Do NOT speculate beyond the changes in the commits.
-            - Do NOT use bullet points, ordered lists, or tables. The output must be written as one or more coherent paragraphs.
-            - Produce exactly ONE variant of the release description.
-            - Output must be valid Markdown.
-
-            Output constraints:
-            - Output ONLY the release description.
-            - No preamble, no explanations, no commentary.
-            - Do NOT reference files, templates, workflows, or writing destinations.
-            - Do NOT write to any file.
-            - End cleanly with a single trailing newline (exactly one blank line at the end of the document).
-        run: |
-          set -euo pipefail
-          if copilot --allow-all --silent --prompt "$PROMPT" > intro.md && [ -s intro.md ]; then
-            echo "success=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "[WARN] GitHub Copilot CLI did not produce a release intro (e.g. Copilot budget exhausted). Skipping intro text." >&2
-            echo "success=false" >> "$GITHUB_OUTPUT"
-          fi
-        shell: bash
-      - name: Prepend intro to release notes
-        if: steps.generate-intro.outputs.success == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-
-          CURRENT_TAG="${{ github.event.release.tag_name }}"
-          INTRO=$(cat intro.md)
-          CURRENT_BODY=$(gh release view "$CURRENT_TAG" --json body --jq '.body')
-          NEW_BODY="${INTRO}"$'\n\n'"${CURRENT_BODY}"
-
-          gh release edit "$CURRENT_TAG" --notes "${NEW_BODY}"
-        shell: bash
 
   docs-build:
     runs-on: ubuntu-latest
