@@ -1,5 +1,5 @@
-# See <https://hub.docker.com/r/microsoft/devcontainers-base#about-ubuntu>
-# `resolute` = ubuntu-26.04
+## See <https://hub.docker.com/r/microsoft/devcontainers-base#about-ubuntu>
+## `resolute` = ubuntu-26.04
 FROM mcr.microsoft.com/devcontainers/base:resolute
 LABEL maintainer="sebastian@sommerfeld.io"
 
