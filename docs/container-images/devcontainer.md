@@ -50,7 +50,9 @@ This `sommerfeldio/devcontainer` image is based on [`mcr.microsoft.com/devcontai
     },
 
     "features": {
-        "ghcr.io/devcontainers/features/docker-in-docker:2.12.0": {}
+        "ghcr.io/devcontainers/features/docker-in-docker:4.0.0": {
+            "moby": false
+        }
     }
 }
 ```
