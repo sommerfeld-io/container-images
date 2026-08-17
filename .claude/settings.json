@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(task lint *)"
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(task lint *)",
+      "Bash(curl *)"
     ]
   },
   "hooks": {

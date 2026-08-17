@@ -13,3 +13,5 @@ node_modules
 /dist
 
 .task/remote
+
+.claude/settings.local.json
