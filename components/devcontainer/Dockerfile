@@ -37,8 +37,7 @@ RUN (type -p wget >/dev/null || (apt update && apt install -y wget)) \
 	&& mkdir -p -m 755 /etc/apt/sources.list.d \
 	&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
 	&& apt update \
-	&& apt install -y gh \
-    && gh extension install seachicken/gh-poi
+	&& apt install -y gh
 
 COPY configs/etc/login.defs /etc/login.defs
 RUN chmod 0444 /etc/login.defs \
@@ -56,4 +55,5 @@ COPY --chown=${USER}:${USER} claude /home/${USER}/.claude
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN curl --proto '=https' --tlsv1.2 -fsSL https://setup.atuin.sh | bash \
     && curl -fsSL https://gh.io/copilot-install | bash \
-    && curl -fsSL https://claude.ai/install.sh | bash
+    && curl -fsSL https://claude.ai/install.sh | bash \
+    && gh extension install seachicken/gh-poi
