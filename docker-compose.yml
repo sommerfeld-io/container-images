@@ -182,14 +182,14 @@ services:
     image: &zensical-docs-image sommerfeldio/zensical:latest
     volumes: *volumes
     working_dir: *default-workdir
-    command: build -f zensical.toml
+    command: build
     tty: *tty
 
   zensical-docs-dev-server:
     image: *zensical-docs-image
     volumes: *volumes
     working_dir: *default-workdir
-    command: serve -f zensical.toml --dev-addr 0.0.0.0:8000
+    command: serve --dev-addr 0.0.0.0:8000
     ports:
-      - 3081:8000
+      - 3080:8000
     tty: *tty
