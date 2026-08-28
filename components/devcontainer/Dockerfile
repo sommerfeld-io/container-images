@@ -4,6 +4,7 @@ FROM mcr.microsoft.com/devcontainers/base:resolute
 LABEL maintainer="sebastian@sommerfeld.io"
 
 ARG USER=vscode
+ARG TARGETARCH
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -17,7 +18,6 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-ARG TARGETARCH
 ARG CTOP_VERSION=0.7.7
 ARG CTOP_TARGET=/usr/local/bin/ctop
 RUN curl -L https://github.com/bcicen/ctop/releases/download/v${CTOP_VERSION}/ctop-${CTOP_VERSION}-linux-${TARGETARCH} -o ${CTOP_TARGET} \
@@ -57,3 +57,5 @@ RUN curl --proto '=https' --tlsv1.2 -fsSL https://setup.atuin.sh | bash \
     && curl -fsSL https://gh.io/copilot-install | bash \
     && curl -fsSL https://claude.ai/install.sh | bash \
     && gh extension install seachicken/gh-poi
+
+COPY --from=ghcr.io/astral-sh/uv:0.12.5 /uv /uvx /bin/
