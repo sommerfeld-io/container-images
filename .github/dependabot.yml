@@ -27,11 +27,6 @@ updates:
       interval: weekly
 
   - package-ecosystem: docker
-    directory: components/mkdocs
-    schedule:
-      interval: weekly
-
-  - package-ecosystem: docker
     directory: components/revealjs
     schedule:
       interval: weekly

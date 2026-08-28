@@ -37,11 +37,11 @@ docker compose up lint-folders --exit-code-from lint-folders
 docker compose up lint-markdown-links --exit-code-from lint-markdown-links
 
 # Dockerfile lint for one image
-docker compose up mkdocs-lint-dockerfile --exit-code-from mkdocs-lint-dockerfile
+docker compose up zensical-lint-dockerfile --exit-code-from zensical-lint-dockerfile
 
 # build all images or one image
 task build
-task build:mkdocs
+task build:zensical
 
 # validate InSpec profiles
 task inspec:check

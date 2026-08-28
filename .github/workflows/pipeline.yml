@@ -124,7 +124,7 @@ jobs:
     name: ${{ matrix.image-name }}
     strategy:
       matrix:
-        image-name: ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs', 'revealjs', 'zensical']
+        image-name: ['devcontainer', 'folderslint', 'ftp-client', 'revealjs', 'zensical']
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -165,8 +165,6 @@ jobs:
           - image-name: folderslint
             tag-suffix: ''
           - image-name: ftp-client
-            tag-suffix: ''
-          - image-name: mkdocs
             tag-suffix: ''
           - image-name: revealjs
             dockerfile-stage: serve
@@ -299,8 +297,6 @@ jobs:
             tag-suffix: ''
           - image-name: ftp-client
             tag-suffix: ''
-          - image-name: mkdocs
-            tag-suffix: ''
           - image-name: revealjs
             dockerfile-stage: serve
             tag-suffix: ''
@@ -347,8 +343,6 @@ jobs:
           - image-name: folderslint
             tag-suffix: ''
           - image-name: ftp-client
-            tag-suffix: ''
-          - image-name: mkdocs
             tag-suffix: ''
           - image-name: revealjs
             dockerfile-stage: serve
@@ -452,8 +446,6 @@ jobs:
           - image-name: folderslint
             tag-suffix: ''
           - image-name: ftp-client
-            tag-suffix: ''
-          - image-name: mkdocs
             tag-suffix: ''
           - image-name: revealjs
             dockerfile-stage: serve

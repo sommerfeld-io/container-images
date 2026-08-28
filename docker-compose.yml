@@ -114,22 +114,6 @@ services:
       dockerfile: Dockerfile
     tty: *tty
 
-  mkdocs-lint-dockerfile:
-    image: *lint-dockerfile-image
-    volumes: *volumes
-    working_dir: *default-workdir
-    entrypoint: hadolint components/mkdocs/Dockerfile
-    tty: *tty
-
-  mkdocs:
-    image: local/mkdocs:${DEV_TAG}
-    build:
-      context: components/mkdocs
-      dockerfile: Dockerfile
-    volumes: *volumes
-    working_dir: *default-workdir
-    tty: *tty
-
   revealjs-lint-dockerfile: &revealjs-lint-dockerfile
     image: *lint-dockerfile-image
     volumes: *volumes

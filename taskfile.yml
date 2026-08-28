@@ -59,7 +59,7 @@ tasks:
       - task: symlinks
       - for: ['yaml', 'workflows', 'filenames', 'folders', 'markdown-links']
         cmd: docker compose up lint-{{ .ITEM }} --exit-code-from lint-{{ .ITEM }}
-      - for: &images ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs', 'revealjs', 'zensical']
+      - for: &images ['devcontainer', 'folderslint', 'ftp-client', 'revealjs', 'zensical']
         task: lint:dockerfile
         vars: { IMAGE: '{{ .ITEM }}' }
 

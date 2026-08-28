@@ -30,8 +30,6 @@ jobs:
             tag-suffix: ''
           - image-name: ftp-client
             tag-suffix: ''
-          - image-name: mkdocs
-            tag-suffix: ''
           - image-name: revealjs
             dockerfile-stage: serve
             tag-suffix: ''

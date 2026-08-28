@@ -10,7 +10,6 @@ nav = [
     "container-images/devcontainer.md",
     "container-images/folderslint.md",
     "container-images/ftp-client.md",
-    "container-images/mkdocs.md",
     "container-images/revealjs.md",
     "container-images/zensical.md",
   ] },
