@@ -9,7 +9,6 @@ vars:
 includes:
   cleanup: .task/cleanup/taskfile.yml
   common: .task/common/taskfile.yml
-  copilot: .github/skills/taskfile.yml
   revealjs: components/revealjs/taskfile.yml
 
 tasks:
