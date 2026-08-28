@@ -4,7 +4,8 @@
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
       "Bash(task lint *)",
-      "Bash(curl *)"
+      "Bash(curl *)",
+      "Bash(echo *)"
     ]
   },
   "hooks": {
