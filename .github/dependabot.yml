@@ -30,3 +30,8 @@ updates:
     directory: components/revealjs
     schedule:
       interval: weekly
+
+  - package-ecosystem: docker
+    directory: components/zensical
+    schedule:
+      interval: weekly
