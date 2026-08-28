@@ -16,11 +16,9 @@ Starting with `0.28.0`, the `sommerfeldio/mkdocs` container image will **no long
 - No security updates
 - No dependency upgrades
 
-The image will remain available on GitHub, but it is stale and should not be relied upon for anything going forward. `0.28.0` is the last version available Docker Hub.
+The image will remain available on GitHub, but it is stale and should not be relied upon for anything going forward. `0.28.0` is the last version available on Docker Hub.
 
-### Why?
-
-`sommerfeldio/mkdocs` is built on [https://squidfunk.github.io/mkdocs-material](Material for MkDocs), which in turn depends on **MkDocs**. MkDocs has been unmaintained since August 2024, with no releases in over a year. As a result, Material for MkDocs itself has entered maintenance mode, and the team has [announced Zensical](https://squidfunk.github.io/mkdocs-material/blog/2025/11/05/zensical/) as its successor - a next-generation static site generator that consolidates static site generation, theming, and customization into a single coherent stack, free of the MkDocs dependency.
+`sommerfeldio/mkdocs` is built on [Material for MkDocs](https://squidfunk.github.io/mkdocs-material), which in turn depends on **MkDocs**. MkDocs has been unmaintained since August 2024, with no releases in over a year. As a result, Material for MkDocs itself has entered maintenance mode, and the team has [announced Zensical](https://squidfunk.github.io/mkdocs-material/blog/2025/11/05/zensical/) as its successor - a next-generation static site generator that consolidates static site generation, theming, and customization into a single coherent stack, free of the MkDocs dependency.
 
 ### Recommended migration: `sommerfeldio/zensical`
 
