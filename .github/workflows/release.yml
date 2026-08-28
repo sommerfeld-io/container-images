@@ -88,6 +88,8 @@ jobs:
             tag-suffix: -pdf
           - image-name: zensical
             tag-suffix: ''
+          - image-name: mkdocs
+            tag-suffix: ''
     steps:
       - name: Checkout code
         uses: actions/checkout@v7

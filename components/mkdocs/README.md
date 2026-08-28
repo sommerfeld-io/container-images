@@ -9,16 +9,16 @@ This image is used to build the documentation using the `mkdocs` toolchain and i
 - [How to Contribute](https://github.com/sommerfeld-io/.github/blob/main/CONTRIBUTING.md)
 - Visit [the projects documentation page](https://sommerfeld-io.github.io/container-images) for a list of all available container images.
 
-## DEPRECATION NOTICE: `sommerfeldio/mkdocs` is deprecated as of version `0.28.0`
+## DEPRECATION NOTICE: `sommerfeldio/mkdocs` is deprecated as of version `0.28.1`
 
-Starting with `0.28.0`, the `sommerfeldio/mkdocs` container image will **no longer be maintained**. This means:
+Starting with `0.28.1`, the `sommerfeldio/mkdocs` container image will **no longer be maintained**. This means:
 
 - No new features
 - No bug fixes
 - No security updates
 - No dependency upgrades
 
-The image will remain available on GitHub, but it is stale and should not be relied upon for anything going forward. `0.28.0` is the last version available on Docker Hub.
+The image will remain available on GitHub, but it is stale and should not be relied upon for anything going forward. `0.28.1` is the last version available on Docker Hub.
 
 `sommerfeldio/mkdocs` is built on [Material for MkDocs](https://squidfunk.github.io/mkdocs-material), which in turn depends on **MkDocs**. MkDocs has been unmaintained since August 2024, with no releases in over a year. As a result, Material for MkDocs itself has entered maintenance mode, and the team has [announced Zensical](https://squidfunk.github.io/mkdocs-material/blog/2025/11/05/zensical/) as its successor - a next-generation static site generator that consolidates static site generation, theming, and customization into a single coherent stack, free of the MkDocs dependency.
 
@@ -38,7 +38,7 @@ Review the [Zensical compatibility page](https://zensical.org/compatibility/) be
 - Zensical website: <https://zensical.org/>
 - Zensical compatibility: <https://zensical.org/compatibility/>
 
-## About the latest stable release which is `sommerfeldio/mkdocs:0.28.0`
+## About the latest stable release which is `sommerfeldio/mkdocs:0.28.1`
 
 This image extends the [squidfunk/mkdocs-material](https://hub.docker.com/r/squidfunk/mkdocs-material) image with the [mkdocs-kroki-plugin](https://pypi.org/project/mkdocs-kroki-plugin) to allow rendering diagrams and charts using [Kroki.io](https://kroki.io). A dedicated Dockerfile is needed because the base image does not provide all necessary plugins and tools.
 

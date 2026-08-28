@@ -1,5 +1,10 @@
 [project]
 site_name = "Container Images"
+site_url = "https://www.sommerfeld.io"
+site_author = "Sebastian Sommerfeld"
+site_description = "Collection of Container Images for sommerfeld.io projects."
+repo_name = "sommerfeld-io/container-images"
+repo_url = "https://github.com/sommerfeld-io/container-images"
 docs_dir = "docs"
 site_dir = "target/docs/site"
 copyright = "Copyright &copy; 2024 Sommerfeld.io"
