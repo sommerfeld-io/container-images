@@ -23,7 +23,7 @@ ARG CTOP_TARGET=/usr/local/bin/ctop
 RUN curl -L https://github.com/bcicen/ctop/releases/download/v${CTOP_VERSION}/ctop-${CTOP_VERSION}-linux-${TARGETARCH} -o ${CTOP_TARGET} \
     && chmod ugo+rx ${CTOP_TARGET}
 
-ARG TASK_VERSION=3.42.1
+ARG TASK_VERSION=3.53.0
 ARG TASK_TARGET=/tmp/task.deb
 RUN curl -fsSL "https://github.com/go-task/task/releases/download/v${TASK_VERSION}/task_linux_${TARGETARCH}.deb" -o ${TASK_TARGET} \
     && dpkg -i ${TASK_TARGET} \
