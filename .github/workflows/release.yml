@@ -32,7 +32,7 @@ jobs:
           submodules: true
           ref: ${{github.ref}}
       - name: Build docs page
-        run: docker compose up docs-build
+        run: docker compose up mkdocs-docs-build
         shell: bash
       - name: List contents
         run: ls -alF target/docs/site
@@ -88,6 +88,8 @@ jobs:
           - image-name: revealjs
             dockerfile-stage: pdf
             tag-suffix: -pdf
+          - image-name: zensical
+            tag-suffix: ''
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -164,6 +166,8 @@ jobs:
           - image-name: revealjs
             dockerfile-stage: pdf
             tag-suffix: -pdf
+          - image-name: zensical
+            tag-suffix: ''
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -238,6 +242,8 @@ jobs:
           - image-name: revealjs
             dockerfile-stage: pdf
             tag-suffix: -pdf
+          - image-name: zensical
+            tag-suffix: ''
     steps:
       # - name: Checkout code
       #   uses: actions/checkout@v4

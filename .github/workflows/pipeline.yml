@@ -124,7 +124,7 @@ jobs:
     name: ${{ matrix.image-name }}
     strategy:
       matrix:
-        image-name: ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs', 'revealjs']
+        image-name: ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs', 'revealjs', 'zensical']
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -174,6 +174,8 @@ jobs:
           - image-name: revealjs
             dockerfile-stage: pdf
             tag-suffix: -pdf
+          - image-name: zensical
+            tag-suffix: ''
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -305,6 +307,8 @@ jobs:
           - image-name: revealjs
             dockerfile-stage: pdf
             tag-suffix: -pdf
+          - image-name: zensical
+            tag-suffix: ''
     steps:
       - name: Login to Container Registry
         uses: docker/login-action@v4.6.0
@@ -352,6 +356,8 @@ jobs:
           - image-name: revealjs
             dockerfile-stage: pdf
             tag-suffix: -pdf
+          - image-name: zensical
+            tag-suffix: ''
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -406,8 +412,8 @@ jobs:
       - name: Run task to generate docs
         run: task docs:generate
         shell: bash
-      - name: Build docs-build image
-        run: docker compose build docs-build
+      - name: Build mkdocs-docs-build image
+        run: docker compose build mkdocs-docs-build
         shell: bash
       - name: Commit and push
         uses: EndBug/add-and-commit@v11.1.1
@@ -455,6 +461,8 @@ jobs:
           - image-name: revealjs
             dockerfile-stage: pdf
             tag-suffix: -pdf
+          - image-name: zensical
+            tag-suffix: ''
     steps:
       - name: Checkout code
         uses: actions/checkout@v7

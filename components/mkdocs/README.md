@@ -1,6 +1,8 @@
-# sommerfeldio/mkdocs (DEPRECATED)
+# sommerfeldio/mkdocs
 
 This image is used to build the documentation using the `mkdocs` toolchain and is based on [Material for MkDocs](https://squidfunk.github.io/mkdocs-material).
+
+![Deprecated](https://raw.githubusercontent.com/sommerfeld-io/container-images/refs/heads/main/.assets/deprecated.png)
 
 - [sommerfeldio/mkdocs](https://hub.docker.com/r/sommerfeldio/mkdocs) on Docker Hub
 - [Dockerfile source code](https://github.com/sommerfeld-io/container-images/tree/main/components/mkdocs) on GitHub

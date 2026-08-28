@@ -25,6 +25,7 @@
 		"components/ftp-client/configs/etc",
 		"components/mkdocs",
 		"components/revealjs/demo/slides",
+		"components/zensical",
         "components/*/test/inspec/**",
 
 		"docs",
