@@ -9,7 +9,15 @@ exclude_path = [
 ]
 exclude_loopback = true
 exclude = [
-    '.*fritz\.box.*'
+    '.*fritz\.box.*',
+
+    # TODO: temporary bootstrap exclusions for the new zensical component - these
+    # links are correct but 404 until this branch is merged to main (GitHub blob/tree
+    # links resolve against main) and the image's first Docker Hub publish completes.
+    # Remove once both are live.
+    'github\.com/sommerfeld-io/container-images/blob/main/zensical\.toml',
+    'github\.com/sommerfeld-io/container-images/tree/main/components/zensical',
+    'hub\.docker\.com/r/sommerfeldio/zensical'
 ]
 
 format = 'detailed' # compact, detailed, json, markdown, raw

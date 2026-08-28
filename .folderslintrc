@@ -7,7 +7,6 @@
 		".github",
 		".github/actions/*",
 		".github/prompts",
-		".github/skills/*",
 		".github/workflows",
 		".github/workflows/assets",
 
@@ -26,6 +25,7 @@
 		"components/ftp-client/configs/etc",
 		"components/mkdocs",
 		"components/revealjs/demo/slides",
+		"components/zensical",
         "components/*/test/inspec/**",
 
 		"docs",

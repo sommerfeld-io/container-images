@@ -9,7 +9,6 @@ vars:
 includes:
   cleanup: .task/cleanup/taskfile.yml
   common: .task/common/taskfile.yml
-  copilot: .github/skills/taskfile.yml
   revealjs: components/revealjs/taskfile.yml
 
 tasks:
@@ -60,7 +59,7 @@ tasks:
       - task: symlinks
       - for: ['yaml', 'workflows', 'filenames', 'folders', 'markdown-links']
         cmd: docker compose up lint-{{ .ITEM }} --exit-code-from lint-{{ .ITEM }}
-      - for: &images ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs', 'revealjs']
+      - for: &images ['devcontainer', 'folderslint', 'ftp-client', 'mkdocs', 'revealjs', 'zensical']
         task: lint:dockerfile
         vars: { IMAGE: '{{ .ITEM }}' }
 
@@ -104,9 +103,10 @@ tasks:
         vars: { SRC: "components/{{ .ITEM }}/README.md", DEST: "docs/container-images/{{ .ITEM }}.md" }
 
   docs:run:
-    desc: Run the documentation server
+    desc: Serve this repo's docs with zensical, native config (zensical.toml)
     cmds:
       - task: docs:generate
+      - docker compose up docs-build
       - docker compose up docs-dev-server
 
   # ===============================================================================================

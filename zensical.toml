@@ -1,0 +1,49 @@
+[project]
+site_name = "Container Images"
+docs_dir = "docs"
+site_dir = "target/docs/site"
+copyright = "Copyright &copy; 2024 Sommerfeld.io"
+
+nav = [
+  "index.md",
+  { "Container Images" = [
+    "container-images/devcontainer.md",
+    "container-images/folderslint.md",
+    "container-images/ftp-client.md",
+    "container-images/mkdocs.md",
+    "container-images/revealjs.md",
+    "container-images/zensical.md",
+  ] },
+  "license.md",
+  { "On Github.com" = [
+    { "Releases" = "https://github.com/sommerfeld-io/container-images/releases" },
+    { "Architecture Decision Records" = "https://github.com/sommerfeld-io/container-images/issues?q=is%3Aissue+label%3AADR" },
+    { "Development Guide" = "https://github.com/sommerfeld-io/.github/blob/main/docs/development-guide.md" },
+    { "Code Guideline - Pipelines" = "https://github.com/sommerfeld-io/.github/blob/main/docs/code-guideline-pipelines.md" },
+    { "How to Contribute" = "https://github.com/sommerfeld-io/.github/blob/main/CONTRIBUTING.md" },
+    { "Code of Conduct" = "https://github.com/sommerfeld-io/.github/blob/main/CODE_OF_CONDUCT.md" },
+    { "Security Policy" = "https://github.com/sommerfeld-io/.github/blob/main/SECURITY.md" },
+    { "Terms of Use" = "https://github.com/sommerfeld-io/.github/blob/main/docs/terms.md" },
+  ] },
+]
+
+[project.theme]
+font = { text = "Work Sans" }
+features = [
+  "content.code.copy",
+  "content.tabs.link",
+  "navigation.footer",
+  "navigation.expand",
+  "navigation.tracking",
+]
+
+[project.theme.palette]
+scheme = "slate"
+primary = "blue grey"
+accent = "deep orange"
+
+[project.extra]
+social = [
+  { icon = "fontawesome/brands/github", link = "https://github.com/sommerfeld-io/container-images" },
+  { icon = "fontawesome/brands/docker", link = "https://hub.docker.com/u/sommerfeldio" },
+]

@@ -54,8 +54,6 @@ ignore:
   - components/ftp-client/test/inspec/vendor
   - components/revealjs/test/inspec/vendor
 
-  - .github/skills/.markdownlint.yml
-
   # linter definitions etc.
   - .editorconfig
   - .hadolint.yml

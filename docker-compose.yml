@@ -69,21 +69,6 @@ services:
     working_dir: *default-workdir
     tty: *tty
 
-  docs-build:
-    image: &docs-image sommerfeldio/mkdocs:latest
-    volumes: *volumes
-    working_dir: *default-workdir
-    command: build
-    tty: *tty
-
-  docs-dev-server:
-    image: *docs-image
-    volumes: *volumes
-    working_dir: *default-workdir
-    ports:
-      - 3080:8000
-    tty: *tty
-
   devcontainer-lint-dockerfile:
     image: &lint-dockerfile-image hadolint/hadolint:latest
     volumes: *volumes
@@ -173,4 +158,38 @@ services:
       target: pdf
     volumes: *volumes
     working_dir: *default-workdir
+    tty: *tty
+
+  zensical-lint-dockerfile:
+    image: *lint-dockerfile-image
+    volumes: *volumes
+    working_dir: *default-workdir
+    entrypoint: hadolint components/zensical/Dockerfile
+    tty: *tty
+
+  zensical:
+    image: local/zensical:${DEV_TAG}
+    build:
+      context: components/zensical
+      dockerfile: Dockerfile
+    volumes: *volumes
+    working_dir: *default-workdir
+    tty: *tty
+
+  # ---------------------------------------------------------------------------
+
+  docs-build:
+    image: &zensical-docs-image sommerfeldio/zensical:latest
+    volumes: *volumes
+    working_dir: *default-workdir
+    command: build
+    tty: *tty
+
+  docs-dev-server:
+    image: *zensical-docs-image
+    volumes: *volumes
+    working_dir: *default-workdir
+    command: serve --dev-addr 0.0.0.0:8000
+    ports:
+      - 3080:8000
     tty: *tty
