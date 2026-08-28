@@ -178,14 +178,14 @@ services:
 
   # ---------------------------------------------------------------------------
 
-  zensical-docs-build:
+  docs-build:
     image: &zensical-docs-image sommerfeldio/zensical:latest
     volumes: *volumes
     working_dir: *default-workdir
     command: build
     tty: *tty
 
-  zensical-docs-dev-server:
+  docs-dev-server:
     image: *zensical-docs-image
     volumes: *volumes
     working_dir: *default-workdir

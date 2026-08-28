@@ -102,12 +102,12 @@ tasks:
         task: common:copy
         vars: { SRC: "components/{{ .ITEM }}/README.md", DEST: "docs/container-images/{{ .ITEM }}.md" }
 
-  docs:zensical:run:
+  docs:run:
     desc: Serve this repo's docs with zensical, native config (zensical.toml)
     cmds:
       - task: docs:generate
-      - docker compose up zensical-docs-build
-      - docker compose up zensical-docs-dev-server
+      - docker compose up docs-build
+      - docker compose up docs-dev-server
 
   # ===============================================================================================
 
