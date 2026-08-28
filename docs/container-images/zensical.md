@@ -30,6 +30,8 @@ The same SBOM is also attached as a downloadable asset on each [GitHub release](
 
 ## Usage
 
+This image can be used as a drop-in replacement for `sommerfeldio/mkdocs` and automatically reads your existing `mkdocs.yml` configuration. However, going forward, it is recommended to migrate to `zensical.toml` as the native configuration format.
+
 This image supports two modes, mirroring `sommerfeldio/mkdocs`. The `build` command builds the documentation site and then the container terminates. The `serve` command starts a development preview server. Unlike `sommerfeldio/mkdocs`, `zensical serve` binds to `localhost:8000` by default; this image's default command already passes `--dev-addr 0.0.0.0:8000` so port-mapping from Docker works out of the box.
 
 The development server is not recommended for production use. For production use, the `build` command should be used to generate the static site, which can then be served by a web server like [nginx](https://hub.docker.com/_/nginx) or [Apache httpd](https://hub.docker.com/_/httpd).
@@ -55,49 +57,16 @@ services:
     volumes: *volumes
     working_dir: *default-workdir
     ports:
-      - 3080:8000
+      - 8000:8000
 ```
-
-If your project has only `zensical.toml` (no `mkdocs.yml`), Zensical picks it up automatically and no extra flag is needed.
 
 ### Compatibility layer, using `mkdocs.yml`
 
-**Precedence:** if both `mkdocs.yml` and `zensical.toml` exist in the same directory, `zensical.toml` wins automatically with no flag needed. To force a specific file regardless of what else is present, pass `-f`/`--config-file` explicitly, e.g. `command: build -f mkdocs.yml`.
-
-For general getting-started information, see the official [Zensical "Get started" guide](https://zensical.org/docs/get-started/).
-
-## Migrating from `sommerfeldio/mkdocs`
-
 Zensical's native configuration format is `zensical.toml`. Going forward, that is the normal way to configure a site built with this image. Zensical also natively reads `mkdocs.yml` and reproduces the same HTML output, so an `mkdocs.yml`-based project keeps working through a compatibility layer while you migrate on your own schedule. There are two supported paths.
 
-### Path 1: Native `zensical.toml` configuration (recommended)
+If both `mkdocs.yml` and `zensical.toml` exist in the same directory, `zensical.toml` wins automatically with no flag needed. To force a specific file regardless of what else is present, pass `-f` / `--config-file` explicitly, e.g. `command: build -f mkdocs.yml`.
 
-`zensical.toml` mirrors `mkdocs.yml` structurally but uses TOML and nests settings under `[project]`:
-
-```toml
-[project]
-site_name = "My site"
-docs_dir = "docs"
-site_dir = "site"
-
-nav = [
-  "index.md",
-  { "About" = "about.md" },
-]
-
-[project.theme]
-font = { text = "Work Sans" }
-```
-
-This project's own documentation is translated this way as a worked example - see [`zensical.toml`](https://github.com/sommerfeld-io/container-images/blob/main/zensical.toml) at the root of this repository.
-
-### Path 2: `mkdocs.yml` compatibility layer (drop-in from `sommerfeldio/mkdocs`)
-
-The fastest way to move off `sommerfeldio/mkdocs`: change nothing except the image you run.
-
-- Keep your existing `mkdocs.yml`, Markdown files, template overrides, and CSS/JavaScript untouched.
-- Swap the image tag from `sommerfeldio/mkdocs` to `sommerfeldio/zensical` in your `docker-compose.yml` (or wherever you reference the image).
-- Rebuild. Zensical maps each plugin declared in `mkdocs.yml` to an equivalent Zensical module automatically.
+For general getting-started information, see the official [Zensical "Get started" guide](https://zensical.org/docs/get-started/).
 
 ## Known limitations
 

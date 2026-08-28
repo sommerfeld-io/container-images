@@ -412,8 +412,8 @@ jobs:
       - name: Run task to generate docs
         run: task docs:generate
         shell: bash
-      - name: Build mkdocs-docs-build image
-        run: docker compose build mkdocs-docs-build
+      - name: zensical-docs-build
+        run: docker compose build zensical-docs-build
         shell: bash
       - name: Commit and push
         uses: EndBug/add-and-commit@v11.1.1

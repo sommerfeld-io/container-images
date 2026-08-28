@@ -106,7 +106,6 @@ tasks:
     desc: Serve this repo's docs with zensical, native config (zensical.toml)
     cmds:
       - task: docs:generate
-      - task: build:zensical
       - docker compose up zensical-docs-build
       - docker compose up zensical-docs-dev-server
 

@@ -178,22 +178,8 @@ services:
 
   # ---------------------------------------------------------------------------
 
-  mkdocs-docs-build:
-    image: &docs-image sommerfeldio/mkdocs:latest
-    volumes: *volumes
-    working_dir: *default-workdir
-    command: build
-    tty: *tty
-
-  mkdocs-docs-dev-server:
-    image: *docs-image
-    volumes: *volumes
-    working_dir: *default-workdir
-    ports:
-      - 3080:8000
-    tty: *tty
   zensical-docs-build:
-    image: &zensical-docs-image local/zensical:${DEV_TAG}
+    image: &zensical-docs-image sommerfeldio/zensical:latest
     volumes: *volumes
     working_dir: *default-workdir
     command: build -f zensical.toml

@@ -58,7 +58,7 @@ task test:revealjs
 # generate and preview docs
 task docs:generate
 task docs:zensical:run
-docker compose up mkdocs-docs-build
+docker compose up zensical-docs-build
 ```
 
 ## High-level architecture

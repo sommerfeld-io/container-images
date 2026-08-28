@@ -1,7 +1,7 @@
 [project]
-site_name = "Container Images ZZZ"
+site_name = "Container Images"
 docs_dir = "docs"
-site_dir = "target/docs/site-native"
+site_dir = "target/docs/site"
 copyright = "Copyright &copy; 2024 Sommerfeld.io"
 
 nav = [
