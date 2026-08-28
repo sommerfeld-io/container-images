@@ -38,6 +38,8 @@ jobs:
           - image-name: revealjs
             dockerfile-stage: pdf
             tag-suffix: -pdf
+          - image-name: zensical
+            tag-suffix: ''
     steps:
       # - name: Checkout code
       #   uses: actions/checkout@v4
