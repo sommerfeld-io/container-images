@@ -17,6 +17,9 @@
 
 		".vscode",
 
+		"_bmad/**",
+		"_bmad-output/**",
+
 		"components/devcontainer/configs/etc",
         "components/devcontainer/claude/commands",
 		"components/folderslint",

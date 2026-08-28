@@ -43,6 +43,9 @@ ignore:
   - .git
   - .idea
   - .task
+  - _bmad
+  - _bmad-output
+  - .claude/skills
   - .vscode
   - .claude/settings.local.json
   - node_modules

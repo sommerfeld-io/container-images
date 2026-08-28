@@ -14,4 +14,10 @@ node_modules
 
 .task/remote
 
+## BMad Method: _bmad/ holds fetched framework code, regenerated via
+## `task bmad:install` — not tracked. _bmad-output/ (PRDs, architecture,
+## stories) is tracked as a living record.
+_bmad
+
 .claude/settings.local.json
+.claude/skills/bmad-*
