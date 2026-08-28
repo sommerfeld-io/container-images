@@ -1,4 +1,4 @@
-# sommerfeldio/mkdocs
+# sommerfeldio/mkdocs (DEPRECATED)
 
 This image is used to build the documentation using the `mkdocs` toolchain and is based on [Material for MkDocs](https://squidfunk.github.io/mkdocs-material).
 
