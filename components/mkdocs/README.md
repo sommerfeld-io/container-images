@@ -1,5 +1,36 @@
 # sommerfeldio/mkdocs
 
+> **Deprecation Notice**: `sommerfeldio/mkdocs` is deprecated as of version `0.28.0`.
+>
+> Starting with `0.28.0`, the `sommerfeldio/mkdocs` container image will **no longer be maintained**. This means:
+>
+> - No new features
+> - No bug fixes
+> - No security updates
+> - No dependency upgrades
+>
+> The image will remain available on GitHub, but it is **frozen** and should not be relied upon for anything going forward. `0.28.0` is the last version available Docker Hub.
+>
+> **Why?**
+>
+> `sommerfeldio/mkdocs` is built on [https://squidfunk.github.io/mkdocs-material](Material for MkDocs), which in turn depends on **MkDocs**. MkDocs has been unmaintained since August 2024, with no releases in over a year. As a result, Material for MkDocs itself has entered maintenance mode, and the team has [announced Zensical](https://squidfunk.github.io/mkdocs-material/blog/2025/11/05/zensical/) as its successor - a next-generation static site generator that consolidates static site generation, theming, and customization into a single coherent stack, free of the MkDocs dependency.
+>
+> **Recommended migration: `sommerfeldio/zensical`**
+>
+> Switch to `sommerfeldio/zensical` as a drop-in replacement. Because Zensical guarantees compatibility with Material for MkDocs, migrating away from `sommerfeldio/mkdocs` should require little to no change to your documentation sources.
+>
+> - Reads your existing `mkdocs.yml` natively, so you can build your current project with minimal changes.
+> - Leaves your Markdown files, template overrides, and CSS/JavaScript extensions untouched (the generated HTML is unchanged and content is still processed via Python Markdown).
+> Ships as fully Open Source (MIT-licensed).
+>
+> Review the [Zensical compatibility page](https://zensical.org/compatibility/) before migrating if you rely on specific plugins.
+>
+> **Learn more**
+>
+> - Zensical announcement: <https://squidfunk.github.io/mkdocs-material/blog/2025/11/05/zensical/>
+> - Zensical website: <https://zensical.org/>
+> - Zensical compatibility: <https://zensical.org/compatibility/>
+
 This image is used to build the documentation using the `mkdocs` toolchain and is based on [Material for MkDocs](https://squidfunk.github.io/mkdocs-material).
 
 This image extends the [squidfunk/mkdocs-material](https://hub.docker.com/r/squidfunk/mkdocs-material) image with the [mkdocs-kroki-plugin](https://pypi.org/project/mkdocs-kroki-plugin) to allow rendering diagrams and charts using [Kroki.io](https://kroki.io). A dedicated Dockerfile is needed because the base image does not provide all necessary plugins and tools.
