@@ -28,7 +28,9 @@ Any markdown you generate must comply with the project's markdownlint rules:
 - **MD004** - use a consistent list marker style throughout each document
 - **MD007** - indent nested lists with 4 spaces
 - **MD013** - line length is not enforced (disabled)
+- **MD024** - no duplicate heading text anywhere in the document, even at different levels
 - **MD035** - use `---` for horizontal rules
+- **MD036** - do not use bold text as a substitute for a heading; use `#`/`##`/`###` (any level) instead
 - **MD046** - use fenced code blocks (``` ... ```) rather than indented code blocks
 
 ### Markdown tables
