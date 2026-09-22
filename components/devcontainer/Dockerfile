@@ -73,7 +73,7 @@ RUN apt-get update \
         python3-dev \
     && uv venv "${ANSIBLE_DEV_TOOLS_VENV}" \
     && uv pip install --python "${ANSIBLE_DEV_TOOLS_VENV}/bin/python" "ansible-dev-tools==${ANSIBLE_DEV_TOOLS_VERSION}" \
-    && apt-get purge -y --auto-remove \
+    && apt-get purge -y \
         build-essential \
         libonig-dev \
         python3-dev \
