@@ -155,9 +155,8 @@ tasks:
   test:
     desc: Test all container images
     cmds:
-      - for: *inspec-profiles
+      - for: &test-images ['devcontainer', 'devcontainer-ansible', 'ftp-client', 'revealjs']
         task: test:{{ .ITEM }}
-      - task: test:devcontainer-ansible
 
   test:*:
     desc: Test container image | Replace * with image name
