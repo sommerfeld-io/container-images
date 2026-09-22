@@ -161,6 +161,7 @@ jobs:
       matrix:
         include:
           - image-name: devcontainer
+            dockerfile-stage: baseline
             tag-suffix: ''
           - image-name: devcontainer
             dockerfile-stage: ansible
