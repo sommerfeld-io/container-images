@@ -94,7 +94,7 @@ cd components/devcontainer # if from the root of the repository
 docker build -t local/devcontainer:dev .
 ```
 
-To build the Ansible variant locally, run:
+To build the published Ansible variant from the explicit `ansible` stage locally, run:
 
 ```bash
 cd components/devcontainer # if from the root of the repository
