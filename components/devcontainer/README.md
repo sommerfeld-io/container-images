@@ -34,7 +34,7 @@ FROM sommerfeldio/devcontainer:latest
 LABEL maintainer="sebastian@sommerfeld.io"
 ```
 
-This `sommerfeldio/devcontainer` image is based on [`mcr.microsoft.com/devcontainers/base:resolute`](https://hub.docker.com/r/microsoft/devcontainers-base/tags?name=resolute) and is configured to run as the non-root user `vscode` by default. File permissions and mounted volumes will be owned and accessed by the `vscode` user (uid = `1000`, gid = `1000`).
+This `sommerfeldio/devcontainer` image is based on [`mcr.microsoft.com/devcontainers/base:resolute`](https://hub.docker.com/r/microsoft/devcontainers/tags?name=resolute) and is configured to run as the non-root user `vscode` by default. File permissions and mounted volumes will be owned and accessed by the `vscode` user (uid = `1000`, gid = `1000`).
 
 ```json
 {
