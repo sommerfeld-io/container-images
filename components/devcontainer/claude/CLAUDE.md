@@ -1,4 +1,4 @@
-# Development Environment
+# AI Agent Instructions
 
 ## Commit Messages: Conventional Commits
 
@@ -52,3 +52,7 @@ Not:
 | Some key | Some value |
 | Another key | Another value |
 ```
+
+## Moving Files
+
+When moving existing files, e.g. as part of a refactoring, prefer `git mv` over `mv` wherever possible to preserve each file's git history instead of losing it to a delete-plus-add.
