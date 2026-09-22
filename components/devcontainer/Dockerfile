@@ -68,11 +68,13 @@ ARG ANSIBLE_DEV_TOOLS_VERSION=26.7.2
 USER root
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
+        build-essential \
         libonig-dev \
         python3-dev \
     && uv venv "${ANSIBLE_DEV_TOOLS_VENV}" \
     && uv pip install --python "${ANSIBLE_DEV_TOOLS_VENV}/bin/python" "ansible-dev-tools==${ANSIBLE_DEV_TOOLS_VERSION}" \
     && apt-get purge -y --auto-remove \
+        build-essential \
         libonig-dev \
         python3-dev \
     && apt-get clean \
