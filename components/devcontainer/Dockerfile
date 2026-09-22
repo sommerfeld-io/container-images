@@ -66,7 +66,12 @@ ENV ANSIBLE_DEV_TOOLS_VENV=/opt/venvs/ansible-dev-tools
 ARG ANSIBLE_DEV_TOOLS_VERSION=26.8.0
 
 USER root
-RUN uv venv "${ANSIBLE_DEV_TOOLS_VENV}" \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        python3-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && uv venv "${ANSIBLE_DEV_TOOLS_VENV}" \
     && uv pip install --python "${ANSIBLE_DEV_TOOLS_VENV}/bin/python" "ansible-dev-tools==${ANSIBLE_DEV_TOOLS_VERSION}" \
     && chown -R vscode:vscode "${ANSIBLE_DEV_TOOLS_VENV}"
 
