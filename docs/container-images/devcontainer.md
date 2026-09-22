@@ -77,7 +77,17 @@ LABEL maintainer="sebastian@sommerfeld.io"
 
 ## How to Build
 
-To build the baseline image locally, run a plain `docker build`. The Dockerfile's default final stage is the baseline variant:
+Use the repository's canonical `task` workflow to build the published variants locally:
+
+```bash
+task build:devcontainer
+
+task build:devcontainer-ansible
+```
+
+The underlying Dockerfile keeps the baseline image as the default final stage and exposes the Ansible variant through the explicit `ansible` stage. Equivalent raw Docker commands are:
+
+To build the baseline image locally, run:
 
 ```bash
 cd components/devcontainer # if from the root of the repository
@@ -89,14 +99,6 @@ To build the Ansible variant locally, run:
 ```bash
 cd components/devcontainer # if from the root of the repository
 docker build --target ansible -t local/devcontainer:dev-ansible .
-```
-
-Alternatively, use the project's `task` workflow:
-
-```bash
-task build:devcontainer
-
-task build:devcontainer-ansible
 ```
 
 ## License
