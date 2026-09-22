@@ -63,7 +63,7 @@ COPY --from=ghcr.io/astral-sh/uv:0.12.5 /uv /uvx /bin/
 FROM base AS ansible
 
 ENV ANSIBLE_DEV_TOOLS_VENV=/opt/venvs/ansible-dev-tools
-ARG ANSIBLE_DEV_TOOLS_VERSION=26.8.0
+ARG ANSIBLE_DEV_TOOLS_VERSION=26.7.2
 
 USER root
 RUN apt-get update \
