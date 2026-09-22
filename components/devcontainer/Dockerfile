@@ -68,6 +68,7 @@ ARG ANSIBLE_DEV_TOOLS_VERSION=26.7.2
 USER root
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
+        libonig-dev \
         python3-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
