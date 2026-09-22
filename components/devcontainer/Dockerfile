@@ -68,6 +68,7 @@ COPY --from=ghcr.io/astral-sh/uv:0.12.5 /uv /uvx /bin/
 ## Stage: ansible — extends base with ansible-dev-tools (ansible-playbook,
 ## ansible-lint, ansible-navigator, molecule) on PATH.
 FROM base AS ansible
+LABEL maintainer="sebastian@sommerfeld.io"
 
 ENV ANSIBLE_DEV_TOOLS_VENV=/opt/venvs/ansible-dev-tools
 ARG ANSIBLE_DEV_TOOLS_VERSION=26.7.2
