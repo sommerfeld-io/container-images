@@ -1,5 +1,5 @@
 ## See <https://hub.docker.com/r/microsoft/devcontainers-base#about-ubuntu>
-## `resolute` currently maps to Ubuntu 24.04 LTS in Microsoft Dev Containers.
+## `resolute` tracks the current Ubuntu LTS base image published by Microsoft Dev Containers.
 FROM mcr.microsoft.com/devcontainers/base:resolute AS base
 LABEL maintainer="sebastian@sommerfeld.io"
 
@@ -78,4 +78,4 @@ RUN apt-get update \
 USER vscode
 ENV PATH="${ANSIBLE_DEV_TOOLS_VENV}/bin:${PATH}"
 
-FROM base
+FROM base AS baseline
