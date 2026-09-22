@@ -1,5 +1,5 @@
 ## See <https://hub.docker.com/r/microsoft/devcontainers-base#about-ubuntu>
-## `resolute` tracks the current Ubuntu LTS base image published by Microsoft Dev Containers.
+## `resolute` currently maps to Ubuntu 24.04 LTS in Microsoft Dev Containers.
 FROM mcr.microsoft.com/devcontainers/base:resolute AS base
 LABEL maintainer="sebastian@sommerfeld.io"
 
