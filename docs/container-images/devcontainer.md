@@ -90,15 +90,13 @@ The underlying Dockerfile exposes explicit `baseline` and `ansible` stages. Equi
 To build the baseline image locally, run:
 
 ```bash
-cd components/devcontainer # if from the root of the repository
-docker build --target baseline -t local/devcontainer:dev .
+docker build -f components/devcontainer/Dockerfile --target baseline -t local/devcontainer:dev components/devcontainer
 ```
 
 To build the published Ansible variant from the explicit `ansible` stage locally, run:
 
 ```bash
-cd components/devcontainer # if from the root of the repository
-docker build --target ansible -t local/devcontainer:dev-ansible .
+docker build -f components/devcontainer/Dockerfile --target ansible -t local/devcontainer:dev-ansible components/devcontainer
 ```
 
 ## License
