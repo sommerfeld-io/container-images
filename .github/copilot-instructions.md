@@ -1,4 +1,4 @@
-# GitHub Copilot Instructions
+# AI Agent Instructions
 
 ## Commit Messages: Conventional Commits
 
@@ -6,18 +6,18 @@ Always use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/
 
 **Format:** `<type>(optional scope): <description>`
 
-| Type | Effect | When to use |
-|------|--------|-------------|
-| `fix` | PATCH release | Patches a bug |
-| `feat` | MINOR release | Introduces a new feature |
-| `BREAKING CHANGE` footer | MAJOR release | Introduces a breaking API change |
-| `build`, `chore`, `ci`, `docs`, `style`, `refactor`, `perf`, `test` | No release | All other changes |
+| Type                                                                | Effect        | When to use                      |
+|---------------------------------------------------------------------|---------------|----------------------------------|
+| `fix`                                                               | PATCH release | Patches a bug                    |
+| `feat`                                                              | MINOR release | Introduces a new feature         |
+| `BREAKING CHANGE` footer                                            | MAJOR release | Introduces a breaking API change |
+| `build`, `chore`, `ci`, `docs`, `style`, `refactor`, `perf`, `test` | No release    | All other changes                |
 
 **Rules:**
 
 - A scope may be added in parentheses for extra context: `feat(parser): add ability to parse arrays`. A scope may **NOT** contain a slash (`/`).
 - Breaking changes must include `BREAKING CHANGE:` in the footer: `feat: drop support for Node 6`
-- Commit message titles must also match the project pattern: `^(fix|feat|build|chore|ci|docs|style|refactor|perf|test)/[a-z0-9._-]+$`
+- Commit message titles must also match the project pattern: `^(fix|feat|build|chore|ci|docs|style|refactor|perf|test)(\([a-z0-9._-]+\))?: .+$`. Titles using a slash instead of a colon (e.g. `chore/bump-deps`) are forbidden — always use `chore(bump-deps): ...` or `chore: ...`.
 
 Write commit messages using the Conventional Commits format, ensuring the header (`type(scope): summary`) is clear and descriptive, as it will be displayed on GitHub release pages and used for changelogs. Focus the header on user-visible, meaningful change descriptions and avoid vague wording. Always document breaking changes explicitly in the footer using `BREAKING CHANGE:` (do not use the `!` notation).
 

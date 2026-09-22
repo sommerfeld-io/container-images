@@ -161,7 +161,11 @@ jobs:
       matrix:
         include:
           - image-name: devcontainer
+            dockerfile-stage: base
             tag-suffix: ''
+          - image-name: devcontainer
+            dockerfile-stage: ansible
+            tag-suffix: -ansible
           - image-name: folderslint
             tag-suffix: ''
           - image-name: ftp-client
@@ -234,7 +238,7 @@ jobs:
 
   inspec-images:
     runs-on: ubuntu-latest
-    name: ${{ matrix.image-name }}:${{ github.sha }}
+    name: ${{ matrix.image-name }}:${{ github.sha }}${{ matrix.tag-suffix }}
     needs: [
       'build-images',
     ]
@@ -242,7 +246,23 @@ jobs:
       contents: read
     strategy:
       matrix:
-        image-name: ['devcontainer', 'ftp-client', 'revealjs']
+        include:
+          - image-name: devcontainer
+            profile-name: devcontainer
+            tag-suffix: ''
+            ansible-variant: 'false'
+          - image-name: devcontainer
+            profile-name: devcontainer
+            tag-suffix: -ansible
+            ansible-variant: 'true'
+          - image-name: ftp-client
+            profile-name: ftp-client
+            tag-suffix: ''
+            ansible-variant: 'false'
+          - image-name: revealjs
+            profile-name: revealjs
+            tag-suffix: ''
+            ansible-variant: 'false'
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -265,17 +285,27 @@ jobs:
           REGISTRY: ${{ env.REGISTRY }}
           DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
           IMAGE_NAME: ${{ matrix.image-name }}
+          PROFILE_NAME: ${{ matrix.profile-name }}
           COMMIT_SHA: ${{ github.sha }}
+          TAG_SUFFIX: ${{ matrix.tag-suffix }}
+          ANSIBLE_VARIANT: ${{ matrix.ansible-variant }}
         run: |
-          readonly SYSTEM_UNDER_TEST="$REGISTRY/$DOCKERHUB_USER/$IMAGE_NAME:$COMMIT_SHA"
-          readonly INSPEC_DIR="components/$IMAGE_NAME/test/inspec"
+          readonly SYSTEM_UNDER_TEST="$REGISTRY/$DOCKERHUB_USER/$IMAGE_NAME:$COMMIT_SHA$TAG_SUFFIX"
+          readonly INSPEC_DIR="components/$PROFILE_NAME/test/inspec"
 
-          docker run --name "sut-$IMAGE_NAME" -d --entrypoint sleep -v "$(pwd):$(pwd):ro" -w "$(pwd)" "$SYSTEM_UNDER_TEST" 180s
+          INPUT_ARGS=()
+          if [[ "$ANSIBLE_VARIANT" == 'true' ]]; then
+            INPUT_ARGS+=(--input ansible_variant=true)
+          fi
+
+          readonly SUT_NAME="sut-$IMAGE_NAME${TAG_SUFFIX}"
+
+          docker run --name "$SUT_NAME" -d --entrypoint sleep -v "$(pwd):$(pwd):ro" -w "$(pwd)" "$SYSTEM_UNDER_TEST" 180s
           sleep 5
-          docker compose run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(pwd):$(pwd)" -w "$(pwd)" inspec exec "$INSPEC_DIR" --target "docker://sut-$IMAGE_NAME" --no-distinct-exit --chef-license=accept
+          docker compose run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(pwd):$(pwd)" -w "$(pwd)" inspec exec "$INSPEC_DIR" "${INPUT_ARGS[@]}" --target "docker://$SUT_NAME" --no-distinct-exit --chef-license=accept
           sleep 5
-          docker stop "sut-$IMAGE_NAME"
-          docker rm "sut-$IMAGE_NAME"
+          docker stop "$SUT_NAME"
+          docker rm "$SUT_NAME"
         shell: bash
 
   docker-scout:
@@ -292,7 +322,11 @@ jobs:
       matrix:
         include:
           - image-name: devcontainer
+            dockerfile-stage: base
             tag-suffix: ''
+          - image-name: devcontainer
+            dockerfile-stage: ansible
+            tag-suffix: -ansible
           - image-name: folderslint
             tag-suffix: ''
           - image-name: ftp-client
@@ -339,7 +373,11 @@ jobs:
       matrix:
         include:
           - image-name: devcontainer
+            dockerfile-stage: base
             tag-suffix: ''
+          - image-name: devcontainer
+            dockerfile-stage: ansible
+            tag-suffix: -ansible
           - image-name: folderslint
             tag-suffix: ''
           - image-name: ftp-client
@@ -442,7 +480,11 @@ jobs:
       matrix:
         include:
           - image-name: devcontainer
+            dockerfile-stage: base
             tag-suffix: ''
+          - image-name: devcontainer
+            dockerfile-stage: ansible
+            tag-suffix: -ansible
           - image-name: folderslint
             tag-suffix: ''
           - image-name: ftp-client

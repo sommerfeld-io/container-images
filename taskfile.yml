@@ -118,6 +118,7 @@ tasks:
     cmds:
       - for: *images
         task: build:{{ .ITEM }}
+      - task: build:devcontainer-ansible
 
   build:*:
     desc: Lint and build container image | Replace * with image name (not path)
@@ -127,6 +128,13 @@ tasks:
       - task: lint:dockerfile
         vars: { IMAGE: '{{ .IMAGE }}' }
       - docker compose build {{ .IMAGE }}
+
+  build:devcontainer-ansible:
+    desc: Lint and build the ansible variant of the devcontainer image
+    cmds:
+      - task: lint:dockerfile
+        vars: { IMAGE: 'devcontainer' }
+      - docker compose build devcontainer-ansible
 
   # ===============================================================================================
 
@@ -147,7 +155,7 @@ tasks:
   test:
     desc: Test all container images
     cmds:
-      - for: *inspec-profiles
+      - for: &test-images ['devcontainer', 'devcontainer-ansible', 'ftp-client', 'revealjs']
         task: test:{{ .ITEM }}
 
   test:*:
@@ -161,3 +169,13 @@ tasks:
       - sleep 5
       - docker stop "system-under-test-{{ .IMAGE }}"
       - docker rm "system-under-test-{{ .IMAGE }}"
+
+  test:devcontainer-ansible:
+    desc: Test the ansible variant of the devcontainer image
+    cmds:
+      - docker run --name "system-under-test-devcontainer-ansible" -d --entrypoint sleep -v "$(pwd):$(pwd):ro" -w "$(pwd)" "local/devcontainer:${DEV_TAG}-ansible" 180s
+      - sleep 5
+      - docker compose run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(pwd):$(pwd)" -w "$(pwd)" inspec exec "components/devcontainer/test/inspec" --input ansible_variant=true --target "docker://system-under-test-devcontainer-ansible" --no-distinct-exit --chef-license=accept
+      - sleep 5
+      - docker stop "system-under-test-devcontainer-ansible"
+      - docker rm "system-under-test-devcontainer-ansible"

@@ -75,7 +75,11 @@ jobs:
       matrix:
         include:
           - image-name: devcontainer
+            dockerfile-stage: base
             tag-suffix: ''
+          - image-name: devcontainer
+            dockerfile-stage: ansible
+            tag-suffix: -ansible
           - image-name: folderslint
             tag-suffix: ''
           - image-name: ftp-client
@@ -151,7 +155,11 @@ jobs:
       matrix:
         include:
           - image-name: devcontainer
+            dockerfile-stage: base
             tag-suffix: ''
+          - image-name: devcontainer
+            dockerfile-stage: ansible
+            tag-suffix: -ansible
           - image-name: folderslint
             tag-suffix: ''
           - image-name: ftp-client
@@ -225,7 +233,11 @@ jobs:
       matrix:
         include:
           - image-name: devcontainer
+            dockerfile-stage: base
             tag-suffix: ''
+          - image-name: devcontainer
+            dockerfile-stage: ansible
+            tag-suffix: -ansible
           - image-name: folderslint
             tag-suffix: ''
           - image-name: ftp-client

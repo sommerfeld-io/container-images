@@ -1,6 +1,6 @@
 ## See <https://hub.docker.com/r/microsoft/devcontainers-base#about-ubuntu>
-## `resolute` = ubuntu-26.04
-FROM mcr.microsoft.com/devcontainers/base:resolute
+## `resolute` tracks the current Ubuntu LTS base image published by Microsoft Dev Containers.
+FROM mcr.microsoft.com/devcontainers/base:resolute AS base
 LABEL maintainer="sebastian@sommerfeld.io"
 
 ARG USER=vscode
@@ -59,3 +59,27 @@ RUN curl --proto '=https' --tlsv1.2 -fsSL https://setup.atuin.sh | bash \
     && gh extension install seachicken/gh-poi
 
 COPY --from=ghcr.io/astral-sh/uv:0.12.5 /uv /uvx /bin/
+
+FROM base AS ansible
+
+ENV ANSIBLE_DEV_TOOLS_VENV=/opt/venvs/ansible-dev-tools
+ARG ANSIBLE_DEV_TOOLS_VERSION=26.7.2
+
+USER root
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        build-essential \
+        libonig-dev \
+        python3-dev \
+    && uv venv "${ANSIBLE_DEV_TOOLS_VENV}" \
+    && uv pip install --python "${ANSIBLE_DEV_TOOLS_VENV}/bin/python" "ansible-dev-tools==${ANSIBLE_DEV_TOOLS_VERSION}" \
+    && apt-get purge -y \
+        build-essential \
+        libonig-dev \
+        python3-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && chown -R vscode:vscode "${ANSIBLE_DEV_TOOLS_VENV}"
+
+USER vscode
+ENV PATH="${ANSIBLE_DEV_TOOLS_VENV}/bin:${PATH}"
