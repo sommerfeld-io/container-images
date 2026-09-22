@@ -67,7 +67,8 @@ ARG ANSIBLE_DEV_TOOLS_VERSION=26.8.0
 
 USER root
 RUN uv venv "${ANSIBLE_DEV_TOOLS_VENV}" \
-    && uv pip install --python "${ANSIBLE_DEV_TOOLS_VENV}/bin/python" "ansible-dev-tools==${ANSIBLE_DEV_TOOLS_VERSION}"
+    && uv pip install --python "${ANSIBLE_DEV_TOOLS_VENV}/bin/python" "ansible-dev-tools==${ANSIBLE_DEV_TOOLS_VERSION}" \
+    && chown -R vscode:vscode "${ANSIBLE_DEV_TOOLS_VENV}"
 
 USER vscode
 ENV PATH="${ANSIBLE_DEV_TOOLS_VENV}/bin:${PATH}"
