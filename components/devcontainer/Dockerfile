@@ -70,10 +70,13 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         libonig-dev \
         python3-dev \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
     && uv venv "${ANSIBLE_DEV_TOOLS_VENV}" \
     && uv pip install --python "${ANSIBLE_DEV_TOOLS_VENV}/bin/python" "ansible-dev-tools==${ANSIBLE_DEV_TOOLS_VERSION}" \
+    && apt-get purge -y --auto-remove \
+        libonig-dev \
+        python3-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
     && chown -R vscode:vscode "${ANSIBLE_DEV_TOOLS_VENV}"
 
 USER vscode
