@@ -161,7 +161,7 @@ jobs:
       matrix:
         include:
           - image-name: devcontainer
-            dockerfile-stage: baseline
+            dockerfile-stage: base
             tag-suffix: ''
           - image-name: devcontainer
             dockerfile-stage: ansible
@@ -322,7 +322,7 @@ jobs:
       matrix:
         include:
           - image-name: devcontainer
-            dockerfile-stage: baseline
+            dockerfile-stage: base
             tag-suffix: ''
           - image-name: devcontainer
             dockerfile-stage: ansible
@@ -373,7 +373,7 @@ jobs:
       matrix:
         include:
           - image-name: devcontainer
-            dockerfile-stage: baseline
+            dockerfile-stage: base
             tag-suffix: ''
           - image-name: devcontainer
             dockerfile-stage: ansible
@@ -480,7 +480,7 @@ jobs:
       matrix:
         include:
           - image-name: devcontainer
-            dockerfile-stage: baseline
+            dockerfile-stage: base
             tag-suffix: ''
           - image-name: devcontainer
             dockerfile-stage: ansible

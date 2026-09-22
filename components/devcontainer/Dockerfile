@@ -83,5 +83,3 @@ RUN apt-get update \
 
 USER vscode
 ENV PATH="${ANSIBLE_DEV_TOOLS_VENV}/bin:${PATH}"
-
-FROM base AS baseline

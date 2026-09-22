@@ -81,7 +81,7 @@ services:
     build:
       context: components/devcontainer
       dockerfile: Dockerfile
-      target: baseline
+      target: base
     tty: *tty
 
   devcontainer-ansible:
