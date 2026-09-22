@@ -1,6 +1,6 @@
 ## See <https://hub.docker.com/r/microsoft/devcontainers-base#about-ubuntu>
 ## `resolute` = ubuntu-26.04
-FROM mcr.microsoft.com/devcontainers/base:resolute
+FROM mcr.microsoft.com/devcontainers/base:resolute AS base
 LABEL maintainer="sebastian@sommerfeld.io"
 
 ARG USER=vscode
@@ -59,3 +59,16 @@ RUN curl --proto '=https' --tlsv1.2 -fsSL https://setup.atuin.sh | bash \
     && gh extension install seachicken/gh-poi
 
 COPY --from=ghcr.io/astral-sh/uv:0.12.5 /uv /uvx /bin/
+
+FROM base AS ansible
+
+ENV ANSIBLE_DEV_TOOLS_VENV=/opt/venvs/ansible-dev-tools
+
+USER root
+RUN uv venv "${ANSIBLE_DEV_TOOLS_VENV}" \
+    && uv pip install --python "${ANSIBLE_DEV_TOOLS_VENV}/bin/python" --only-binary :all: ansible-dev-tools
+
+USER vscode
+ENV PATH="${ANSIBLE_DEV_TOOLS_VENV}/bin:${PATH}"
+
+FROM base

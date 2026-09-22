@@ -83,6 +83,14 @@ services:
       dockerfile: Dockerfile
     tty: *tty
 
+  devcontainer-ansible:
+    image: local/devcontainer:${DEV_TAG}-ansible
+    build:
+      context: components/devcontainer
+      dockerfile: Dockerfile
+      target: ansible
+    tty: *tty
+
   folderslint-lint-dockerfile:
     image: &lint-dockerfile-image hadolint/hadolint:latest
     volumes: *volumes

@@ -22,14 +22,19 @@ The same SBOM is also attached as a downloadable asset on each [GitHub release](
 
 ## Usage
 
-The easiest way to use this image is by adding a Dockerfile to your repository's `.devcontainer` folder and extending `sommerfeldio/devcontainer`.
+Two image variants are published from the same Dockerfile:
+
+- `sommerfeldio/devcontainer:<version>`, `:edge`, and `:latest` provide the baseline development environment.
+- `sommerfeldio/devcontainer:<version>-ansible`, `:edge-ansible`, and `:latest-ansible` add `ansible-dev-tools` on top of the baseline image, including tools such as `ansible-playbook`, `ansible-lint`, `ansible-navigator`, and `molecule` on `PATH`.
+
+The easiest way to use the baseline image is by adding a Dockerfile to your repository's `.devcontainer` folder and extending `sommerfeldio/devcontainer`.
 
 ```Dockerfile
 FROM sommerfeldio/devcontainer:latest
 LABEL maintainer="sebastian@sommerfeld.io"
 ```
 
-This `sommerfeldio/devcontainer` image is based on [`mcr.microsoft.com/devcontainers/base:ubuntu-24.04`](https://hub.docker.com/r/microsoft/devcontainers) and is configured to run as the non-root user `vscode` by default. File permissions and mounted volumes will be owned and accessed by the `vscode` user (uid = `1000`, gid = `1000`).
+This `sommerfeldio/devcontainer` image is based on [`mcr.microsoft.com/devcontainers/base:resolute`](https://hub.docker.com/r/microsoft/devcontainers) and is configured to run as the non-root user `vscode` by default. File permissions and mounted volumes will be owned and accessed by the `vscode` user (uid = `1000`, gid = `1000`).
 
 ```json
 {
@@ -62,6 +67,37 @@ This approach provides several benefits:
 - Ensures that pipelines can validate the Devcontainer setup.
 - Allows Dependabot to track updates.
 - Makes it easy to extend the image with additional tools as needed.
+
+If you need the Ansible tooling variant, extend the published `-ansible` tag instead:
+
+```Dockerfile
+FROM sommerfeldio/devcontainer:latest-ansible
+LABEL maintainer="sebastian@sommerfeld.io"
+```
+
+## How to Build
+
+To build the baseline image locally, run:
+
+```bash
+cd components/devcontainer # if from the root of the repository
+docker build -t local/devcontainer:dev .
+```
+
+To build the Ansible variant locally, run:
+
+```bash
+cd components/devcontainer # if from the root of the repository
+docker build --target ansible -t local/devcontainer:dev-ansible .
+```
+
+Alternatively, use the project's `task` workflow:
+
+```bash
+task build:devcontainer
+
+task build:devcontainer-ansible
+```
 
 ## License
 

@@ -26,6 +26,9 @@ jobs:
         include:
           - image-name: devcontainer
             tag-suffix: ''
+          - image-name: devcontainer
+            dockerfile-stage: ansible
+            tag-suffix: -ansible
           - image-name: folderslint
             tag-suffix: ''
           - image-name: ftp-client

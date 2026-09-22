@@ -1,5 +1,7 @@
 title "Checks for devcontainer image"
 
+ansible_variant = input('ansible_variant', value: false)
+
 control 'devcontainer-01' do
   impact 1.0
   title 'Verify the image is suitable for use as a devcontainer'
@@ -31,5 +33,31 @@ control 'devcontainer-02' do
     it { should exist }
     its('uid') { should eq 1000 }
     its('home') { should eq '/home/vscode' }
+  end
+end
+
+control 'devcontainer-03' do
+  impact 1.0
+  title 'Verify the ansible variant contains ansible-dev-tools'
+  desc 'Ensure the optional ansible stage exposes the expected ansible tooling on PATH.'
+  only_if('only runs for the ansible devcontainer variant') do
+    ansible_variant
+  end
+
+  should_exist = [
+    '/opt/venvs/ansible-dev-tools/bin/ansible',
+    '/opt/venvs/ansible-dev-tools/bin/ansible-lint',
+    '/opt/venvs/ansible-dev-tools/bin/ansible-navigator',
+    '/opt/venvs/ansible-dev-tools/bin/molecule',
+  ]
+  should_exist.each do |binary|
+    describe file(binary) do
+      it { should exist }
+      it { should be_executable }
+    end
+  end
+
+  describe os_env('PATH').content do
+    it { should match(%r{^/opt/venvs/ansible-dev-tools/bin:}) }
   end
 end
