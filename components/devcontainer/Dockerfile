@@ -1,5 +1,9 @@
+## Stage: base — default devcontainer image with core CLI tooling (task,
+## gh, ctop, uv, Claude/Copilot CLIs).
+##
 ## See <https://hub.docker.com/r/microsoft/devcontainers-base#about-ubuntu>
-## `resolute` tracks the current Ubuntu LTS base image published by Microsoft Dev Containers.
+## `resolute` tracks the current Ubuntu LTS base image published by Microsoft
+## Dev Containers.
 FROM mcr.microsoft.com/devcontainers/base:resolute AS base
 LABEL maintainer="sebastian@sommerfeld.io"
 
@@ -60,6 +64,9 @@ RUN curl --proto '=https' --tlsv1.2 -fsSL https://setup.atuin.sh | bash \
 
 COPY --from=ghcr.io/astral-sh/uv:0.12.5 /uv /uvx /bin/
 
+
+## Stage: ansible — extends base with ansible-dev-tools (ansible-playbook,
+## ansible-lint, ansible-navigator, molecule) on PATH.
 FROM base AS ansible
 
 ENV ANSIBLE_DEV_TOOLS_VENV=/opt/venvs/ansible-dev-tools
