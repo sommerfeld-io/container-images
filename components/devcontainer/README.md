@@ -85,13 +85,13 @@ task build:devcontainer
 task build:devcontainer-ansible
 ```
 
-The underlying Dockerfile keeps the baseline image as the default final stage and exposes the Ansible variant through the explicit `ansible` stage. Equivalent raw Docker commands are:
+The underlying Dockerfile exposes explicit `baseline` and `ansible` stages. Equivalent raw Docker commands are:
 
 To build the baseline image locally, run:
 
 ```bash
 cd components/devcontainer # if from the root of the repository
-docker build -t local/devcontainer:dev .
+docker build --target baseline -t local/devcontainer:dev .
 ```
 
 To build the published Ansible variant from the explicit `ansible` stage locally, run:
