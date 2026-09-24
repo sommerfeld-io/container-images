@@ -92,6 +92,14 @@ services:
       target: ansible
     tty: *tty
 
+  devcontainer-go:
+    image: local/devcontainer:${DEV_TAG}-go
+    build:
+      context: components/devcontainer
+      dockerfile: Dockerfile
+      target: go
+    tty: *tty
+
   folderslint-lint-dockerfile:
     image: &lint-dockerfile-image hadolint/hadolint:latest
     volumes: *volumes

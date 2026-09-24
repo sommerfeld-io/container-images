@@ -91,3 +91,33 @@ RUN apt-get update \
 
 USER vscode
 ENV PATH="${ANSIBLE_DEV_TOOLS_VENV}/bin:${PATH}"
+
+
+## Stage: go — extends base with the Go toolchain, gopls, dlv, and native
+## build dependencies for Go development.
+FROM base AS go
+LABEL maintainer="sebastian@sommerfeld.io"
+
+ARG GO_VERSION=1.26.6
+ARG TARGETARCH
+
+USER root
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        build-essential \
+        ca-certificates \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN curl --proto '=https' --tlsv1.2 -fsSL "https://go.dev/dl/go${GO_VERSION}.linux-${TARGETARCH}.tar.gz" -o /tmp/go.tar.gz \
+    && rm -rf /usr/local/go \
+    && tar -C /usr/local -xzf /tmp/go.tar.gz \
+    && rm /tmp/go.tar.gz
+
+ENV PATH="/usr/local/go/bin:${PATH}"
+ENV GOBIN=/usr/local/bin
+
+RUN go install golang.org/x/tools/gopls@latest \
+    && go install github.com/go-delve/delve/cmd/dlv@latest
+
+USER vscode

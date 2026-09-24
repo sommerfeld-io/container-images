@@ -119,6 +119,7 @@ tasks:
       - for: *images
         task: build:{{ .ITEM }}
       - task: build:devcontainer-ansible
+      - task: build:devcontainer-go
 
   build:*:
     desc: Lint and build container image | Replace * with image name (not path)
@@ -135,6 +136,13 @@ tasks:
       - task: lint:dockerfile
         vars: { IMAGE: 'devcontainer' }
       - docker compose build devcontainer-ansible
+
+  build:devcontainer-go:
+    desc: Lint and build the go variant of the devcontainer image
+    cmds:
+      - task: lint:dockerfile
+        vars: { IMAGE: 'devcontainer' }
+      - docker compose build devcontainer-go
 
   # ===============================================================================================
 
@@ -155,7 +163,7 @@ tasks:
   test:
     desc: Test all container images
     cmds:
-      - for: &test-images ['devcontainer', 'devcontainer-ansible', 'ftp-client', 'revealjs']
+      - for: &test-images ['devcontainer', 'devcontainer-ansible', 'devcontainer-go', 'ftp-client', 'revealjs']
         task: test:{{ .ITEM }}
 
   test:*:
@@ -165,7 +173,15 @@ tasks:
     cmds:
       - docker run --name "system-under-test-{{ .IMAGE }}" -d --entrypoint sleep -v "$(pwd):$(pwd):ro" -w "$(pwd)" "local/{{ .IMAGE }}:dev" 180s
       - sleep 5
-      - docker compose run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(pwd):$(pwd)" -w "$(pwd)" inspec exec "components/{{ .IMAGE }}/test/inspec" --target "docker://system-under-test-{{ .IMAGE }}" --no-distinct-exit --chef-license=accept
+      - |
+        docker compose run --rm \
+          -v /var/run/docker.sock:/var/run/docker.sock \
+          -v "$(pwd):$(pwd)" \
+          -w "$(pwd)" \
+          inspec exec "components/{{ .IMAGE }}/test/inspec" \
+          --target "docker://system-under-test-{{ .IMAGE }}" \
+          --no-distinct-exit \
+          --chef-license=accept
       - sleep 5
       - docker stop "system-under-test-{{ .IMAGE }}"
       - docker rm "system-under-test-{{ .IMAGE }}"
@@ -173,9 +189,51 @@ tasks:
   test:devcontainer-ansible:
     desc: Test the ansible variant of the devcontainer image
     cmds:
-      - docker run --name "system-under-test-devcontainer-ansible" -d --entrypoint sleep -v "$(pwd):$(pwd):ro" -w "$(pwd)" "local/devcontainer:${DEV_TAG}-ansible" 180s
+      - |
+        docker run --name "system-under-test-devcontainer-ansible" \
+          -d \
+          --entrypoint sleep \
+          -v "$(pwd):$(pwd):ro" \
+          -w "$(pwd)" \
+          "local/devcontainer:${DEV_TAG}-ansible" \
+          180s
       - sleep 5
-      - docker compose run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(pwd):$(pwd)" -w "$(pwd)" inspec exec "components/devcontainer/test/inspec" --input ansible_variant=true --target "docker://system-under-test-devcontainer-ansible" --no-distinct-exit --chef-license=accept
+      - |
+        docker compose run --rm \
+          -v /var/run/docker.sock:/var/run/docker.sock \
+          -v "$(pwd):$(pwd)" \
+          -w "$(pwd)" \
+          inspec exec "components/devcontainer/test/inspec" \
+          --input ansible_variant=true \
+          --target "docker://system-under-test-devcontainer-ansible" \
+          --no-distinct-exit \
+          --chef-license=accept
       - sleep 5
       - docker stop "system-under-test-devcontainer-ansible"
       - docker rm "system-under-test-devcontainer-ansible"
+
+  test:devcontainer-go:
+    desc: Test the go variant of the devcontainer image
+    cmds:
+      - |
+        docker run --name "system-under-test-devcontainer-go" \
+          -d \
+          --entrypoint sleep \
+          -v "$(pwd):$(pwd):ro" \
+          -w "$(pwd)" \
+          "local/devcontainer:${DEV_TAG}-go" \
+          180s
+      - sleep 5
+      - |
+        docker compose run --rm \
+          -v /var/run/docker.sock:/var/run/docker.sock \
+          -v "$(pwd):$(pwd)" \
+          -w "$(pwd)" \
+          inspec exec "components/devcontainer/test/inspec" \
+          --input go_variant=true \
+          --target "docker://system-under-test-devcontainer-go" \
+          --no-distinct-exit \
+          --chef-license=accept
+      - sleep 5
+      - docker stop "system-under-test-devcontainer-go"
+      - docker rm "system-under-test-devcontainer-go"

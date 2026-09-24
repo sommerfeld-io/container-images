@@ -166,6 +166,9 @@ jobs:
           - image-name: devcontainer
             dockerfile-stage: ansible
             tag-suffix: -ansible
+          - image-name: devcontainer
+            dockerfile-stage: go
+            tag-suffix: -go
           - image-name: folderslint
             tag-suffix: ''
           - image-name: ftp-client
@@ -251,18 +254,27 @@ jobs:
             profile-name: devcontainer
             tag-suffix: ''
             ansible-variant: 'false'
+            go-variant: 'false'
           - image-name: devcontainer
             profile-name: devcontainer
             tag-suffix: -ansible
             ansible-variant: 'true'
+            go-variant: 'false'
+          - image-name: devcontainer
+            profile-name: devcontainer
+            tag-suffix: -go
+            ansible-variant: 'false'
+            go-variant: 'true'
           - image-name: ftp-client
             profile-name: ftp-client
             tag-suffix: ''
             ansible-variant: 'false'
+            go-variant: 'false'
           - image-name: revealjs
             profile-name: revealjs
             tag-suffix: ''
             ansible-variant: 'false'
+            go-variant: 'false'
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -289,6 +301,7 @@ jobs:
           COMMIT_SHA: ${{ github.sha }}
           TAG_SUFFIX: ${{ matrix.tag-suffix }}
           ANSIBLE_VARIANT: ${{ matrix.ansible-variant }}
+          GO_VARIANT: ${{ matrix.go-variant }}
         run: |
           readonly SYSTEM_UNDER_TEST="$REGISTRY/$DOCKERHUB_USER/$IMAGE_NAME:$COMMIT_SHA$TAG_SUFFIX"
           readonly INSPEC_DIR="components/$PROFILE_NAME/test/inspec"
@@ -297,12 +310,22 @@ jobs:
           if [[ "$ANSIBLE_VARIANT" == 'true' ]]; then
             INPUT_ARGS+=(--input ansible_variant=true)
           fi
+          if [[ "$GO_VARIANT" == 'true' ]]; then
+            INPUT_ARGS+=(--input go_variant=true)
+          fi
 
           readonly SUT_NAME="sut-$IMAGE_NAME${TAG_SUFFIX}"
 
           docker run --name "$SUT_NAME" -d --entrypoint sleep -v "$(pwd):$(pwd):ro" -w "$(pwd)" "$SYSTEM_UNDER_TEST" 180s
           sleep 5
-          docker compose run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(pwd):$(pwd)" -w "$(pwd)" inspec exec "$INSPEC_DIR" "${INPUT_ARGS[@]}" --target "docker://$SUT_NAME" --no-distinct-exit --chef-license=accept
+          docker compose run --rm \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            -v "$(pwd):$(pwd)" \
+            -w "$(pwd)" \
+            inspec exec "$INSPEC_DIR" "${INPUT_ARGS[@]}" \
+            --target "docker://$SUT_NAME" \
+            --no-distinct-exit \
+            --chef-license=accept
           sleep 5
           docker stop "$SUT_NAME"
           docker rm "$SUT_NAME"
@@ -327,6 +350,9 @@ jobs:
           - image-name: devcontainer
             dockerfile-stage: ansible
             tag-suffix: -ansible
+          - image-name: devcontainer
+            dockerfile-stage: go
+            tag-suffix: -go
           - image-name: folderslint
             tag-suffix: ''
           - image-name: ftp-client
@@ -378,6 +404,9 @@ jobs:
           - image-name: devcontainer
             dockerfile-stage: ansible
             tag-suffix: -ansible
+          - image-name: devcontainer
+            dockerfile-stage: go
+            tag-suffix: -go
           - image-name: folderslint
             tag-suffix: ''
           - image-name: ftp-client
@@ -485,6 +514,9 @@ jobs:
           - image-name: devcontainer
             dockerfile-stage: ansible
             tag-suffix: -ansible
+          - image-name: devcontainer
+            dockerfile-stage: go
+            tag-suffix: -go
           - image-name: folderslint
             tag-suffix: ''
           - image-name: ftp-client
