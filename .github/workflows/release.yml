@@ -80,6 +80,9 @@ jobs:
           - image-name: devcontainer
             dockerfile-stage: ansible
             tag-suffix: -ansible
+          - image-name: devcontainer
+            dockerfile-stage: go
+            tag-suffix: -go
           - image-name: folderslint
             tag-suffix: ''
           - image-name: ftp-client
@@ -160,6 +163,9 @@ jobs:
           - image-name: devcontainer
             dockerfile-stage: ansible
             tag-suffix: -ansible
+          - image-name: devcontainer
+            dockerfile-stage: go
+            tag-suffix: -go
           - image-name: folderslint
             tag-suffix: ''
           - image-name: ftp-client
@@ -238,6 +244,9 @@ jobs:
           - image-name: devcontainer
             dockerfile-stage: ansible
             tag-suffix: -ansible
+          - image-name: devcontainer
+            dockerfile-stage: go
+            tag-suffix: -go
           - image-name: folderslint
             tag-suffix: ''
           - image-name: ftp-client
