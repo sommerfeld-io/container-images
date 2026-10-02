@@ -1,2 +1,2 @@
-FROM zensical/zensical:0.0.63
+FROM zensical/zensical:0.0.66
 LABEL maintainer="sebastian@sommerfeld.io"
