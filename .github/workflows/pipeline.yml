@@ -58,6 +58,8 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@2.0.0
+        env:
+          SHELLCHECK_OPTS: -x -P SCRIPTDIR
         with:
           ignore_paths: node_modules target
 
