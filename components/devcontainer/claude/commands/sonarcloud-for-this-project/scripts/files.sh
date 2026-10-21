@@ -6,7 +6,8 @@
 # Usage: files.sh [--query <search-term>] [--qualifiers FIL|DIR] [--limit 100] [--raw]
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# shellcheck source=../lib/common.sh
+# common.sh is resolved at runtime via SCRIPT_DIR; it is only followed when shellcheck runs with -x
+# shellcheck source=../lib/common.sh disable=SC1091
 source "${SCRIPT_DIR}/../lib/common.sh"
 
 query=""

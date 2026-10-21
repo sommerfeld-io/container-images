@@ -5,7 +5,8 @@
 # Usage: measures-history.sh [--metrics coverage,bugs,...] [--from YYYY-MM-DD] [--to YYYY-MM-DD] [--raw]
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# shellcheck source=../lib/common.sh
+# common.sh is resolved at runtime via SCRIPT_DIR; it is only followed when shellcheck runs with -x
+# shellcheck source=../lib/common.sh disable=SC1091
 source "${SCRIPT_DIR}/../lib/common.sh"
 
 default_metrics="coverage,duplicated_lines_density,bugs,vulnerabilities,code_smells,ncloc"
