@@ -5,7 +5,8 @@
 # Usage: measures.sh [--metrics key1,key2,...] [--raw]
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# shellcheck source=../lib/common.sh
+# common.sh is resolved at runtime via SCRIPT_DIR; it is only followed when shellcheck runs with -x
+# shellcheck source=../lib/common.sh disable=SC1091
 source "${SCRIPT_DIR}/../lib/common.sh"
 
 default_metrics="alert_status,bugs,vulnerabilities,code_smells,security_hotspots,coverage,duplicated_lines_density,ncloc,reliability_rating,security_rating,sqale_rating,sqale_index"
