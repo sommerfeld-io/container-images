@@ -1,4 +1,6 @@
 ---
+name: transcript-to-markdown
+description: Turn a text transcript into Meeting Minutes or an Architecture Decision Record (English or German) using the bundled templates, written next to the input file.
 argument-hint: <path-to-transcript-file>
 ---
 
@@ -26,7 +28,7 @@ Do not guess these from the transcript content — always ask.
 
 ## 3. Pick the matching template
 
-Templates live in this same directory (next to this command file). Pick exactly one:
+Templates live in this same directory (next to this SKILL.md file). Pick exactly one:
 
 | Output type     | Language | Template file                    |
 |-----------------|----------|----------------------------------|

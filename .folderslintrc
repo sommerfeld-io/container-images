@@ -20,7 +20,8 @@
 		"_bmad-output/**",
 
 		"components/devcontainer/configs/etc",
-        "components/devcontainer/claude/commands/**",
+        "components/devcontainer/claude/commands",
+        "components/devcontainer/claude/skills/**",
 		"components/folderslint",
 		"components/ftp-client/configs/etc",
 		"components/mkdocs",
