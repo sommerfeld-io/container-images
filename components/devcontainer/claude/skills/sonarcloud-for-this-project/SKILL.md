@@ -1,10 +1,12 @@
 ---
+name: sonarcloud-for-this-project
+description: Inspect the SonarCloud project bound to the current git repository (quality gate, issues, hotspots, coverage, duplications, history, analyses, activity, files, rules) via ready-made curl/jq scripts. Use when the user asks about SonarCloud findings or project health.
 argument-hint: [issues|hotspots|coverage|quality-gate|duplications|history|analyses|activity|files|rule <key>|overview]
 ---
 
 # SonarCloud For This Project
 
-Inspect the SonarCloud project bound to this git repository using the explicit API-calling scripts in `scripts/` (relative to this command file). These scripts already know how to authenticate and which project to target — do not write ad-hoc `curl` calls to the SonarCloud API and do not try to rediscover the connection details; always call the scripts.
+Inspect the SonarCloud project bound to this git repository using the explicit API-calling scripts in `scripts/` (relative to this skill's base directory). These scripts already know how to authenticate and which project to target — do not write ad-hoc `curl` calls to the SonarCloud API and do not try to rediscover the connection details; always call the scripts.
 
 ## 0. Prerequisites
 
@@ -24,7 +26,7 @@ The project key is derived automatically from `SONARQUBE_ORGANIZATION` and the g
 
 ## 1. Interpret `$ARGUMENTS`
 
-`$ARGUMENTS` tells you what to check. Match it (case-insensitively, loosely) against this table and run the corresponding script(s) from the `scripts/` directory next to this file:
+`$ARGUMENTS` tells you what to check. Match it (case-insensitively, loosely) against this table and run the corresponding script(s) from the `scripts/` directory next to this SKILL.md file:
 
 | Argument                       | Checks                                                 | Script(s) to run                                                                                                                                                                               |
 |--------------------------------|--------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
