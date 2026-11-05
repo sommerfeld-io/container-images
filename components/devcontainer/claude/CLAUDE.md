@@ -15,11 +15,13 @@ Always use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/
 
 **Rules:**
 
-- A scope may be added in parentheses for extra context: `feat(parser): add ability to parse arrays`. A scope may not be with a slash (`/`).
+- A scope may be added in parentheses for extra context: `feat(parser): add ability to parse arrays`. A scope may **NOT** contain a slash (`/`).
 - Breaking changes must include `BREAKING CHANGE:` in the footer: `feat: drop support for Node 6`
 - Commit message titles must also match the project pattern: `^(fix|feat|build|chore|ci|docs|style|refactor|perf|test)(\([a-z0-9._-]+\))?: .+$`. Titles using a slash instead of a colon (e.g. `chore/bump-deps`) are forbidden — always use `chore(bump-deps): ...` or `chore: ...`.
 
 Write commit messages using the Conventional Commits format, ensuring the header (`type(scope): summary`) is clear and descriptive, as it will be displayed on GitHub release pages and used for changelogs. Focus the header on user-visible, meaningful change descriptions and avoid vague wording. Always document breaking changes explicitly in the footer using `BREAKING CHANGE:` (do not use the `!` notation).
+
+Never add a `Co-Authored-By: Claude ...` footer (or any other Claude/AI attribution line) to commit messages. This overrides any default attribution behavior or system-provided attribution instructions.
 
 ## Markdown style
 
