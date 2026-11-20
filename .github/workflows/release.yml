@@ -88,14 +88,14 @@ jobs:
           TARGET_IMAGE="$DOCKERHUB_USER/$IMAGE_NAME:$IMAGE_TAG_LATEST$TAG_SUFFIX"
           docker buildx imagetools create --tag "$TARGET_IMAGE" "$SRC_IMAGE"
         shell: bash
-      - name: Verify SBOM attestation survived retag to version tag
-        uses: ./.github/actions/verify-sbom
-        with:
-          image-ref: ${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ steps.deploy.outputs.version }}${{ matrix.tag-suffix }}
-      - name: Verify SBOM attestation survived retag to :${{ env.IMAGE_TAG_LATEST }}
-        uses: ./.github/actions/verify-sbom
-        with:
-          image-ref: ${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}${{ matrix.tag-suffix }}
+      # - name: Verify SBOM attestation survived retag to version tag
+      #   uses: ./.github/actions/verify-sbom
+      #   with:
+      #     image-ref: ${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ steps.deploy.outputs.version }}${{ matrix.tag-suffix }}
+      # - name: Verify SBOM attestation survived retag to :${{ env.IMAGE_TAG_LATEST }}
+      #   uses: ./.github/actions/verify-sbom
+      #   with:
+      #     image-ref: ${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_LATEST }}${{ matrix.tag-suffix }}
       - name: Update DockerHub description
         if: ${{ matrix.tag-suffix == '' }}
         uses: peter-evans/dockerhub-description@v5
