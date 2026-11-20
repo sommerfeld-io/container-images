@@ -446,7 +446,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/main' }}
     needs: [
-      'build-images',
+      'inspec-images',
     ]
     permissions:
       contents: write
@@ -480,6 +480,7 @@ jobs:
     uses: sommerfeld-io/.github/.github/workflows/lib-release-code.yml@main
     needs: [
       'publish-edge',
+      'generate-docs'
     ]
     if: ${{ (github.actor != 'dependabot[bot]') && (github.ref == 'refs/heads/main') }}
     secrets:
@@ -492,7 +493,10 @@ jobs:
   cleanup-dockerhub:
     name: ${{ matrix.image-name }}:${{ github.sha }}${{ matrix.tag-suffix }}
     runs-on: ubuntu-latest
-    needs: ['publish-edge']
+    needs: [
+      'publish-edge',
+      'generate-docs'
+    ]
     if: always()
     permissions:
       contents: read
