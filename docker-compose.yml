@@ -38,7 +38,6 @@ services:
       - .github/workflows/housekeeping-project.yml
       - .github/workflows/pipeline.yml
       - .github/workflows/release.yml
-      - .github/workflows/scan.yml
     tty: *tty
 
   lint-filenames:
