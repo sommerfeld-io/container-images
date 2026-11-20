@@ -2,6 +2,8 @@
 
 The `sommerfeldio/folderslint` image is a utility Docker image used in Github Actions workflows to validate the directory structure of a project. The image ships with the node module `folderslint`.
 
+The image is based on the [Docker Hardened Image](https://docs.docker.com/dhi/) `dhi.io/node`. The final image contains only the Node.js runtime and `folderslint`, ships without a shell or package manager, and runs as a non-root user (UID `1000`). Make sure the mounted directory is readable for that user.
+
 - [sommerfeldio/folderslint](https://hub.docker.com/r/sommerfeldio/folderslint) on Docker Hub
 - [Dockerfile source code](https://github.com/sommerfeld-io/container-images/tree/main/components/folderslint) on GitHub
 - [How to Contribute](https://github.com/sommerfeld-io/.github/blob/main/CONTRIBUTING.md)
