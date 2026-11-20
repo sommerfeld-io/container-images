@@ -32,7 +32,7 @@ tasks:
   cleanup:inspec:
     desc: Cleanup the inspec profiles and lock files
     cmds:
-      - for: &inspec-profiles ['devcontainer', 'ftp-client', 'revealjs']
+      - for: &inspec-profiles ['devcontainer', 'ftp-client']
         cmd: |
           sudo rm -rf components/{{ .ITEM }}/test/inspec/vendor
           sudo rm -rf components/{{ .ITEM }}/test/inspec/inspec.lock
@@ -151,7 +151,7 @@ tasks:
   test:
     desc: Test all container images
     cmds:
-      - for: &test-images ['devcontainer', 'devcontainer-ansible', 'devcontainer-go', 'ftp-client', 'revealjs']
+      - for: &test-images ['devcontainer', 'devcontainer-ansible', 'devcontainer-go', 'ftp-client']
         task: test:{{ .ITEM }}
 
   test:*:

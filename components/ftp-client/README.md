@@ -2,6 +2,8 @@
 
 The `sommerfeldio/ftp-client` image ships with NCFTP and uses [ncftpput](https://www.ncftp.com/ncftp/doc/ncftpput.html) for FTP uploads.
 
+The image is based on the [Docker Hardened Image](https://docs.docker.com/dhi/) `dhi.io/debian-base` (Debian 13 Trixie, `-dev` variant).
+
 - [sommerfeldio/ftp-client](https://hub.docker.com/r/sommerfeldio/ftp-client) on Docker Hub
 - [Dockerfile source code](https://github.com/sommerfeld-io/container-images/tree/main/components/ftp-client) on GitHub
 - [How to Contribute](https://github.com/sommerfeld-io/.github/blob/main/CONTRIBUTING.md)

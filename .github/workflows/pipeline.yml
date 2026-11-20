@@ -114,7 +114,7 @@ jobs:
     name: ${{ matrix.profile }}
     strategy:
       matrix:
-        profile: ['devcontainer', 'ftp-client', 'revealjs']
+        profile: ['devcontainer', 'ftp-client']
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -306,11 +306,6 @@ jobs:
             go-variant: 'true'
           - image-name: ftp-client
             profile-name: ftp-client
-            tag-suffix: ''
-            ansible-variant: 'false'
-            go-variant: 'false'
-          - image-name: revealjs
-            profile-name: revealjs
             tag-suffix: ''
             ansible-variant: 'false'
             go-variant: 'false'

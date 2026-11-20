@@ -19,12 +19,16 @@ The images are free to use for everyone. But keep in mind that they were origina
 
 ## Development and Contribution
 
-Releases, architecture decisions and development guidelines are maintained on GitHub. The following links help you to follow the project and to contribute.
+Releases, architecture decisions and development guidelines are maintained on GitHub.
 
 - [Releases](https://github.com/sommerfeld-io/container-images/releases)
 - [Architecture Decision Records](https://github.com/sommerfeld-io/container-images/issues?q=is%3Aissue+label%3AADR)
 - [Development Guide](https://github.com/sommerfeld-io/.github/blob/main/docs/development-guide.md)
 - [How to Contribute](https://github.com/sommerfeld-io/.github/blob/main/CONTRIBUTING.md)
+
+## Software Tags and Versioning
+
+Learn about our tagging policy and the difference between rolling tags and immutable tags [on our documentation page⁠](https://github.com/sommerfeld-io/.github/blob/main/docs/tags-and-versions.md).
 
 ## Contact
 

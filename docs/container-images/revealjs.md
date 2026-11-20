@@ -2,6 +2,8 @@
 
 The `sommerfeldio/revealjs` image is a utility Docker image used to render [RevealJS](https://revealjs.com) presentations based on Markdown files and HTML templates.
 
+The images are based on the [Docker Hardened Image](https://docs.docker.com/dhi/) `dhi.io/node` (Alpine). The presentation image (`latest`) uses the minimal runtime variant without shell or package manager and runs as a non-root user (UID `1000`). The PDF image (`latest-pdf`) uses the `-dev` variant because it needs Chromium.
+
 - [sommerfeldio/revealjs](https://hub.docker.com/r/sommerfeldio/revealjs) on Docker Hub
 - [Dockerfile source code](https://github.com/sommerfeld-io/container-images/tree/main/components/revealjs) on GitHub
 - [How to Contribute](https://github.com/sommerfeld-io/.github/blob/main/CONTRIBUTING.md)

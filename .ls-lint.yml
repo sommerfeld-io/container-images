@@ -52,7 +52,6 @@ ignore:
   - target
   - components/devcontainer/test/inspec/vendor
   - components/ftp-client/test/inspec/vendor
-  - components/revealjs/test/inspec/vendor
 
   # linter definitions etc.
   - .editorconfig
