@@ -5,7 +5,7 @@ WORKDIR /work
 RUN git clone https://github.com/hakimel/reveal.js.git
 
 WORKDIR /work/reveal.js
-RUN npm install
+RUN PUPPETEER_SKIP_DOWNLOAD=true npm install
 
 
 FROM dhi.io/node:26.13.1-alpine3.24 AS serve
