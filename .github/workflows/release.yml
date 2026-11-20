@@ -91,9 +91,6 @@ jobs:
           - image-name: revealjs
             dockerfile-stage: serve
             tag-suffix: ''
-          - image-name: revealjs
-            dockerfile-stage: pdf
-            tag-suffix: -pdf
           - image-name: zensical
             tag-suffix: ''
     steps:
@@ -180,9 +177,6 @@ jobs:
           - image-name: revealjs
             dockerfile-stage: serve
             tag-suffix: ''
-          - image-name: revealjs
-            dockerfile-stage: pdf
-            tag-suffix: -pdf
           - image-name: zensical
             tag-suffix: ''
     steps:

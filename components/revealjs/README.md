@@ -2,7 +2,7 @@
 
 The `sommerfeldio/revealjs` image is a utility Docker image used to render [RevealJS](https://revealjs.com) presentations based on Markdown files and HTML templates.
 
-The images are based on the [Docker Hardened Image](https://docs.docker.com/dhi/) `dhi.io/node` (Alpine). The presentation image (`latest`) uses the minimal runtime variant without shell or package manager and runs as a non-root user (UID `1000`). The PDF image (`latest-pdf`) uses the `-dev` variant because it needs Chromium.
+The image is based on the [Docker Hardened Image](https://docs.docker.com/dhi/) `dhi.io/node` (Alpine). It uses the minimal runtime variant without shell or package manager and runs as a non-root user (UID `1000`).
 
 - [sommerfeldio/revealjs](https://hub.docker.com/r/sommerfeldio/revealjs) on Docker Hub
 - [Dockerfile source code](https://github.com/sommerfeld-io/container-images/tree/main/components/revealjs) on GitHub
@@ -54,55 +54,19 @@ Simply mounting all files from your (current) directory into `/work/reveal.js` w
 
 > **NOTE:** RevealJS provides more ways to create presentations, e.g. by using only HTML files. But for us, Markdown is the most convenient way. So we focus on this method and did not put much effort into testing other methods.
 
-### Convert presentation to PDF
-
-To export a presentation with `docker run`, mount your `index.html`, slide assets, and an output directory. The following example writes the generated PDF to the current working directory while preserving the ownership of the user running Docker:
-
-```bash
-docker run --rm \
-    --user "$(id -u):$(id -g)" \
-    --volume "$(pwd)/index.html:/work/reveal.js/index.html" \
-    --volume "$(pwd)/slides:/work/reveal.js/slides" \
-    --volume "$(pwd):/output" \
-    sommerfeldio/revealjs:latest-pdf /output/index.pdf
-```
-
-Alternatively, you can use Docker Compose:
-
-```yaml
-services:
-  revealjs-pdf:
-    image: sommerfeldio/revealjs:latest-pdf
-    user: "${UID}:${GID}"
-    volumes:
-      - ./index.html:/work/reveal.js/index.html
-      - ./slides:/work/reveal.js/slides
-      - ./:/output
-    command: /output/index.pdf
-```
-
 ## How to Build
 
-To build the standard presentation image locally, run:
+To build the image locally, run:
 
 ```bash
 cd components/revealjs # if from the root of the repository
 docker build -t local/revealjs:dev .
 ```
 
-To build the PDF image locally, run:
-
-```bash
-cd components/revealjs # if from the root of the repository
-docker build --target pdf -t local/revealjs:dev-pdf .
-```
-
-Alternatively, use the project's `task` workflow for the standard image:
+Alternatively, use the project's `task` workflow:
 
 ```bash
 task build:revealjs
-
-task build:revealjs-pdf
 ```
 
 ## License
