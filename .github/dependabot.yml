@@ -65,3 +65,12 @@ updates:
     directory: components/zensical
     schedule:
       interval: weekly
+
+  # Pinned tool images of the CVE page (cve-* services). When anchore/grype is bumped, the vendored
+  # grype HTML template must be bumped too (docs/cve-page/templates/) - the scan fails until it matches.
+  - package-ecosystem: docker-compose
+    registries:
+      - dockerhub
+    directory: /
+    schedule:
+      interval: weekly

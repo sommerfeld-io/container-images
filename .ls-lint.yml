@@ -50,6 +50,9 @@ ignore:
   - .claude/settings.local.json
   - node_modules
   - target
+  - docs/cve-page/work
+  - docs/cve-page/cache
+  - docs/cve-page/public
   - components/devcontainer/test/inspec/vendor
   - components/ftp-client/test/inspec/vendor
 

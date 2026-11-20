@@ -32,6 +32,7 @@ services:
       - -color
       - .github/workflows/codeql.yml
       - .github/workflows/dev-environment.yml
+      - .github/workflows/docs.yml
       - .github/workflows/housekeeping-issues-ai-refinement.yml
       - .github/workflows/housekeeping-issues.yml
       - .github/workflows/housekeeping-labels.yml
@@ -180,3 +181,79 @@ services:
     ports:
       - 3080:8000
     tty: *tty
+
+  # ----- CVE page (docs/cve-page/) ----------------------------------------------
+  # Template services, run from docs/taskfile.yml (via docs/cve-page/scripts/*.sh).
+  # CVE_UID/CVE_GID are set by the scripts to the calling user (no root-owned output).
+  # CVE_DOCKER_CONFIG_DIR: Docker config (auth only) prepared by docs/cve-page/scripts/lib.sh, read-only.
+
+  cve-yq:
+    image: mikefarah/yq:4.54.3
+    pull_policy: missing
+    user: &cve-user ${CVE_UID:-1000}:${CVE_GID:-1000}
+    volumes:
+      - project-root-volume:/workspaces/container-images
+    working_dir: &cve-workdir /workspaces/container-images/docs/cve-page
+
+  cve-docker-cli:
+    image: docker:29.10.0-cli
+    pull_policy: missing
+    user: *cve-user
+    volumes:
+      - project-root-volume:/workspaces/container-images
+      - ${CVE_DOCKER_CONFIG_DIR:-~/.docker}:/run/docker-config:ro
+    working_dir: *cve-workdir
+    environment:
+      HOME: /tmp
+      DOCKER_CONFIG: /tmp/.docker
+    # buildx needs a writable DOCKER_CONFIG, so only the auth file is copied
+    entrypoint:
+      - sh
+      - -c
+      - >-
+        mkdir -p "$$DOCKER_CONFIG"
+        && { [ ! -f /run/docker-config/config.json ] || cp /run/docker-config/config.json "$$DOCKER_CONFIG/"; }
+        && exec docker "$$@"
+      - docker
+
+  cve-syft:
+    image: anchore/syft:v1.57.2
+    pull_policy: missing
+    user: *cve-user
+    volumes:
+      - project-root-volume:/workspaces/container-images
+      - ${CVE_DOCKER_CONFIG_DIR:-~/.docker}:/run/docker-config:ro
+    working_dir: *cve-workdir
+    environment:
+      HOME: /tmp
+      DOCKER_CONFIG: /run/docker-config
+      SYFT_CHECK_FOR_APP_UPDATE: 'false'
+      XDG_CACHE_HOME: /workspaces/container-images/docs/cve-page/cache/syft
+
+  cve-grype:
+    image: anchore/grype:v0.122.1
+    pull_policy: missing
+    user: *cve-user
+    volumes:
+      - project-root-volume:/workspaces/container-images
+      - ${CVE_DOCKER_CONFIG_DIR:-~/.docker}:/run/docker-config:ro
+    working_dir: *cve-workdir
+    environment:
+      HOME: /tmp
+      DOCKER_CONFIG: /run/docker-config
+      GRYPE_CHECK_FOR_APP_UPDATE: 'false'
+      GRYPE_DB_AUTO_UPDATE: 'false'
+      GRYPE_DB_CACHE_DIR: /workspaces/container-images/docs/cve-page/cache/grype
+      XDG_CACHE_HOME: /workspaces/container-images/docs/cve-page/cache/grype-xdg
+
+  cve-page:
+    image: nginxinc/nginx-unprivileged:1.31.7-alpine
+    pull_policy: missing
+    user: *cve-user
+    volumes:
+      - ./docs/cve-page/public:/usr/share/nginx/html:ro
+    tmpfs:
+      - /tmp
+      - /var/cache/nginx
+    ports:
+      - 127.0.0.1:3081:8080

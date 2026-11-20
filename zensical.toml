@@ -5,7 +5,7 @@ site_author = "Sebastian Sommerfeld"
 site_description = "Collection of Container Images for sommerfeld.io projects."
 repo_name = "sommerfeld-io/container-images"
 repo_url = "https://github.com/sommerfeld-io/container-images"
-docs_dir = "docs"
+docs_dir = "docs/static-site"
 site_dir = "target/docs/site"
 copyright = 'Copyright &copy; 2024 Sommerfeld.io &middot; <a href="https://github.com/sommerfeld-io/.github/blob/main/CODE_OF_CONDUCT.md" target="_blank" rel="noopener">Code of Conduct</a> &middot; <a href="https://github.com/sommerfeld-io/.github/blob/main/SECURITY.md" target="_blank" rel="noopener">Security Policy</a> &middot; <a href="https://github.com/sommerfeld-io/.github/blob/main/docs/terms.md" target="_blank" rel="noopener">Terms of Use</a>'
 

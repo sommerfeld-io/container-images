@@ -1,0 +1,124 @@
+---
+name: "Pipeline: Docs"
+
+# Builds the whole docs site and publishes it to GitHub Pages:
+#   * the static docs site (docs/static-site), built with zensical (task docs:static-site:generate + docs-build)
+#   * the CVE page (docs/cve-page), published under /cve/
+# Runs the same tasks as locally - no generate, scan or build logic lives here. This is the only
+# workflow that builds and deploys the docs.
+
+on:
+  workflow_run:
+    workflows: ["Pipeline: Commit + Test", "Pipeline: Release"]
+    types: [completed]
+  schedule:
+    - cron: '0 4 * * *'  # every night at 04:00 (UTC)
+  workflow_dispatch:
+
+# Never more than one docs build at a time. A running build is not cancelled (it may be deploying);
+# GitHub keeps only the newest pending run.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  IMAGE_TAG_EDGE: ${{ vars.IMAGE_TAG_EDGE }}
+  IMAGE_TAG_LATEST: ${{ vars.IMAGE_TAG_LATEST }}
+  REGISTRY: docker.io
+  REGISTRY_DHI: dhi.io
+
+jobs:
+
+  docs:
+    runs-on: ubuntu-latest
+    # After "Pipeline: Commit + Test" only for runs on main (not for pull requests). Runs of
+    # "Pipeline: Release" belong to a tag, so they are not filtered by branch.
+    if: >-
+      ${{ github.event_name != 'workflow_run'
+      || github.event.workflow_run.name == 'Pipeline: Release'
+      || github.event.workflow_run.head_branch == 'main' }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write  # to verify the deployment originates from an appropriate source
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+        with:
+          submodules: true
+      - name: Install Task
+        uses: arduino/setup-task@v3.0.0
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Login to Container Registry
+        uses: docker/login-action@v4.8.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to Docker Hardened Images Registry
+        uses: docker/login-action@v4.8.0
+        with:
+          registry: ${{ env.REGISTRY_DHI }}
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # ----- Markdown docs (zensical) -----
+      - name: Generate Markdown docs
+        run: task docs:static-site:generate
+        shell: bash
+      - name: Build docs page
+        run: docker compose up docs-build --exit-code-from docs-build
+        shell: bash
+
+      # ----- CVE page -----
+      - name: Get date for the cache key
+        id: date
+        run: echo "day=$(date -u +%F)" >> "$GITHUB_OUTPUT"
+        shell: bash
+      - name: Restore CVE page cache (grype DB, SBOMs by digest)
+        uses: actions/cache@v6
+        with:
+          # cache/index (tag -> digest) is not cached, so every run resolves the current
+          # edge/latest images on Docker Hub; SBOMs are cached by digest and stay valid
+          path: |
+            docs/cve-page/cache
+            !docs/cve-page/cache/index
+          # one new cache entry per day (the grype DB is published daily), later runs reuse it
+          key: cve-page-cache-${{ hashFiles('docker-compose.yml') }}-${{ steps.date.outputs.day }}
+          restore-keys: |
+            cve-page-cache-${{ hashFiles('docker-compose.yml') }}-
+      - name: Scan images
+        run: task docs:cve:scan
+        shell: bash
+      - name: Build CVE page
+        run: task docs:cve:build
+        shell: bash
+
+      # ----- Publish -----
+      - name: Assemble the site (docs + CVE page under cve/)
+        run: |
+          readonly SITE="$RUNNER_TEMP/pages"
+          mkdir -p "$SITE"
+          cp -r target/docs/site/. "$SITE/"
+          rm -rf "$SITE/cve"
+          mkdir -p "$SITE/cve"
+          cp -r docs/cve-page/public/. "$SITE/cve/"
+          du -sh "$SITE" "$SITE/cve"
+        shell: bash
+      - name: Setup Pages
+        uses: actions/configure-pages@v6.0.0
+      - name: Upload pages artifact
+        uses: actions/upload-pages-artifact@v5.0.0
+        with:
+          path: ${{ runner.temp }}/pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5.0.1

@@ -30,7 +30,14 @@
         "components/*/test/inspec/**",
 
 		"docs",
-		"docs/container-images/**",
+		"docs/cve-page/scripts",
+		"docs/cve-page/site/assets",
+		"docs/cve-page/templates",
+		"docs/cve-page/work/**",
+		"docs/cve-page/cache/**",
+		"docs/cve-page/public/**",
+		"docs/static-site",
+		"docs/static-site/container-images/**",
 
 		"node_modules/**",
 		"public/**",

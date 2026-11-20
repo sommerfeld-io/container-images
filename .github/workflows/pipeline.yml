@@ -8,7 +8,7 @@ on:
     paths-ignore:
       - '**.adoc'
       - '**.md'
-      - 'docs/**'
+      - 'docs/static-site/**'
       - '.devcontainer/**'
       - '.github/workflows/dev-environment.yml'
       - '.github/workflows/housekeeping-issues.yml'
@@ -22,7 +22,7 @@ on:
     paths-ignore:
       - '**.adoc'
       - '**.md'
-      - 'docs/**'
+      - 'docs/static-site/**'
       - '.devcontainer/**'
       - '.github/workflows/dev-environment.yml'
       - '.github/workflows/housekeeping-issues.yml'
@@ -434,47 +434,12 @@ jobs:
         with:
           image-ref: ${{ secrets.DOCKERHUB_USER }}/${{ matrix.image-name }}:${{ env.IMAGE_TAG_EDGE }}${{ matrix.tag-suffix }}
 
-  # ----- Build Docs stage ------------------------------------------------------------------------
-
-  generate-docs:
-    runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}
-    needs: [
-      'inspec-images',
-    ]
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v7
-        with:
-          submodules: true
-          ref: ${{github.ref}}
-      - name: Install Task
-        uses: arduino/setup-task@v3.0.0
-        with:
-          version: 3.x
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Run task to generate docs
-        run: task docs:generate
-        shell: bash
-      - name: docs-build
-        run: docker compose build docs-build
-        shell: bash
-      - name: Commit and push
-        uses: EndBug/add-and-commit@v11.1.1
-        with:
-          author_name: sebastian
-          author_email: sebastian@sommerfeld.io
-          message: 'docs: [Actions Bot] generate docs'
-
   # ----- Release stage ---------------------------------------------------------------------------
 
   release-code:
     uses: sommerfeld-io/.github/.github/workflows/lib-release-code.yml@main
     needs: [
       'publish-edge',
-      'generate-docs'
     ]
     if: ${{ (github.actor != 'dependabot[bot]') && (github.ref == 'refs/heads/main') }}
     secrets:
@@ -489,7 +454,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [
       'publish-edge',
-      'generate-docs'
     ]
     if: always()
     permissions:

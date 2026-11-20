@@ -11,6 +11,8 @@ includes:
   cleanup: .task/cleanup/taskfile.yml
   common: .task/common/taskfile.yml
   revealjs: components/revealjs/taskfile.yml
+  docs:
+    taskfile: docs/taskfile.yml
 
 tasks:
 
@@ -74,30 +76,6 @@ tasks:
       - rm -f "components/{{ .PROFILE }}/test/inspec/inspec.lock"
       - docker compose run --rm inspec vendor "components/{{ .PROFILE }}/test/inspec" --overwrite --chef-license=accept
       - docker compose run --rm inspec check "components/{{ .PROFILE }}/test/inspec" --chef-license=accept
-
-  # ===============================================================================================
-
-  docs:generate:
-    desc: Generate Markdown files for documentation
-    cmds:
-      - echo "Collecting documentation from other Markdown files ..."
-      - mkdir -p docs/container-images
-      - task: common:copy
-        vars: { SRC: docs/index.md, DEST: README.md }
-      - task: common:copy
-        vars: { SRC: docs/license.md, DEST: LICENSE.md }
-      - task: common:copy
-        vars: { SRC: components/mkdocs/README.md, DEST: docs/container-images/mkdocs.md }
-      - for: *images
-        task: common:copy
-        vars: { SRC: "components/{{ .ITEM }}/README.md", DEST: "docs/container-images/{{ .ITEM }}.md" }
-
-  docs:run:
-    desc: Serve this repo's docs with zensical, native config (zensical.toml)
-    cmds:
-      - task: docs:generate
-      - docker compose up docs-build
-      - docker compose up docs-dev-server
 
   # ===============================================================================================
 
