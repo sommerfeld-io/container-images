@@ -44,6 +44,7 @@ env:
   IMAGE_TAG_EDGE: ${{ vars.IMAGE_TAG_EDGE }}
   IMAGE_TAG_LATEST: ${{ vars.IMAGE_TAG_LATEST }}
   REGISTRY: docker.io
+  REGISTRY_DHI: dhi.io
 
 jobs:
 
@@ -60,6 +61,12 @@ jobs:
         uses: docker/login-action@v4.8.0
         with:
           registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to Docker Hardened Images Registry
+        uses: docker/login-action@v4.8.0
+        with:
+          registry: ${{ env.REGISTRY_DHI }}
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Run ShellCheck
@@ -86,6 +93,12 @@ jobs:
         uses: docker/login-action@v4.8.0
         with:
           registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to Docker Hardened Images Registry
+        uses: docker/login-action@v4.8.0
+        with:
+          registry: ${{ env.REGISTRY_DHI }}
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Run lint-${{ matrix.linter }} from docker-compose.yml
@@ -118,6 +131,12 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to Docker Hardened Images Registry
+        uses: docker/login-action@v4.8.0
+        with:
+          registry: ${{ env.REGISTRY_DHI }}
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Validate Inspec profile
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -142,6 +161,12 @@ jobs:
         uses: docker/login-action@v4.8.0
         with:
           registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to Docker Hardened Images Registry
+        uses: docker/login-action@v4.8.0
+        with:
+          registry: ${{ env.REGISTRY_DHI }}
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Run ${{ matrix.image-name }}-lint-dockerfile from docker-compose.yml
@@ -202,6 +227,12 @@ jobs:
         uses: docker/login-action@v4.8.0
         with:
           registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to Docker Hardened Images Registry
+        uses: docker/login-action@v4.8.0
+        with:
+          registry: ${{ env.REGISTRY_DHI }}
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Extract metadata (tags, labels) for Docker
@@ -299,6 +330,12 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to Docker Hardened Images Registry
+        uses: docker/login-action@v4.8.0
+        with:
+          registry: ${{ env.REGISTRY_DHI }}
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Exec inspec profile
         # TODO: do not repeat yourself - logic is already in taskfile.yml but taskfile.yml uses local/<image>:dev
         env:
@@ -380,6 +417,12 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to Docker Hardened Images Registry
+        uses: docker/login-action@v4.8.0
+        with:
+          registry: ${{ env.REGISTRY_DHI }}
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Docker Scout Compare with `:${{ env.IMAGE_TAG_LATEST }}` vs `:${{ github.sha }}` (pull requests only)
         # if: ${{ github.event_name == 'pull_request' }}
         uses: docker/scout-action@v1.29.0
@@ -437,6 +480,12 @@ jobs:
         uses: docker/login-action@v4.8.0
         with:
           registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to Docker Hardened Images Registry
+        uses: docker/login-action@v4.8.0
+        with:
+          registry: ${{ env.REGISTRY_DHI }}
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Set up Docker Buildx
