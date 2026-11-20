@@ -147,19 +147,6 @@ services:
     working_dir: *default-workdir
     tty: *tty
 
-  revealjs-pdf-lint-dockerfile:
-    <<: *revealjs-lint-dockerfile
-
-  revealjs-pdf:
-    image: local/revealjs:${DEV_TAG}-pdf
-    build:
-      context: components/revealjs
-      dockerfile: Dockerfile
-      target: pdf
-    volumes: *volumes
-    working_dir: *default-workdir
-    tty: *tty
-
   zensical-lint-dockerfile:
     image: *lint-dockerfile-image
     volumes: *volumes

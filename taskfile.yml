@@ -140,12 +140,6 @@ tasks:
       - task: build:revealjs
       - task: revealjs:serve
 
-  run:revealjs-pdf:
-    desc: Build the revealjs-pdf image and export the demo presentation to PDF
-    cmds:
-      - task: build:revealjs-pdf
-      - task: revealjs:pdf
-
   # ===============================================================================================
 
   test:
