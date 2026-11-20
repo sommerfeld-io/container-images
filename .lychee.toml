@@ -5,7 +5,11 @@ verbose = 'info'
 exclude_path = [
     'node_modules',
     'target',
-    'components/revealjs/demo'
+    'components/revealjs/demo',
+    'docs/cve-page/work',
+    'docs/cve-page/cache',
+    'docs/cve-page/public',
+    'docs/cve-page/templates'
 ]
 exclude_loopback = true
 exclude = [
@@ -17,7 +21,11 @@ exclude = [
     # Remove once both are live.
     'github\.com/sommerfeld-io/container-images/blob/main/zensical\.toml',
     'github\.com/sommerfeld-io/container-images/tree/main/components/zensical',
-    'hub\.docker\.com/r/sommerfeldio/zensical'
+    'hub\.docker\.com/r/sommerfeldio/zensical',
+
+    # TODO: temporary bootstrap exclusion for the CVE page - 404 until the first deployment of
+    # .github/workflows/docs.yml after merging to main. Remove once it is live.
+    'sommerfeld-io\.github\.io/container-images/cve'
 ]
 
 format = 'detailed' # compact, detailed, json, markdown, raw

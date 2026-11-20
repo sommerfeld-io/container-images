@@ -1,0 +1,72 @@
+---
+# Docs tasks: the static docs site (docs/static-site, built with zensical) and the CVE page
+# (docs/cve-page). Included in the root taskfile.yml as namespace "docs", so the task names are
+# docs:static-site:*, docs:cve:* and docs:sbom:get. Tasks run in the project root unless they set
+# their own dir.
+# The GitHub workflow .github/workflows/docs.yml runs exactly these tasks.
+version: '3.42.1'
+
+tasks:
+
+  # ----- Static docs site (zensical) ----------------------------------------------------------------
+
+  static-site:generate:
+    desc: Generate Markdown files for documentation
+    vars:
+      COMPONENTS:
+        sh: ls -1 components
+    cmds:
+      - echo "Collecting documentation from other Markdown files ..."
+      - mkdir -p docs/static-site/container-images
+      - task: :common:copy
+        vars: { SRC: docs/static-site/index.md, DEST: README.md }
+      - task: :common:copy
+        vars: { SRC: docs/static-site/license.md, DEST: LICENSE.md }
+      - for: { var: COMPONENTS }
+        task: :common:copy
+        vars: { SRC: "components/{{ .ITEM }}/README.md", DEST: "docs/static-site/container-images/{{ .ITEM }}.md" }
+
+  static-site:run:
+    desc: Serve this repo's docs with zensical, native config (zensical.toml)
+    cmds:
+      - task: static-site:generate
+      - docker compose up docs-build
+      - docker compose up docs-dev-server
+
+  # ----- CVE page (docs/cve-page) - tasks only call scripts in docs/cve-page/scripts/ -----------
+
+  cve:scan:
+    desc: 'Scan all images: discover -> SBOM (Docker Hub, fallback syft) -> grype | Options: PARALLEL=<n>, FORCE=true'
+    dir: docs/cve-page
+    env:
+      PARALLEL: '{{ .PARALLEL | default "4" }}'
+      FORCE: '{{ .FORCE | default "false" }}'
+    cmds:
+      - scripts/scan.sh
+
+  cve:build:
+    desc: 'Build the CVE page into docs/cve-page/public (run docs:cve:scan first)'
+    dir: docs/cve-page
+    cmds:
+      - scripts/build.sh
+
+  cve:serve:
+    desc: 'Serve the CVE page on http://127.0.0.1:3081 in the foreground, Ctrl+C stops (builds first if missing)'
+    dir: docs/cve-page
+    interactive: true
+    cmds:
+      - scripts/serve.sh
+
+  cve:kill:
+    desc: 'Stop a running scan and remove all CVE page containers (incl. one-off run containers)'
+    dir: docs/cve-page
+    cmds:
+      - scripts/kill.sh
+
+  sbom:get:
+    desc: 'Save the SBOM of an image from Docker Hub | IMAGE=<component> [TAG=<tag>[-suffix]] [PLATFORM=<platform>]'
+    dir: docs/cve-page
+    requires:
+      vars: [IMAGE]
+    cmds:
+      - scripts/sbom-get.sh "{{ .IMAGE }}" "{{ .TAG | default "latest" }}" "{{ .PLATFORM | default "linux/amd64" }}" "{{ .USER_WORKING_DIR }}"

@@ -14,8 +14,11 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
+      # the vendored grype HTML template must stay byte-identical to grype's original
       - id: trailing-whitespace
+        exclude: ^docs/cve-page/templates/
       - id: end-of-file-fixer
+        exclude: ^docs/cve-page/templates/
       - id: check-added-large-files
         exclude_types:
           - jpeg

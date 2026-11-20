@@ -7,7 +7,6 @@ This image is used to build the documentation using the `mkdocs` toolchain and i
 - [sommerfeldio/mkdocs](https://hub.docker.com/r/sommerfeldio/mkdocs) on Docker Hub
 - [Dockerfile source code](https://github.com/sommerfeld-io/container-images/tree/main/components/mkdocs) on GitHub
 - [How to Contribute](https://github.com/sommerfeld-io/.github/blob/main/CONTRIBUTING.md)
-- Visit [the projects documentation page](https://sommerfeld-io.github.io/container-images) for a list of all available container images.
 
 ## DEPRECATION NOTICE: `sommerfeldio/mkdocs` is deprecated as of version `0.28.1`
 
@@ -48,15 +47,6 @@ The image focuses on generating the documentation site (e.g. from a pipeline). I
 
 Learn about our tagging policy and the difference between rolling tags and immutable tags [on our documentation page⁠](https://github.com/sommerfeld-io/.github/blob/main/docs/tags-and-versions.md).
 
-#### Software Bill of Materials (SBOM)
-
-Starting with version 0.25.2, a Software Bill of Materials (SBOM) in SPDX format is generated for every image at build time and attached directly to the image in Docker Hub as an OCI attestation, available for the `edge`, `latest` and versioned tags. Retrieve it with
-
-- `docker scout sbom sommerfeldio/mkdocs:latest` or
-- `docker buildx imagetools inspect sommerfeldio/mkdocs:latest --format "{{ json .SBOM }}"`.
-
-The same SBOM is also attached as a downloadable asset on each [GitHub release](https://github.com/sommerfeld-io/container-images/releases).
-
 ### Usage
 
 This image supports two modes. The `build` command is used to build the documentation site based on your Markdown docs. The container terminates after the build is complete. Additionally the image offers a development server to preview the documentation site. Both features originate in the [squidfunk/mkdocs-material](https://hub.docker.com/r/squidfunk/mkdocs-material) base image.
@@ -90,6 +80,19 @@ The development server is not recommended for production use. It is intended to 
 For information on how to get started with [Material for MkDocs](https://squidfunk.github.io/mkdocs-material), please refer to the [official "Getting started" guide of the projects documentation](https://squidfunk.github.io/mkdocs-material/getting-started).
 
 For information on how to configure the mkdocs-kroki-plugin, please refer to the [official documentation of the plugin](https://pypi.org/project/mkdocs-kroki-plugin).
+
+### Software Bill of Materials (SBOM)
+
+Existing versions (`0.25.2` up to `0.28.1`) keep their Software Bill of Materials (SBOM) in SPDX JSON format, attached to the image on Docker Hub as an attestation. No new SBOMs are created because this image is no longer built.
+
+```bash
+# Save the SBOM of one platform as a file (Docker with the buildx plugin, no pull required)
+docker buildx imagetools inspect sommerfeldio/mkdocs:0.28.1 --format '{{ json (index .SBOM "linux/amd64").SPDX }}' > mkdocs-amd64.spdx.json
+```
+
+### Support for the Packaged Software
+
+We published this image so you could conveniently use the tool or collection of tools inside it. We do not maintain the packaged tools and do not provide support for the software inside the container - and as stated in the deprecation notice, the image itself is no longer maintained either. Please report issues with a tool to its upstream project.
 
 ## License
 
