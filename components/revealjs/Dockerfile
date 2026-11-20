@@ -5,13 +5,13 @@ WORKDIR /work
 RUN git clone https://github.com/hakimel/reveal.js.git
 
 WORKDIR /work/reveal.js
-RUN npm install
+RUN PUPPETEER_SKIP_DOWNLOAD=true npm install
 
 
 FROM base AS pdf
 ARG USERNAME=revealjs
 RUN apk add --no-cache chromium ttf-freefont \
-    && npm install --global decktape http-server \
+    && PUPPETEER_SKIP_DOWNLOAD=true npm install --global decktape http-server \
     && addgroup -S "$USERNAME" \
     && adduser -S -G "$USERNAME" "$USERNAME" \
     && mkdir -p /output \
