@@ -75,6 +75,8 @@ docker buildx imagetools inspect sommerfeldio/zensical:latest --format '{{ json 
 
 For a specific version, replace `latest` with the version tag, e.g. `sommerfeldio/zensical:1.0.0`. As an alternative, `docker scout sbom sommerfeldio/zensical:latest` shows the SBOM as well.
 
+### Vulnerability Report
+
 The [Vulnerability Report](https://sommerfeld-io.github.io/container-images/cve/) shows the known vulnerabilities of the `edge` and `latest` tags of all images, based on these SBOMs. It is updated daily.
 
 ## Known limitations

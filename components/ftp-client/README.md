@@ -46,6 +46,8 @@ docker buildx imagetools inspect sommerfeldio/ftp-client:latest --format '{{ jso
 
 For a specific version, replace `latest` with the version tag, e.g. `sommerfeldio/ftp-client:0.25.2`. As an alternative, `docker scout sbom sommerfeldio/ftp-client:latest` shows the SBOM as well.
 
+### Vulnerability Report
+
 The [Vulnerability Report](https://sommerfeld-io.github.io/container-images/cve/) shows the known vulnerabilities of the `edge` and `latest` tags of all images, based on these SBOMs. It is updated daily.
 
 ## Support for the Packaged Software

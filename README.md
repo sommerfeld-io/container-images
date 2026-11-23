@@ -19,6 +19,18 @@ The images are free to use for everyone. But keep in mind that they were origina
 - [Where to file issues][file-issues]
 - [Project Board for Issues and Pull Requests][project-board]
 
+## Software Bill of Materials (SBOM)
+
+You can generate an SBOM of all platforms for all images (insert the respective image name):
+
+```bash
+docker buildx imagetools inspect sommerfeldio/IMAGE_NAME:latest --format '{{ json .SBOM }}'
+```
+
+### Vulnerability Report
+
+The [Vulnerability Report](https://sommerfeld-io.github.io/container-images/cve) shows the known vulnerabilities of the `edge` and `latest` tags of all images, based on these SBOMs. It is updated daily. So to check versions other than `edge` and `latest` you have to generate a vulnerability report for the respective image yourself based on the images SBOM (e.g. with [`grype`](https://github.com/anchore/grype)).
+
 ## Development and Contribution
 
 Releases, architecture decisions and development guidelines are maintained on GitHub.

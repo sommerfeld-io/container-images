@@ -61,6 +61,8 @@ docker buildx imagetools inspect sommerfeldio/revealjs:latest --format '{{ json 
 
 For a specific version, replace `latest` with the version tag, e.g. `sommerfeldio/revealjs:0.25.2`. As an alternative, `docker scout sbom sommerfeldio/revealjs:latest` shows the SBOM as well.
 
+### Vulnerability Report
+
 The [Vulnerability Report](https://sommerfeld-io.github.io/container-images/cve/) shows the known vulnerabilities of the `edge` and `latest` tags of all images, based on these SBOMs. It is updated daily.
 
 ## How to Build Locally

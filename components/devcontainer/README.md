@@ -91,7 +91,7 @@ Every image comes with a Software Bill of Materials (SBOM) in [SPDX](https://spd
 All variants have their own SBOM. The variant is part of the tag:
 
 | Variant | Tags | Example |
-|---------|------|---------|
+| --------- | ------ | --------- |
 | base | `edge`, `latest`, `<version>` | `sommerfeldio/devcontainer:latest` |
 | ansible | `edge-ansible`, `latest-ansible`, `<version>-ansible` | `sommerfeldio/devcontainer:latest-ansible` |
 | go | `edge-go`, `latest-go`, `<version>-go` | `sommerfeldio/devcontainer:latest-go` |
@@ -109,6 +109,8 @@ docker buildx imagetools inspect sommerfeldio/devcontainer:latest-go --format '{
 ```
 
 For a specific version, replace `latest` with the version tag, e.g. `sommerfeldio/devcontainer:1.0.0-go`. As an alternative, `docker scout sbom sommerfeldio/devcontainer:latest-go` shows the SBOM as well.
+
+### Vulnerability Report
 
 The [Vulnerability Report](https://sommerfeld-io.github.io/container-images/cve/) shows the known vulnerabilities of the `edge` and `latest` tags of all images, based on these SBOMs. It is updated daily.
 
