@@ -1,13 +1,21 @@
 ---
 name: "Pipeline: Docs"
 
-# Builds the whole docs site and publishes it to GitHub Pages:
-#   * the static docs site (docs/static-site), built with zensical (task docs:static-site:generate + docs-build)
-#   * the CVE page (docs/cve-page), published under /cve/
-# Runs the same tasks as locally - no generate, scan or build logic lives here. This is the only
-# workflow that builds and deploys the docs.
+# Lints the Markdown docs and builds the whole docs site and publishes it to GitHub Pages:
+#   * markdown-links: checks the links in all Markdown files (docker compose service markdown-links)
+#   * docs: the static docs site (docs/static-site), built with zensical (task docs:static-site:generate + docs-build)
+#     and the CVE page (docs/cve-page), published under /cve/
+# Both jobs run in parallel. Runs the same tasks as locally - no lint, generate, scan or build logic
+# lives here. This is the only workflow that lints Markdown and builds and deploys the docs.
 
 on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - main
   workflow_run:
     workflows: ["Pipeline: Commit + Test", "Pipeline: Release"]
     types: [completed]
@@ -15,11 +23,12 @@ on:
     - cron: '0 4 * * *'  # every night at 04:00 (UTC)
   workflow_dispatch:
 
-# Never more than one docs build at a time. A running build is not cancelled (it may be deploying);
-# GitHub keeps only the newest pending run.
+# Never more than one run on main at a time (all docs builds and deployments run on main: pushes,
+# workflow_run, schedule). A running build is not cancelled (it may be deploying); GitHub keeps only
+# the newest pending run. Runs on other branches/PRs (markdown-links only) cancel their predecessor.
 concurrency:
-  group: ${{ github.workflow }}
-  cancel-in-progress: false
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 permissions:
   contents: read
@@ -32,14 +41,46 @@ env:
 
 jobs:
 
+  markdown-links:
+    runs-on: ubuntu-latest
+    # Not after "Pipeline: Commit + Test" or "Pipeline: Release": the push that started them already
+    # ran this job.
+    if: ${{ github.event_name != 'workflow_run' }}
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+        with:
+          submodules: true
+      - name: Login to Container Registry
+        uses: docker/login-action@v4.8.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to Docker Hardened Images Registry
+        uses: docker/login-action@v4.8.0
+        with:
+          registry: ${{ env.REGISTRY_DHI }}
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Run markdown-links from docker-compose.yml
+        run: docker compose up markdown-links --exit-code-from markdown-links
+        shell: bash
+
   docs:
     runs-on: ubuntu-latest
-    # After "Pipeline: Commit + Test" only for runs on main (not for pull requests). Runs of
-    # "Pipeline: Release" belong to a tag, so they are not filtered by branch.
+    # Pushes only on main (never for other branches or pull requests). After "Pipeline: Commit + Test"
+    # only for runs on main. Runs of "Pipeline: Release" belong to a tag, so they are not filtered by
+    # branch.
     if: >-
-      ${{ github.event_name != 'workflow_run'
-      || github.event.workflow_run.name == 'Pipeline: Release'
-      || github.event.workflow_run.head_branch == 'main' }}
+      ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main')
+      || github.event_name == 'schedule'
+      || github.event_name == 'workflow_dispatch'
+      || (github.event_name == 'workflow_run'
+      && (github.event.workflow_run.name == 'Pipeline: Release'
+      || github.event.workflow_run.head_branch == 'main')) }}
     permissions:
       contents: read
       pages: write
