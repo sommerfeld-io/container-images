@@ -34,7 +34,7 @@ docker compose up lint-yaml --exit-code-from lint-yaml
 docker compose up lint-workflows --exit-code-from lint-workflows
 docker compose up lint-filenames --exit-code-from lint-filenames
 docker compose up lint-folders --exit-code-from lint-folders
-docker compose up lint-markdown-links --exit-code-from lint-markdown-links
+docker compose up markdown-links --exit-code-from markdown-links
 
 # Dockerfile lint for one image
 docker compose up zensical-lint-dockerfile --exit-code-from zensical-lint-dockerfile
@@ -75,7 +75,7 @@ task docs:cve:scan && task docs:cve:build && task docs:cve:serve
     - `docs/static-site/index.md` is copied to `README.md`
     - `docs/static-site/license.md` is copied to `LICENSE.md`
     - each `components/<image>/README.md` is copied into `docs/static-site/container-images/<image>.md`
-- `.github/workflows/docs.yml` ("Pipeline: Docs") is the only workflow that builds and publishes the docs site (static site + CVE page) to GitHub Pages: nightly and after the commit and release pipelines.
+- `.github/workflows/docs.yml` ("Pipeline: Docs") is the only workflow that lints Markdown (`markdown-links`, on every push and pull request) and builds and publishes the docs site (static site + CVE page) to GitHub Pages: on pushes to `main`, nightly and after the commit and release pipelines. Both jobs run in parallel. `pipeline.yml` ignores Markdown-only changes.
 - CI mirrors the same structure: lint repo files, lint Dockerfiles, validate InSpec profiles, build SHA-tagged images, run InSpec against the tested images, promote successful images to the edge tag on `main`, then the release workflow retags edge images to version and `latest`.
 
 ## Key conventions
